@@ -1,0 +1,15 @@
+SDL_INCS = -I./frameworks/SDL2.framework/Versions/A/Headers \
+		     -I./frameworks/SDL2_image.framework/Versions/A/Headers \
+			 -I./frameworks/SDL2_ttf.framework/Versions/A/Headers \
+			 -I./frameworks/SDL2_mixer.framework/Versions/A/Headers
+FRAMEWORKS  = -F./frameworks \
+				-rpath ./frameworks \
+				-framework SDL2 -framework SDL2_ttf -framework SDL2_image -framework SDL2_mixer
+gcc foo.c - I (эти имена) (эти имена)
+07:10
+ну и в основном хедере прописать путь нужно в хедерам sdl
+07:10
+#include "../frameworks/SDL2.framework/Headers/SDL.h"
+#include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
+#include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
+#include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
