@@ -2,8 +2,8 @@
 
 void	init_player(t_player *p)
 {
-	p->x = 100;
-	p->y = 100;
+	p->x = 80;
+	p->y = 80;
 	p->fov = a.a60;
 	p->dir = 0;
 }

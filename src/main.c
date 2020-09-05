@@ -84,23 +84,23 @@ int	main()
 	int horizontalGrid;      // theoritically, this will be multiple of TILE_SIZE
 								 // , but some trick did here might cause
 								 // the values off by 1
-	int distToNextVerticalGrid; // how far to the next bound (this is multiple of
-	int distToNextHorizontalGrid; // tile size)
+	float distToNextVerticalGrid; // how far to the next bound (this is multiple of
+	float distToNextHorizontalGrid; // tile size)
 	int xIntersection;  // x and y intersections
 	int yIntersection;
-	int distToNextXIntersection;
-	int distToNextYIntersection;
+	float distToNextXIntersection;
+	float distToNextYIntersection;
 
 	int xGridIndex;        // the current cell that the ray is in
 	int yGridIndex;
 
-	int distToVerticalGridBeingHit;      // the distance of the x and y ray intersections from
-	int distToHorizontalGridBeingHit;      // the viewpoint
+	float distToVerticalGridBeingHit;      // the distance of the x and y ray intersections from
+	float distToHorizontalGridBeingHit;      // the viewpoint
 
 	int castArc, castColumn;
 
 	int xtemp;
-
+	int debug = 1;
 
 static int check_grid(void)
 {
@@ -113,6 +113,9 @@ static int check_grid(void)
 
 			xtemp = t.arctan[castArc] * (horizontalGrid - p.y);
 			xIntersection = xtemp + p.x;
+			if (debug)
+				printf("debug_row1:\t%d horizontalGrid %d xtemp %f distToNextHorizontalGrid %d p.y %f t.arctan[castArc]\n",
+				horizontalGrid, xtemp, distToNextHorizontalGrid, p.y, t.arctan[castArc]);
 		}
 		else
 		{
@@ -205,7 +208,7 @@ static int check_grid(void)
 			}
 		}
 		
-		int dist;
+		float dist;
 		int xOffset;
 		int isVerticalHit=false;
 		if (distToHorizontalGridBeingHit < distToVerticalGridBeingHit)
@@ -221,7 +224,12 @@ static int check_grid(void)
 		}
 		
 		dist /= t.fishTable[castColumn];
+		if (debug)
+			printf("debug_row2:\t%f %f %f\n", dist, distToHorizontalGridBeingHit, distToVerticalGridBeingHit);
+
 		return (dist);
+
+		
 	
 }
 
@@ -229,14 +237,14 @@ int raycast(void)
 {
 	castArc = p.dir;
 	add_arc(&castArc, -a.a30);
-
+	
 	for (castColumn = 0; castColumn < t.PROJECTIONPLANEWIDTH; castColumn += 1)
 	{
 		//int scaleFactor;
 	
 		int dist = check_grid();
-		ft_printf("%d\n", dist);
-
+		
+		exit(0);
 		int topOfWall;
 		int bottomOfWall;
 		
