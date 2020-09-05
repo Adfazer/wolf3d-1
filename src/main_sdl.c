@@ -20,7 +20,7 @@ static void init_sdl(void)
         SDL_FillRect(screen_surface, NULL, SDL_MapRGB( screen_surface->format, 0, 255, 0));
         SDL_UpdateWindowSurface(window);    
         //SDL_Delay(5000);
-         bool isquit = false;
+        bool isquit = false;
 		SDL_Event event;
 		while (!isquit) {
 			if (SDL_PollEvent( & event)) {
@@ -32,3 +32,4 @@ static void init_sdl(void)
         SDL_DestroyWindow(window);
         SDL_Quit();
 }
+
