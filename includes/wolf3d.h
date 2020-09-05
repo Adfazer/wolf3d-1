@@ -22,8 +22,8 @@
 # define TEX_BORDER '*'
 # define TEX_FLOOR ' '
 
-# define W_W 512
-# define W_H 512
+# define W 512
+# define H 512
 # define CUBE 64
 
 typedef struct	s_map
@@ -31,6 +31,8 @@ typedef struct	s_map
 	char		*map;
 	int			w;
 	int			h;
+	int			minimap_width;
+	int			minimap_height;
 }				t_map;
 
 typedef struct	s_player
@@ -38,10 +40,9 @@ typedef struct	s_player
 	int			x;
 	int			y;
 	float		fov;
-	int		dir;
-	float			sin[360];
-	float			cos[360];
-	float			tan[360];
+	int			dir;
+	float		xPlayer;
+	float		yPlayer;
 }				t_player;
 
 typedef struct	s_float2
