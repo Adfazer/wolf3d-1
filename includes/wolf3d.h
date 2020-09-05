@@ -51,8 +51,65 @@ typedef struct	s_float2
 	float		y;
 }				t_float2;
 
+typedef struct	s_angles
+{
+	int a0;
+	int a60;
+	int a30;
+	int a15;
+	int a90;
+	int a180;
+	int a360;
+	int a270;
+	int a5;
+	int a10;
+	int a45;
+	
+}				t_angles;
+
+typedef struct	s_t
+{
+	
+	float			*sin;
+	float			*cos;
+	float			*tan;
+	float			*arcsin;
+	float			*arccos;
+	float			*arctan;
+	float			*fishTable;
+	float			*xStepTable;
+	float			*yStepTable;
+	int				PROJECTIONPLANEWIDTH;
+	int				PROJECTIONPLANEHEIGHT;
+	int				TILE_SIZE;
+	int				WALL_HEIGHT;
+	int				frameRate;
+
+}				t_t;
+
+t_t t;
+t_angles a;
+t_map map;
+t_player p;
+SDL_Surface* surface;
+
 int		error(char *s);
 void		init_map(t_map *map);
+
+void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel);
+void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
+void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
+int		color_to_hex(int r, int g, int b);
+void init_sdl(void);
+t_point	t_point_new(int x, int y);
+float arcToRad(float angle);
+int raycast(void);
+
+/*
+** init.c
+*/
+int	init_tabs(void);
+void	init_player(t_player *player);
 
 #endif
 

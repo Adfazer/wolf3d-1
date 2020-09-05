@@ -15,7 +15,10 @@
 
 
 ALL_C = main.c \
-		map.c
+		map.c \
+		error.c \
+		sdl.c \
+		init.c
 
 SRCDIR = ./src
 OBJDIR = ./objs
