@@ -99,8 +99,17 @@ int	main()
 
 	int castArc, castColumn;
 
-	int xtemp;
+	float xtemp;
 	int debug = 1;
+
+static void print_debug()
+{
+	if(debug)
+	{
+	printf("\t%d horizontalGrid\n\t%f xtemp\n\t%f distToNextHorizontalGrid \n\t%d p.y \n\t%f t.arctan[castArc]\n\t %d xIntersection\n",
+				horizontalGrid, xtemp, distToNextHorizontalGrid, p.y, t.arctan[castArc], xIntersection);
+	}
+}
 
 static int check_grid(void)
 {
@@ -113,9 +122,9 @@ static int check_grid(void)
 
 			xtemp = t.arctan[castArc] * (horizontalGrid - p.y);
 			xIntersection = xtemp + p.x;
-			if (debug)
-				printf("debug_row1:\t%d horizontalGrid %d xtemp %f distToNextHorizontalGrid %d p.y %f t.arctan[castArc]\n",
-				horizontalGrid, xtemp, distToNextHorizontalGrid, p.y, t.arctan[castArc]);
+			print_debug();
+
+				
 		}
 		else
 		{
