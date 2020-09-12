@@ -19,7 +19,7 @@ ALL_C = main.c \
 		error.c \
 		sdl.c \
 		init.c \
-		debug_print.c§
+		debug_print.c
 
 SRCDIR = ./src
 OBJDIR = ./objs
@@ -28,7 +28,7 @@ OBJS = $(addprefix $(OBJDIR)/, $(ALL_OBJ))
 
 NAME = wolf3d
 
-INCLUDES = ./includes/wolf3d.h
+INCLUDES = ./includes/wolf3d.h ./includes/const.h
 
 
 LIBFT_DIR = ./libft

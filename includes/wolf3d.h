@@ -9,6 +9,7 @@
 # include <fcntl.h>
 # include "../libft/includes/ft_printf.h"
 # include <math.h>
+# include "const.h"
 
 # define CHARSET " *012S"
 # define INTBUF_INIT_SIZE 64
@@ -42,8 +43,8 @@ typedef struct	s_player
 	int			size;
 	float		fov;
 	int			dir;
-	float		xPlayer;
-	float		yPlayer;
+	float		xmm;
+	float		ymm;
 }				t_player;
 
 typedef struct	s_float2
@@ -106,6 +107,7 @@ t_point	dot(int x, int y);
 float arcToRad(float angle);
 int raycast(void);
 void drawOverheadMap(SDL_Surface *surface);
+void debug_map(t_map *map);
 
 /*
 ** init.c

@@ -122,6 +122,8 @@ void init_sdl(void)
 			//debug_print_map(map);
 			drawOverheadMap(surface);
 			SDL_UpdateWindowSurface(window);
+			debug_map(map);
+			debug_map(p);
 		}
         SDL_DestroyWindow(window);
         SDL_Quit();

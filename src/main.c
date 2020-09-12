@@ -13,7 +13,7 @@ void drawRay(SDL_Surface *surface, int x, int y)
 {
 	draw_line(
 		surface,
-		dot(p.xPlayer, p.yPlayer),
+		dot(p.xmm, p.ymm),
 		dot(
 			floorf(t.PROJECTIONPLANEWIDTH + ((x * map.minimap_width) / t.TILE_SIZE)),
 			floorf(((y * map.minimap_width) / t.TILE_SIZE))),
@@ -67,8 +67,8 @@ void drawOverheadMap(SDL_Surface *surface)
 		}
 		
 	}
-	//p.xPlayer = t.PROJECTIONPLANEWIDTH + ((p.xPlayer / t.TILE_SIZE) * map.minimap_width);
-	//p.yPlayer = ((p.yPlayer / t.TILE_SIZE) * map.minimap_width);
+	//p.xmm = t.PROJECTIONPLANEWIDTH + ((p.xmm / t.TILE_SIZE) * map.minimap_width);
+	//p.ymm = ((p.ymm / t.TILE_SIZE) * map.minimap_width);
 	*/
 }
 
@@ -125,11 +125,11 @@ int	main()
 	int castArc, castColumn;
 
 	float xtemp;
-	int debug = 1;
 
-static void print_debug()
+
+void debug_raycaster()
 {
-	if(debug)
+	if(DEBUG)
 	{
 	printf("%s DEBUG PRINT %s\n", C_GRN, C_NRM);
 	printf("%d castArc\n", castArc);
@@ -147,7 +147,7 @@ static int check_grid(void)
 			distToNextHorizontalGrid = t.TILE_SIZE;
 			xtemp = t.arctan[castArc] * (horizontalGrid - p.y);
 			xIntersection = xtemp + p.x;
-			print_debug();
+			debug_raycaster();
 		}
 		else
 		{
