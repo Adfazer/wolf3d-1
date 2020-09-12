@@ -6,6 +6,7 @@ void	init_player(t_player *p)
 	p->y = 80;
 	p->fov = a.a60;
 	p->dir = 0;
+	p->size = 20;
 }
 
 int	init_tabs(void)

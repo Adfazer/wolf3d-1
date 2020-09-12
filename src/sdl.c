@@ -72,26 +72,57 @@ void init_sdl(void)
     
         //SDL_FillRect(surface, NULL, SDL_MapRGB( surface->format, 0, 150, 0));
 		
-		t_point s = t_point_new(100,234);
-		t_point e = t_point_new(400,154);;
+		//t_point s = dot(100,234);
+		//t_point e = dot(400,154);;
 		
 
-		draw_line(surface, s, e, color_to_hex(255, 0, 0));
-		draw_rectangle(surface, s, e, color_to_hex(44,44,44));
-		draw_rectangle(surface, e, s, color_to_hex(44,44,44));
-        raycast();
+		//draw_line(surface, s, e, color_to_hex(255, 0, 0));
+		//draw_rectangle(surface, s, e, color_to_hex(44,44,44));
+		//draw_rectangle(surface, e, s, color_to_hex(44,44,44));
+        //raycast();
+		drawOverheadMap(surface);
         SDL_UpdateWindowSurface(window);
         //SDL_Delay(5000);
         bool isquit = false;
 		SDL_Event event;
-		while (!isquit) {
-			if (SDL_PollEvent( & event)) {
+		while (!isquit)
+		{
+			if (SDL_PollEvent( & event))
+			{
 				if (event.type == SDL_QUIT)
 					isquit = true;
-				if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE)
-					isquit = true;
-    }
-}
+				if (event.type == SDL_KEYDOWN)
+				{
+					isquit = event.key.keysym.sym == SDLK_ESCAPE ? true : isquit;
+					if (event.key.keysym.sym == SDLK_RIGHT)
+					{
+						p.x += CUBE;
+						p.x = p.x > CUBE * map.w * 2 - p.size ? CUBE * map.w * 2 - p.size: p.x;
+
+					}
+					if (event.key.keysym.sym == SDLK_LEFT)
+					{
+						p.x -= CUBE;
+						p.x = p.x < 0 ? 0 : p.x;
+					}
+					if (event.key.keysym.sym == SDLK_DOWN)
+					{
+						p.y += CUBE;
+						p.y = p.y > CUBE * map.h * 2 - CUBE	 - p.size ? CUBE * map.h * 2 - CUBE - p.size: p.y;
+
+					}
+					if (event.key.keysym.sym == SDLK_UP)
+					{
+						p.y -= CUBE;
+						p.y = p.y < 0 ? 0 : p.y;
+					}
+
+				}
+    		}
+			//debug_print_map(map);
+			drawOverheadMap(surface);
+			SDL_UpdateWindowSurface(window);
+		}
         SDL_DestroyWindow(window);
         SDL_Quit();
 }

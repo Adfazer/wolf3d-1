@@ -39,6 +39,7 @@ typedef struct	s_player
 {
 	int			x;
 	int			y;
+	int			size;
 	float		fov;
 	int			dir;
 	float		xPlayer;
@@ -101,9 +102,10 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
 int		color_to_hex(int r, int g, int b);
 void init_sdl(void);
-t_point	t_point_new(int x, int y);
+t_point	dot(int x, int y);
 float arcToRad(float angle);
 int raycast(void);
+void drawOverheadMap(SDL_Surface *surface);
 
 /*
 ** init.c

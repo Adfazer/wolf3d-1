@@ -18,7 +18,8 @@ ALL_C = main.c \
 		map.c \
 		error.c \
 		sdl.c \
-		init.c
+		init.c \
+		debug_print.c§
 
 SRCDIR = ./src
 OBJDIR = ./objs

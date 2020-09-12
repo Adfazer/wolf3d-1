@@ -13,23 +13,45 @@ void drawRay(SDL_Surface *surface, int x, int y)
 {
 	draw_line(
 		surface,
-		t_point_new(p.xPlayer, p.yPlayer),
-		t_point_new(
+		dot(p.xPlayer, p.yPlayer),
+		dot(
 			floorf(t.PROJECTIONPLANEWIDTH + ((x * map.minimap_width) / t.TILE_SIZE)),
 			floorf(((y * map.minimap_width) / t.TILE_SIZE))),
 		color_to_hex(0,0,0));
 }
 
+void drawBackground(SDL_Surface *surface)
+{
+	draw_rectangle(surface, dot(0,0), dot(W, H), 0);
+}
+
 void drawOverheadMap(SDL_Surface *surface)
 {
 	map.minimap_width = 5;
-	t_point temp;
-	t_point	minimap;
+	//t_point temp;
+	t_point	mm;
+	t_point mm_start;
 
-	minimap.x = 5;
-	minimap.y = 5;
-	int color;
+	mm_start.x = 16;
+	mm_start.y = 16;
 
+	mm.x = 4;
+	mm.y = 4;
+	//int color;
+	int p_size = 20;
+	
+
+
+	drawBackground(surface);
+	draw_rectangle(surface, mm_start,
+	dot(W / mm.x, H / mm.y), 
+	color_to_hex(121,121,121));
+
+	draw_rectangle(surface, dot(p.x / mm.x + mm_start.x, p.y / mm.y + mm_start.y),
+	 dot(p_size / mm.x, p_size / mm.y), 
+	color_to_hex(255,255,255));
+
+/*
 	for (int r=0; r < map.h; r++)
 	{
 		temp.y = r;
@@ -37,19 +59,22 @@ void drawOverheadMap(SDL_Surface *surface)
 		{
 			temp.x = c;
 			if (map.map[r * map.w + c] == TEX_BORDER)
-				color = color_to_hex(0,0,0);
+				color = color_to_hex(255,255,255);
 			else
 				color = color_to_hex(121,121,121);
-			draw_rectangle(surface, temp, minimap, color);
+			draw_rectangle(surface, temp, mm, color);
+			
 		}
+		
 	}
-	p.xPlayer = t.PROJECTIONPLANEWIDTH + ((p.xPlayer / t.TILE_SIZE) * map.minimap_width);
-	p.yPlayer = ((p.yPlayer / t.TILE_SIZE) * map.minimap_width);
+	//p.xPlayer = t.PROJECTIONPLANEWIDTH + ((p.xPlayer / t.TILE_SIZE) * map.minimap_width);
+	//p.yPlayer = ((p.yPlayer / t.TILE_SIZE) * map.minimap_width);
+	*/
 }
 
 
 
-t_point	t_point_new(int x, int y)
+t_point	dot(int x, int y)
 {
 	t_point	new;
 
@@ -106,31 +131,28 @@ static void print_debug()
 {
 	if(debug)
 	{
+	printf("%s DEBUG PRINT %s\n", C_GRN, C_NRM);
+	printf("%d castArc\n", castArc);
 	printf("\t%d horizontalGrid\n\t%f xtemp\n\t%f distToNextHorizontalGrid \n\t%d p.y \n\t%f t.arctan[castArc]\n\t %d xIntersection\n",
 				horizontalGrid, xtemp, distToNextHorizontalGrid, p.y, t.arctan[castArc], xIntersection);
+	printf("Player:\n %d dir | %d x | %d y\n", p.dir, p.x, p.y);
 	}
 }
 
 static int check_grid(void)
 {
-
-	
 		if (castArc > a.a0 * castArc < a.a180)
 		{
 			horizontalGrid = floorf(p.y / t.TILE_SIZE) * t.TILE_SIZE + t.TILE_SIZE;
 			distToNextHorizontalGrid = t.TILE_SIZE;
-
 			xtemp = t.arctan[castArc] * (horizontalGrid - p.y);
 			xIntersection = xtemp + p.x;
 			print_debug();
-
-				
 		}
 		else
 		{
 			horizontalGrid = floorf(p.y/t.TILE_SIZE) * t.TILE_SIZE;
 			distToNextHorizontalGrid -= t.TILE_SIZE;
-
 			xtemp = t.arctan[castArc] * (horizontalGrid - p.y);
 			xIntersection = xtemp + p.x;
 			horizontalGrid--;	
@@ -233,8 +255,7 @@ static int check_grid(void)
 		}
 		
 		dist /= t.fishTable[castColumn];
-		if (debug)
-			printf("debug_row2:\t%f %f %f\n", dist, distToHorizontalGridBeingHit, distToVerticalGridBeingHit);
+		
 
 		return (dist);
 
@@ -252,8 +273,6 @@ int raycast(void)
 		//int scaleFactor;
 	
 		int dist = check_grid();
-		
-		exit(0);
 		int topOfWall;
 		int bottomOfWall;
 		
@@ -272,8 +291,8 @@ int raycast(void)
 		*/
 		//ft_printf("%d %d %d\n", castColumn, topOfWall, bottomOfWall);
 		draw_rectangle(surface,
-			t_point_new(castColumn, topOfWall), 
-			t_point_new(1, (bottomOfWall - topOfWall) + 1),
+			dot(castColumn, topOfWall), 
+			dot(1, (bottomOfWall - topOfWall) + 1),
 			color_to_hex(20, 54, 222));
 		
 		add_arc(&castArc, 1);
