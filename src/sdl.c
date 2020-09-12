@@ -52,7 +52,7 @@ int		color_to_hex(int r, int g, int b)
 	return (r << 16) | (g << 8) | b;
 }
 
-void init_sdl(void)
+void init_sdl(t_map *map, t_player *player)
 {
 	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
     {
@@ -97,7 +97,7 @@ void init_sdl(void)
 					if (event.key.keysym.sym == SDLK_RIGHT)
 					{
 						p.x += CUBE;
-						p.x = p.x > CUBE * map.w * 2 - p.size ? CUBE * map.w * 2 - p.size: p.x;
+						p.x = p.x > CUBE * map->w * 2 - p.size ? CUBE * map->w * 2 - p.size: p.x;
 
 					}
 					if (event.key.keysym.sym == SDLK_LEFT)
@@ -108,8 +108,9 @@ void init_sdl(void)
 					if (event.key.keysym.sym == SDLK_DOWN)
 					{
 						p.y += CUBE;
-						p.y = p.y > CUBE * map.h * 2 - CUBE	 - p.size ? CUBE * map.h * 2 - CUBE - p.size: p.y;
-
+						p.y = p.y > CUBE * map->h * 2 - CUBE	 - p.size ? CUBE * map->h * 2 - CUBE - p.size: p.y;
+						debug_map(map);
+						debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_UP)
 					{
@@ -119,11 +120,8 @@ void init_sdl(void)
 
 				}
     		}
-			//debug_print_map(map);
 			drawOverheadMap(surface);
 			SDL_UpdateWindowSurface(window);
-			debug_map(map);
-			debug_map(p);
 		}
         SDL_DestroyWindow(window);
         SDL_Quit();

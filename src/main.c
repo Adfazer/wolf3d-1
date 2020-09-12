@@ -101,7 +101,9 @@ int	main()
 	init_map(&map);
 	init_tabs();
 	init_player(&p);
-	init_sdl();
+	debug_map(&map);
+
+	init_sdl(&map, &p);
 	return (0);
 }
 

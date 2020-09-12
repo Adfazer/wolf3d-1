@@ -102,12 +102,13 @@ void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel);
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
 int		color_to_hex(int r, int g, int b);
-void init_sdl(void);
+void init_sdl(t_map *map, t_player *player);
 t_point	dot(int x, int y);
 float arcToRad(float angle);
 int raycast(void);
 void drawOverheadMap(SDL_Surface *surface);
 void debug_map(t_map *map);
+void debug_player(t_player *p);
 
 /*
 ** init.c

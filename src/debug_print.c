@@ -5,7 +5,7 @@ void debug_map(t_map *map)
 	if (DEBUG)
 	{
 		ft_printf("%s MAP INFO %s\n", C_YEL, C_NRM);
-		ft_printf("%d map.w | %d map.h", map->w, map->h);
+		ft_printf("\t%d map.w | %d map.h\n", map->w, map->h);
 	}
 }
 
