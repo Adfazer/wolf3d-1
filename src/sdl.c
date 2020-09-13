@@ -47,17 +47,14 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 }
 
 
-int		color_to_hex(int r, int g, int b)
-{	
-	return (r << 16) | (g << 8) | b;
-}
+
 
 static void rotate(SDL_Event *event, int *x)
 {
 	if (event->motion.x - *x > 0 || event->motion.x == W - 1)
-		p.dir += 0.01;
+		add_arc(&p.dir, 0.1);
 	else
-		p.dir -= 0.01;
+		add_arc(&p.dir, -0.1);;
 	*x = event->motion.x;
 	debug_player(&p);
 }
@@ -95,7 +92,7 @@ void init_sdl(t_map *map, t_player *player)
         //SDL_Delay(5000);
         bool isquit = false;
 		SDL_Event event;
-		int x;
+		int x = -0x7ffff;
 		while (!isquit)
 		{
 			if (SDL_PollEvent( & event))
@@ -141,6 +138,7 @@ void init_sdl(t_map *map, t_player *player)
 				}
     		}
 			drawOverheadMap(surface);
+			drawRay(surface, p.xmm, p.ymm);
 			SDL_UpdateWindowSurface(window);
 		}
         SDL_DestroyWindow(window);

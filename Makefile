@@ -19,7 +19,8 @@ ALL_C = main.c \
 		error.c \
 		sdl.c \
 		init.c \
-		debug_print.c
+		debug_print.c \
+		aux.c
 
 SRCDIR = ./src
 OBJDIR = ./objs

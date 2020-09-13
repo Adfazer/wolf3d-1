@@ -111,6 +111,8 @@ int raycast(void);
 void drawOverheadMap(SDL_Surface *surface);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
+void drawRay(SDL_Surface *surface, int x, int y);
+int	add_arc(float *arc, float to_add);
 
 /*
 ** init.c

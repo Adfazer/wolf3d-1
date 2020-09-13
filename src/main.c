@@ -4,19 +4,19 @@
 
 
 
-float arcToRad(float angle)
-{
-	return ((angle * M_PI) / a.a180);
-}
+
 
 void drawRay(SDL_Surface *surface, int x, int y)
 {
+
+	int dx = t.cos[(int)p.dir] * CUBE;
+	int dy = t.sin[(int)p.dir] * CUBE;
+
+
 	draw_line(
 		surface,
-		dot(p.xmm, p.ymm),
-		dot(
-			floorf(t.PROJECTIONPLANEWIDTH + ((x * map.minimap_width) / t.TILE_SIZE)),
-			floorf(((y * map.minimap_width) / t.TILE_SIZE))),
+		dot(x, y),
+		dot(x + dx, y + dy),
 		color_to_hex(255, 255, 255));
 }
 
@@ -29,12 +29,8 @@ void drawOverheadMap(SDL_Surface *surface)
 {
 	map.minimap_width = 5;
 	//t_point temp;
-	
 	//int color;
 	int p_size = 20;
-	
-
-
 	drawBackground(surface);
 
 	//minimap
@@ -81,15 +77,7 @@ t_point	dot(int x, int y)
 
 
 
-int	add_arc(int *arc, int to_add)
-{
-	*arc += to_add;
-	if (*arc < 0)
-		*arc += a.a360;
-	else if (*arc > a.a360)
-		*arc-= a.a360;
-	return (*arc);
-}
+
 
 
 int	main()
@@ -262,7 +250,7 @@ static int check_grid(void)
 int raycast(void)
 {
 	castArc = p.dir;
-	add_arc(&castArc, -a.a30);
+	//add_arc(&castArc, -a.a30);
 	
 	for (castColumn = 0; castColumn < t.PROJECTIONPLANEWIDTH; castColumn += 1)
 	{
@@ -291,7 +279,7 @@ int raycast(void)
 			dot(1, (bottomOfWall - topOfWall) + 1),
 			color_to_hex(20, 54, 222));
 		
-		add_arc(&castArc, 1);
+		//add_arc(&castArc, 1);
 	}
 	return 0;
 }
