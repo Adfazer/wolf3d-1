@@ -34,6 +34,8 @@ typedef struct	s_map
 	int			h;
 	int			minimap_width;
 	int			minimap_height;
+	t_point		mm_start;
+	t_point		mm;
 }				t_map;
 
 typedef struct	s_player
@@ -42,7 +44,7 @@ typedef struct	s_player
 	int			y;
 	int			size;
 	float		fov;
-	int			dir;
+	float		dir;
 	float		xmm;
 	float		ymm;
 }				t_player;
@@ -114,7 +116,7 @@ void debug_player(t_player *p);
 ** init.c
 */
 int	init_tabs(void);
-void	init_player(t_player *player);
+void	init_player(t_player *player, t_map *map);
 
 #endif
 

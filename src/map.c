@@ -125,6 +125,12 @@ void		init_map(t_map *map)
 	validate_map(str_map, map_size, map);
 	map->map =ft_strnew(map->h * map->w);
 	!map->map ? error("malloc") : 1;
+
+	map->mm_start.x = 16;
+	map->mm_start.y = 16;
+
+	map->mm.x = 4;
+	map->mm.y = 4;
 	i = -1;
 	j = 0;
 	while (++i < map_size)

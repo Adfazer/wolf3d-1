@@ -52,6 +52,16 @@ int		color_to_hex(int r, int g, int b)
 	return (r << 16) | (g << 8) | b;
 }
 
+static void rotate(SDL_Event *event, int *x)
+{
+	if (event->motion.x - *x > 0 || event->motion.x == W - 1)
+		p.dir += 0.01;
+	else
+		p.dir -= 0.01;
+	*x = event->motion.x;
+	debug_player(&p);
+}
+
 void init_sdl(t_map *map, t_player *player)
 {
 	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
@@ -85,37 +95,47 @@ void init_sdl(t_map *map, t_player *player)
         //SDL_Delay(5000);
         bool isquit = false;
 		SDL_Event event;
+		int x;
 		while (!isquit)
 		{
 			if (SDL_PollEvent( & event))
 			{
 				if (event.type == SDL_QUIT)
 					isquit = true;
+				if (event.type == SDL_MOUSEMOTION)
+				{
+					rotate(&event, &x);
+					debug_player(player);
+				}
 				if (event.type == SDL_KEYDOWN)
 				{
 					isquit = event.key.keysym.sym == SDLK_ESCAPE ? true : isquit;
-					if (event.key.keysym.sym == SDLK_RIGHT)
+					if (event.key.keysym.sym == SDLK_d)
 					{
 						p.x += CUBE;
-						p.x = p.x > CUBE * map->w * 2 - p.size ? CUBE * map->w * 2 - p.size: p.x;
+						p.x = p.x > CUBE * map->w - p.size? CUBE * map->w - p.size: p.x;
 
 					}
-					if (event.key.keysym.sym == SDLK_LEFT)
+					if (event.key.keysym.sym == SDLK_a)
 					{
 						p.x -= CUBE;
 						p.x = p.x < 0 ? 0 : p.x;
 					}
-					if (event.key.keysym.sym == SDLK_DOWN)
+					if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 					{
 						p.y += CUBE;
-						p.y = p.y > CUBE * map->h * 2 - CUBE	 - p.size ? CUBE * map->h * 2 - CUBE - p.size: p.y;
+						p.y = p.y > CUBE * map->h - p.size ? CUBE * map->h - p.size: p.y;
 						debug_map(map);
 						debug_player(player);
 					}
-					if (event.key.keysym.sym == SDLK_UP)
+					if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 					{
 						p.y -= CUBE;
 						p.y = p.y < 0 ? 0 : p.y;
+					}
+					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
+					{
+						rotate(&event, &x);
 					}
 
 				}

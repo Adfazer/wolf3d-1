@@ -17,7 +17,7 @@ void drawRay(SDL_Surface *surface, int x, int y)
 		dot(
 			floorf(t.PROJECTIONPLANEWIDTH + ((x * map.minimap_width) / t.TILE_SIZE)),
 			floorf(((y * map.minimap_width) / t.TILE_SIZE))),
-		color_to_hex(0,0,0));
+		color_to_hex(255, 255, 255));
 }
 
 void drawBackground(SDL_Surface *surface)
@@ -29,26 +29,22 @@ void drawOverheadMap(SDL_Surface *surface)
 {
 	map.minimap_width = 5;
 	//t_point temp;
-	t_point	mm;
-	t_point mm_start;
-
-	mm_start.x = 16;
-	mm_start.y = 16;
-
-	mm.x = 4;
-	mm.y = 4;
+	
 	//int color;
 	int p_size = 20;
 	
 
 
 	drawBackground(surface);
-	draw_rectangle(surface, mm_start,
-	dot(W / mm.x, H / mm.y), 
-	color_to_hex(121,121,121));
 
-	draw_rectangle(surface, dot(p.x / mm.x + mm_start.x, p.y / mm.y + mm_start.y),
-	 dot(p_size / mm.x, p_size / mm.y), 
+	//minimap
+	draw_rectangle(surface, map.mm_start,
+	dot(CUBE * map.w / map.mm.x, CUBE * map.h / map.mm.y), 
+	color_to_hex(121,121,121));
+	
+	//player dot
+	draw_rectangle(surface, dot(p.x / map.mm.x + map.mm_start.x, p.y / map.mm.y + map.mm_start.y),
+	 dot(p_size / map.mm.x, p_size / map.mm.y), 
 	color_to_hex(255,255,255));
 
 /*
@@ -67,8 +63,8 @@ void drawOverheadMap(SDL_Surface *surface)
 		}
 		
 	}
-	//p.xmm = t.PROJECTIONPLANEWIDTH + ((p.xmm / t.TILE_SIZE) * map.minimap_width);
-	//p.ymm = ((p.ymm / t.TILE_SIZE) * map.minimap_width);
+	//p.xPlayer = t.PROJECTIONPLANEWIDTH + ((p.xPlayer / t.TILE_SIZE) * map.minimap_width);
+	//p.yPlayer = ((p.yPlayer / t.TILE_SIZE) * map.minimap_width);
 	*/
 }
 
@@ -100,9 +96,7 @@ int	main()
 {
 	init_map(&map);
 	init_tabs();
-	init_player(&p);
-	debug_map(&map);
-
+	init_player(&p, &map);
 	init_sdl(&map, &p);
 	return (0);
 }
@@ -127,17 +121,17 @@ int	main()
 	int castArc, castColumn;
 
 	float xtemp;
+	int debug = 1;
 
-
-void debug_raycaster()
+static void print_debug()
 {
-	if(DEBUG)
+	if(debug)
 	{
 	printf("%s DEBUG PRINT %s\n", C_GRN, C_NRM);
 	printf("%d castArc\n", castArc);
 	printf("\t%d horizontalGrid\n\t%f xtemp\n\t%f distToNextHorizontalGrid \n\t%d p.y \n\t%f t.arctan[castArc]\n\t %d xIntersection\n",
 				horizontalGrid, xtemp, distToNextHorizontalGrid, p.y, t.arctan[castArc], xIntersection);
-	printf("Player:\n %d dir | %d x | %d y\n", p.dir, p.x, p.y);
+	printf("Player:\n %f dir | %d x | %d y\n", p.dir, p.x, p.y);
 	}
 }
 
@@ -149,7 +143,7 @@ static int check_grid(void)
 			distToNextHorizontalGrid = t.TILE_SIZE;
 			xtemp = t.arctan[castArc] * (horizontalGrid - p.y);
 			xIntersection = xtemp + p.x;
-			debug_raycaster();
+			print_debug();
 		}
 		else
 		{

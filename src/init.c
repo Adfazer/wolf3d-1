@@ -1,9 +1,14 @@
 #include "../includes/wolf3d.h"
 
-void	init_player(t_player *p)
+void	init_player(t_player *p, t_map *map)
 {
 	p->x = 80;
 	p->y = 80;
+	
+	p->xmm = p->x / map->mm.x + map->mm_start.x;
+	p->ymm = p->y / map->mm.y + map->mm_start.y;
+	ft_printf("%d %d %f\n", p->x, map->mm.x, p->xmm);
+	ft_printf("%d %d\n", p->xmm,  p->ymm);
 	p->fov = a.a60;
 	p->dir = 0;
 	p->size = 20;

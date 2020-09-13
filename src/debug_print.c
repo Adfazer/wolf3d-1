@@ -15,8 +15,9 @@ void debug_player(t_player *p)
 	{
 		ft_printf("%s PLAYER INFO %s\n", C_GRN, C_NRM);
 		ft_printf("\t%d p.x | %d p.y\n", p->x, p->y);
-		ft_printf("\t%d p.xmm | %d p.ymm\n", p->xmm, p->ymm);
-		ft_printf("\t%d p.dir  | %d p.fov\n", p->dir, p->fov);
+		ft_printf("\t%f p.xmm | %f p.ymm\n", p->xmm, p->ymm);
+		ft_printf("\t%f p.dir  |  %f p.fov\n", p->dir, p->fov);
 	}
 }
+
 
