@@ -1,71 +1,5 @@
 #include "../includes/wolf3d.h"
 
-
-
-
-
-
-
-void drawRay(SDL_Surface *surface, int x, int y)
-{
-
-	int dx = t.cos[(int)p.dir] * CUBE;
-	int dy = t.sin[(int)p.dir] * CUBE;
-
-
-	draw_line(
-		surface,
-		dot(x, y),
-		dot(x + dx, y + dy),
-		color_to_hex(255, 255, 255));
-}
-
-void drawBackground(SDL_Surface *surface)
-{
-	draw_rectangle(surface, dot(0,0), dot(W, H), 0);
-}
-
-void drawOverheadMap(SDL_Surface *surface)
-{
-	map.minimap_width = 5;
-	//t_point temp;
-	//int color;
-	int p_size = 20;
-	drawBackground(surface);
-
-	//minimap
-	draw_rectangle(surface, map.mm_start,
-	dot(CUBE * map.w / map.mm.x, CUBE * map.h / map.mm.y), 
-	color_to_hex(121,121,121));
-	
-	//player dot
-	draw_rectangle(surface, dot(p.x / map.mm.x + map.mm_start.x, p.y / map.mm.y + map.mm_start.y),
-	 dot(p_size / map.mm.x, p_size / map.mm.y), 
-	color_to_hex(255,255,255));
-
-/*
-	for (int r=0; r < map.h; r++)
-	{
-		temp.y = r;
-		for (int c=0; c < map.w; c++)
-		{
-			temp.x = c;
-			if (map.map[r * map.w + c] == TEX_BORDER)
-				color = color_to_hex(255,255,255);
-			else
-				color = color_to_hex(121,121,121);
-			draw_rectangle(surface, temp, mm, color);
-			
-		}
-		
-	}
-	//p.xPlayer = t.PROJECTIONPLANEWIDTH + ((p.xPlayer / t.TILE_SIZE) * map.minimap_width);
-	//p.yPlayer = ((p.yPlayer / t.TILE_SIZE) * map.minimap_width);
-	*/
-}
-
-
-
 t_point	dot(int x, int y)
 {
 	t_point	new;
@@ -74,11 +8,6 @@ t_point	dot(int x, int y)
 	new.y = y;
 	return (new);
 }
-
-
-
-
-
 
 int	main()
 {
