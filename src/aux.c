@@ -14,8 +14,8 @@ int	add_arc(float *arc, float to_add)
 {
 	*arc += to_add;
 	if (*arc < 0)
-		*arc += 360;
-	else if (*arc >= 360)
-		*arc -= 360;
+		*arc += RAD_360;
+	else if (*arc >= RAD_360)
+		*arc -= RAD_360;
 	return (*arc);
 }

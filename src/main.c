@@ -11,6 +11,10 @@ t_point	dot(int x, int y)
 
 int	main()
 {
+	/*float arr[1000000];
+	for (int i = 0; i < 1000000; i++)
+		arr[i] = cos(i);
+		*/
 	init_map(&map);
 	init_tabs();
 	init_player(&p, &map);

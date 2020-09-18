@@ -3,8 +3,9 @@
 void drawRay(SDL_Surface *surface, int x, int y)
 {
 
-	int dx = cos(arcToRad(p.dir)) * CUBE;
-	int dy = sin(arcToRad(p.dir)) * CUBE;
+	int dx = cos(p.dir) * CUBE;
+	int dy = sin(p.dir) * CUBE;
+	dx = p.dir >= 180 ? -dx : dx;
 	draw_line(
 		surface,
 		dot(x, y),
@@ -27,8 +28,23 @@ void drawOverheadMap(SDL_Surface *surface)
 
 	//minimap
 	draw_rectangle(surface, map.mm_start,
-	dot(CUBE * map.w / map.mm.x, CUBE * map.h / map.mm.y), 
+	dot(map.w * (CUBE / map.mm.x) + map.mm_start.x, map.h * (CUBE / map.mm.y) + map.mm_start.y), 
 	color_to_hex(121,121,121));
+	/*
+	//draw textures
+	for (int i = 0; i < map.h * map.w; i++)
+	{
+		if (map.map[i] == TEX_BORDER)
+		{
+			int xx = (i % map.w ) * (CUBE / map.mm.x) + map.mm_start.x;
+			int yy = (i / map.h) * (CUBE / map.mm.y) + map.mm_start.y;
+			draw_rectangle(surface, \
+			dot(xx, yy),
+			dot(xx + CUBE / map.mm.x, yy + CUBE / map.mm.y), 0xbbbb00);
+			
+		}
+	}
+	*/
 	
 	//player square
 	draw_rectangle(surface, 
@@ -90,10 +106,10 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 
 static void rotate(SDL_Event *event, int *x)
 {
-	if (event->motion.xrel > 0)
-		add_arc(&p.dir, 2);
+	if (event->motion.xrel >= 0)
+		add_arc(&p.dir, 0.02);
 	else
-		add_arc(&p.dir, -2);
+		add_arc(&p.dir, -0.02);
 	*x = event->motion.x;
 	debug_player(&p);
 }
@@ -172,16 +188,18 @@ void init_sdl(t_map *map, t_player *player)
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{
 						if (event.key.keysym.sym == SDLK_RIGHT)
-							add_arc(&p.dir, 10);
+							add_arc(&p.dir, 1);
 						if (event.key.keysym.sym == SDLK_LEFT)
-							add_arc(&p.dir, -10);
+							add_arc(&p.dir, -1);
 					}
 
 				}
     		}
 			drawOverheadMap(surface);
 			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
+			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
 			SDL_UpdateWindowSurface(window);
+			
 		}
         SDL_DestroyWindow(window);
         SDL_Quit();

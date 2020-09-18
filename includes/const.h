@@ -5,4 +5,7 @@
 
 # define PLAYER_MM_SIZE 4
 
+# define RAD_360 6.28319
+# define RAD_1 0.0174533
+
 #endif
