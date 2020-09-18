@@ -1,9 +1,5 @@
 #include "wolf3d.h"
 
-
-
-
-
 void drawRay(SDL_Surface *surface, int x, int y)
 {
 
@@ -34,9 +30,10 @@ void drawOverheadMap(SDL_Surface *surface)
 	dot(CUBE * map.w / map.mm.x, CUBE * map.h / map.mm.y), 
 	color_to_hex(121,121,121));
 	
-	//player dot
-	draw_rectangle(surface, dot(p.x / map.mm.x + map.mm_start.x, p.y / map.mm.y + map.mm_start.y),
-		dot(p_size / map.mm.x, p_size / map.mm.y), 
+	//player square
+	draw_rectangle(surface, 
+		dot(p.x / map.mm.x + map.mm_start.x - PLAYER_MM_SIZE, p.y / map.mm.y + map.mm_start.y - PLAYER_MM_SIZE),
+		dot(p_size / map.mm.x + PLAYER_MM_SIZE, p_size / map.mm.y + PLAYER_MM_SIZE), 
 		color_to_hex(255,255,255));
 }
 
@@ -57,6 +54,8 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 
 	for(;;)
 	{
+		if (start.x > W || start.x < 0 || start.y > H || start.y < 0)
+			break ;
 		set_pixel(surface, start, color);
 		if (start.x==end.x && start.y==end.y)
 			break;
@@ -91,10 +90,10 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 
 static void rotate(SDL_Event *event, int *x)
 {
-	if (event->motion.x - *x > 0 || event->motion.x == W - 1)
-		add_arc(&p.dir, 10);
+	if (event->motion.xrel > 0)
+		add_arc(&p.dir, 2);
 	else
-		add_arc(&p.dir, 10);;
+		add_arc(&p.dir, -2);
 	*x = event->motion.x;
 	debug_player(&p);
 }
@@ -151,7 +150,7 @@ void init_sdl(t_map *map, t_player *player)
 					if (event.key.keysym.sym == SDLK_d)
 					{
 						p.x += CUBE;
-						p.x = p.x > CUBE * map->w - p.size? CUBE * map->w - p.size: p.x;
+						p.x = p.x > CUBE * map->w - 1? CUBE * map->w - 1 : p.x;
 					}
 					if (event.key.keysym.sym == SDLK_a)
 					{
@@ -161,7 +160,7 @@ void init_sdl(t_map *map, t_player *player)
 					if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 					{
 						p.y += CUBE;
-						p.y = p.y > CUBE * map->h - p.size ? CUBE * map->h - p.size: p.y;
+						p.y = p.y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p.y;
 						debug_map(map);
 						debug_player(player);
 					}
@@ -181,7 +180,7 @@ void init_sdl(t_map *map, t_player *player)
 				}
     		}
 			drawOverheadMap(surface);
-			drawRay(surface, p.x / map->mm.x, p.y / map->mm.y);
+			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
 			SDL_UpdateWindowSurface(window);
 		}
         SDL_DestroyWindow(window);
