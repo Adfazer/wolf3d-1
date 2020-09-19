@@ -2,14 +2,21 @@
 
 void drawRay(SDL_Surface *surface, int x, int y)
 {
-
-	int dx = cos(p.dir) * CUBE;
-	int dy = sin(p.dir) * CUBE;
-	dx = p.dir >= 180 ? -dx : dx;
+	//FOR FOV = 60
+	int dx0 = cos(p.dir - RAD_60 / 2) * CUBE;
+	int dy0 = sin(p.dir - RAD_60 / 2) * CUBE;
+	int dx1 = cos(p.dir + RAD_60 / 2) * CUBE;
+	int dy1 = sin(p.dir + RAD_60 / 2) * CUBE;
+	//dx = p.dir >= 180 ? -dx : dx;
 	draw_line(
 		surface,
 		dot(x, y),
-		dot(x + dx, y + dy),
+		dot(x + dx0, y + dy0),
+		color_to_hex(255, 255, 255));
+	draw_line(
+		surface,
+		dot(x, y),
+		dot(x + dx1, y + dy1),
 		color_to_hex(255, 255, 255));
 }
 
@@ -18,35 +25,37 @@ void drawBackground(SDL_Surface *surface)
 	draw_rectangle(surface, dot(0,0), dot(W, H), 0);
 }
 
+static int	x_to_mm(int x)
+{
+	return map.mm_start.x + x / (map.mm.x);
+}
+
+static int	y_to_mm(int y)
+{
+	return map.mm_start.y + y / (map.mm.y);
+}
+
 void drawOverheadMap(SDL_Surface *surface)
 {
 	map.minimap_width = 5;
-	//t_point temp;
-	//int color;
 	int p_size = 20;
 	drawBackground(surface);
-
-	//minimap
 	draw_rectangle(surface, map.mm_start,
-	dot(map.w * (CUBE / map.mm.x) + map.mm_start.x, map.h * (CUBE / map.mm.y) + map.mm_start.y), 
+	dot(map.mm_cube.x * map.w, map.mm_cube.y * map.h), 
 	color_to_hex(121,121,121));
-	/*
-	//draw textures
+
 	for (int i = 0; i < map.h * map.w; i++)
 	{
 		if (map.map[i] == TEX_BORDER)
 		{
-			int xx = (i % map.w ) * (CUBE / map.mm.x) + map.mm_start.x;
-			int yy = (i / map.h) * (CUBE / map.mm.y) + map.mm_start.y;
+			int xx = x_to_mm((i % map.w ) * CUBE);
+			int yy = y_to_mm((i / map.h) * CUBE);
 			draw_rectangle(surface, \
 			dot(xx, yy),
-			dot(xx + CUBE / map.mm.x, yy + CUBE / map.mm.y), 0xbbbb00);
-			
+			dot(CUBE / (map.mm.x), CUBE / (map.mm.y)), 0xbbbb00);
 		}
 	}
-	*/
-	
-	//player square
+
 	draw_rectangle(surface, 
 		dot(p.x / map.mm.x + map.mm_start.x - PLAYER_MM_SIZE, p.y / map.mm.y + map.mm_start.y - PLAYER_MM_SIZE),
 		dot(p_size / map.mm.x + PLAYER_MM_SIZE, p_size / map.mm.y + PLAYER_MM_SIZE), 
@@ -65,7 +74,7 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 {
 	
 		int dx = abs(end.x-start.x), sx = start.x<end.x ? 1 : -1;
-		int dy = abs(end.y-start.y), sy = start.y<end.y ? 1 : -1; 
+		int dy = abs(end.y-start.y), sy = start.y<end.y ? -1 : 1; 
 		int err = (dx>dy ? dx : -dy)/2, e2;
 
 	for(;;)
@@ -101,17 +110,54 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
+static float find_wall(float angle)
+{
+	
+	t_point A;
+	float diffy;
+	float diffx;
 
+	//find intersection with horizontal grid
+	A.y = floorf((float)p.y / CUBE) * CUBE;
+	if (angle > RAD_0 && angle < RAD_180)
+	{
+		A.y -= 1;
+		diffy = -64;
+	}
+	else if (angle > RAD_180 && angle < RAD_360)
+	{
+		A.y += CUBE;
+		diffy = 64;
+	}
+	else
+	{
+		diffy = 0;
+		return INT32_MAX;
+	}
+	A.x = p.x + (p.y - A.y) / tanf(angle);
+	diffx = CUBE / tanf(p.fov);
+	ft_printf("angle %f ax %d ay %d diffx %f diffy %f\n", angle, A.x, A.y, diffx, diffy);
+	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
+	{
+		//ft_printf("%d %d\n", A.x, A.y);
+		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
+			return ((abs(p.x - A.x) / cosf(angle)));
+		A.x += diffx;
+		A.y += diffy;
+	}
+	return INT32_MAX;
+
+}
 
 
 static void rotate(SDL_Event *event, int *x)
 {
 	if (event->motion.xrel >= 0)
-		add_arc(&p.dir, 0.02);
-	else
 		add_arc(&p.dir, -0.02);
+	else
+		add_arc(&p.dir, 0.02);
 	*x = event->motion.x;
-	debug_player(&p);
+	//debug_player(&p);
 }
 
 void init_sdl(t_map *map, t_player *player)
@@ -131,21 +177,9 @@ void init_sdl(t_map *map, t_player *player)
     surface = NULL;
     
     surface = SDL_GetWindowSurface(window);
-    
-        //SDL_FillRect(surface, NULL, SDL_MapRGB( surface->format, 0, 150, 0));
-		
-		//t_point s = dot(100,234);
-		//t_point e = dot(400,154);;
-		
-
-		//draw_line(surface, s, e, color_to_hex(255, 0, 0));
-		//draw_rectangle(surface, s, e, color_to_hex(44,44,44));
-		//draw_rectangle(surface, e, s, color_to_hex(44,44,44));
-        //raycast();
 		drawOverheadMap(surface);
         SDL_UpdateWindowSurface(window);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
-        //SDL_Delay(5000);
         bool isquit = false;
 		SDL_Event event;
 		int x = -0x7ffff;
@@ -158,7 +192,7 @@ void init_sdl(t_map *map, t_player *player)
 				if (event.type == SDL_MOUSEMOTION)
 				{
 					rotate(&event, &x);
-					debug_player(player);
+					//debug_player(player);
 				}
 				if (event.type == SDL_KEYDOWN)
 				{
@@ -167,18 +201,18 @@ void init_sdl(t_map *map, t_player *player)
 					{
 						p.x += CUBE;
 						p.x = p.x > CUBE * map->w - 1? CUBE * map->w - 1 : p.x;
+						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_a)
 					{
 						p.x -= CUBE;
 						p.x = p.x < 0 ? 0 : p.x;
+						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 					{
 						p.y += CUBE;
 						p.y = p.y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p.y;
-						debug_map(map);
-						debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 					{
@@ -188,16 +222,19 @@ void init_sdl(t_map *map, t_player *player)
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{
 						if (event.key.keysym.sym == SDLK_RIGHT)
-							add_arc(&p.dir, 1);
+							add_arc(&p.dir, -RAD_90);
 						if (event.key.keysym.sym == SDLK_LEFT)
-							add_arc(&p.dir, -1);
+							add_arc(&p.dir, RAD_90);
 					}
 
 				}
     		}
+			
+			ft_printf("%f %f\n", find_wall(player->dir), p.dir);
 			drawOverheadMap(surface);
 			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
+
 			SDL_UpdateWindowSurface(window);
 			
 		}
@@ -205,3 +242,28 @@ void init_sdl(t_map *map, t_player *player)
         SDL_Quit();
 }
 
+
+
+/*
+static void draw_wall(SDL_Surface *surface, float dist)
+{
+	surface += 1;
+	dist += 1;
+}
+*/
+
+/*
+void drawCanvas(SDL_Surface *surface)
+{
+	float angle = p.dir;
+	add_arc(&angle, RAD_60 / 2);
+	float angle_increment = -RAD_60 / W;
+	float dist;
+	for (int i = 0; i < W; i++)
+	{
+		dist = find_wall(angle);
+		draw_wall(surface, dist);
+		add_arc(&angle, angle_increment);
+	}
+}
+*/

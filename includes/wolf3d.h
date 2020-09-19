@@ -36,6 +36,7 @@ typedef struct	s_map
 	int			minimap_height;
 	t_point		mm_start;
 	t_point		mm;
+	t_point		mm_cube;
 }				t_map;
 
 typedef struct	s_player
@@ -45,6 +46,7 @@ typedef struct	s_player
 	int			size;
 	float		fov;
 	float		dir;
+	float		dist;
 	float		xmm;
 	float		ymm;
 }				t_player;
@@ -113,6 +115,7 @@ void debug_map(t_map *map);
 void debug_player(t_player *p);
 void drawRay(SDL_Surface *surface, int x, int y);
 int	add_arc(float *arc, float to_add);
+void drawCanvas(SDL_Surface *surface);
 
 /*
 ** init.c

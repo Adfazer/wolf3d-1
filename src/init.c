@@ -9,9 +9,10 @@ void	init_player(t_player *p, t_map *map)
 	p->ymm = p->y / map->mm.y + map->mm_start.y;
 	ft_printf("%d %d %f\n", p->x, map->mm.x, p->xmm);
 	ft_printf("%d %d\n", p->xmm,  p->ymm);
-	p->fov = 60;
+	p->fov = RAD_60;
 	p->dir = 0;
 	p->size = 20;
+	p->dist = (W / 2) / tan(RAD_60 / 2);
 }
 
 int	init_tabs(void)

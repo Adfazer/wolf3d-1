@@ -131,6 +131,8 @@ void		init_map(t_map *map)
 
 	map->mm.x = 4;
 	map->mm.y = 4;
+	map->mm_cube.x = CUBE / map->mm.x;
+	map->mm_cube.y = CUBE / map->mm.y;
 	i = -1;
 	j = 0;
 	while (++i < map_size)
