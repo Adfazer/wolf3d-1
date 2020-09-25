@@ -2,22 +2,31 @@
 
 void drawRay(SDL_Surface *surface, int x, int y)
 {
-	//FOR FOV = 60
+	int dx0 = cos(p.dir) * CUBE;
+	int dy0 = sin(p.dir) * CUBE;
+	draw_line(
+		surface,
+		dot(x, y),
+		dot(x + dx0, y - dy0),
+		color_to_hex(255, 255, 255));
+	/*
 	int dx0 = cos(p.dir - RAD_60 / 2) * CUBE;
 	int dy0 = sin(p.dir - RAD_60 / 2) * CUBE;
 	int dx1 = cos(p.dir + RAD_60 / 2) * CUBE;
 	int dy1 = sin(p.dir + RAD_60 / 2) * CUBE;
-	//dx = p.dir >= 180 ? -dx : dx;
+	
 	draw_line(
 		surface,
 		dot(x, y),
-		dot(x + dx0, y + dy0),
+		dot(x + dx0, y - dy0),
 		color_to_hex(255, 255, 255));
+		
 	draw_line(
 		surface,
 		dot(x, y),
-		dot(x + dx1, y + dy1),
+		dot(x + dx1, y - dy1),
 		color_to_hex(255, 255, 255));
+		*/
 }
 
 void drawBackground(SDL_Surface *surface)
@@ -74,7 +83,7 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 {
 	
 		int dx = abs(end.x-start.x), sx = start.x<end.x ? 1 : -1;
-		int dy = abs(end.y-start.y), sy = start.y<end.y ? -1 : 1; 
+		int dy = abs(end.y-start.y), sy = start.y<end.y ? 1 : -1; 
 		int err = (dx>dy ? dx : -dy)/2, e2;
 
 	for(;;)
@@ -139,9 +148,9 @@ static float find_wall(float angle)
 	ft_printf("angle %f ax %d ay %d diffx %f diffy %f\n", angle, A.x, A.y, diffx, diffy);
 	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
 	{
-		//ft_printf("%d %d\n", A.x, A.y);
+		ft_printf("%d %d\n", A.x, A.y);
 		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
-			return ((abs(p.x - A.x) / cosf(angle)));
+			return (fabs((p.x - A.x) / cosf(angle)));
 		A.x += diffx;
 		A.y += diffy;
 	}
@@ -222,15 +231,15 @@ void init_sdl(t_map *map, t_player *player)
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{
 						if (event.key.keysym.sym == SDLK_RIGHT)
-							add_arc(&p.dir, -RAD_90);
+							add_arc(&p.dir, -RAD_45);
 						if (event.key.keysym.sym == SDLK_LEFT)
-							add_arc(&p.dir, RAD_90);
+							add_arc(&p.dir, RAD_45);
 					}
 
 				}
     		}
 			
-			ft_printf("%f %f\n", find_wall(player->dir), p.dir);
+			ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
 			drawOverheadMap(surface);
 			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);

@@ -11,5 +11,6 @@
 # define RAD_180 M_PI
 # define RAD_0 0
 # define RAD_90 1.5708
+# define RAD_45 0.785398
 
 #endif
