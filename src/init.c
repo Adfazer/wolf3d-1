@@ -12,7 +12,8 @@ void	init_player(t_player *p, t_map *map)
 	p->fov = RAD_60;
 	p->dir = RAD_90;
 	p->size = 20;
-	p->dist = (W / 2) / tan(RAD_60 / 2);
+	p->dist_to_canvas = (W / 2) / tan(RAD_60 / 2);
+	p->angle_step = p->fov / W;
 }
 
 int	init_tabs(void)

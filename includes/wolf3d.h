@@ -46,7 +46,8 @@ typedef struct	s_player
 	int			size;
 	float		fov;
 	float		dir;
-	float		dist;
+	float		dist_to_canvas;
+	float		angle_step;
 	float		xmm;
 	float		ymm;
 }				t_player;

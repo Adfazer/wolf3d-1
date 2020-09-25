@@ -119,43 +119,80 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
-static float find_wall(float angle)
+static float find_horizontal_intersection(float angle)
 {
-	
 	t_point A;
 	float diffy;
 	float diffx;
-
 	//find intersection with horizontal grid
 	A.y = floorf((float)p.y / CUBE) * CUBE;
 	if (angle > RAD_0 && angle < RAD_180)
 	{
 		A.y -= 1;
-		diffy = -64;
+		diffy = -CUBE;
 	}
 	else if (angle > RAD_180 && angle < RAD_360)
 	{
 		A.y += CUBE;
-		diffy = 64;
+		diffy = CUBE;
 	}
 	else
 	{
-		diffy = 0;
 		return INT32_MAX;
 	}
 	A.x = p.x + (p.y - A.y) / tanf(angle);
-	diffx = CUBE / tanf(p.fov);
-	ft_printf("angle %f ax %d ay %d diffx %f diffy %f\n", angle, A.x, A.y, diffx, diffy);
+	diffx = CUBE / tanf(angle);
+	//ft_printf("angle %f ax %d ay %d diffx %f diffy %f\n", angle, A.x, A.y, diffx, diffy);
 	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
 	{
-		ft_printf("%d %d\n", A.x, A.y);
+		//ft_printf("%d %d\n", A.x, A.y);
 		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
 			return (fabs((p.x - A.x) / cosf(angle)));
 		A.x += diffx;
 		A.y += diffy;
 	}
 	return INT32_MAX;
+}
 
+static float find_vertical_intersection(float angle)
+{
+	t_point B;
+	float diffy;
+	float diffx;
+
+	B.x = floorf((float)p.x / CUBE) * CUBE;
+	if (angle > RAD_270 && angle < RAD_90)
+	{
+		B.x += CUBE;
+		diffx = CUBE;
+	}
+	else if (angle > RAD_90 && angle < RAD_270)
+	{
+		B.x -= 1;
+		diffx = -CUBE;
+	}
+	else
+	{
+		return INT32_MAX;
+	}
+	B.y = p.y + (p.x-B.x)*tan(angle);
+	diffy = CUBE / tanf(angle);
+	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
+	{
+		//ft_printf("%d %d\n", B.x, B.y);
+		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
+			return (fabs((p.x - B.x) / cosf(angle)));
+		B.x += diffx;
+		B.y += diffy;
+	}
+	return INT32_MAX;
+}
+
+static float find_wall(float angle)
+{
+	float a = fminf(find_horizontal_intersection(angle), find_vertical_intersection(angle));
+	ft_printf("%f\n", a);
+	return a;
 }
 
 
@@ -167,6 +204,26 @@ static void rotate(SDL_Event *event, int *x)
 		add_arc(&p.dir, 0.02);
 	*x = event->motion.x;
 	//debug_player(&p);
+}
+
+static void draw_canvas()
+{
+	int i;
+	int j;
+	float angle;
+	int slice_height;
+
+	i = -1;
+	angle = p.fov / 2;
+	while (++i < W)
+	{
+		j = -1;
+		slice_height = (H / find_wall(angle)) * p.dist_to_canvas;
+		while (++j < H)
+		{
+
+		}
+	}
 }
 
 void init_sdl(t_map *map, t_player *player)
@@ -239,6 +296,7 @@ void init_sdl(t_map *map, t_player *player)
 				}
     		}
 			
+			draw_canvas();
 			ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
 			drawOverheadMap(surface);
 			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);

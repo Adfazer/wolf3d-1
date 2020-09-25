@@ -12,5 +12,6 @@
 # define RAD_0 0
 # define RAD_90 1.5708
 # define RAD_45 0.785398
+# define RAD_270 4.71239
 
 #endif
