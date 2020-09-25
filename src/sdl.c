@@ -190,7 +190,10 @@ static float find_vertical_intersection(float angle)
 
 static float find_wall(float angle)
 {
-	float a = fminf(find_horizontal_intersection(angle), find_vertical_intersection(angle));
+	float a = fminf(
+		find_horizontal_intersection(angle),
+		find_vertical_intersection(angle)
+		);
 	ft_printf("%f\n", a);
 	return a;
 }
@@ -212,17 +215,21 @@ static void draw_canvas()
 	int j;
 	float angle;
 	int slice_height;
+	int slice_top;
 
 	i = -1;
 	angle = p.fov / 2;
 	while (++i < W)
 	{
-		j = -1;
 		slice_height = (H / find_wall(angle)) * p.dist_to_canvas;
-		while (++j < H)
+		slice_top = W / 2 - slice_height / 2;
+		ft_printf("%d %d \n", slice_top, slice_height);
+		j = slice_top;
+		while (j > slice_top - slice_height)
 		{
-
+			set_pixel(surface, dot(i, j--), 0x00ff00);
 		}
+		add_arc(&angle, p.angle_step);
 	}
 }
 
@@ -296,7 +303,7 @@ void init_sdl(t_map *map, t_player *player)
 				}
     		}
 			
-			draw_canvas();
+			//draw_canvas();
 			ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
 			drawOverheadMap(surface);
 			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
