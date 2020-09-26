@@ -119,82 +119,99 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
-static float find_horizontal_intersection(float angle)
+static int is_angle(float angle, float rad)
+{
+	//printf("%f\n", fabsf(cosf(angle) - cosf(rad)));
+	return fabsf(cosf(angle) - cosf(rad)) < KLUDGE;
+}
+
+static double find_horizontal_intersection(double angle)
 {
 	t_point A;
-	float diffy;
-	float diffx;
+	double diffy;
+	double diffx;
 	//find intersection with horizontal grid
-	A.y = floorf((float)p.y / CUBE) * CUBE;
-	if (angle > RAD_0 && angle < RAD_180)
+	if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0))
+		return INT32_MAX;
+	A.y = floorf((double)p.y / CUBE) * CUBE;
+	A.y = angle > RAD_0 && angle < RAD_180 ? A.y - 1: A.y + CUBE;
+	if (is_angle(angle, RAD_90))
 	{
-		A.y -= 1;
-		diffy = -CUBE;
-	}
-	else if (angle > RAD_180 && angle < RAD_360)
-	{
-		A.y += CUBE;
-		diffy = CUBE;
+		A.x = p.x;
+		diffx = 0;
 	}
 	else
 	{
-		return INT32_MAX;
+		A.x = p.x + (p.y - A.y) / tanf(angle);
+		diffx = CUBE / tanf(angle);
 	}
-	A.x = p.x + (p.y - A.y) / tanf(angle);
-	diffx = CUBE / tanf(angle);
-	//ft_printf("angle %f ax %d ay %d diffx %f diffy %f\n", angle, A.x, A.y, diffx, diffy);
+	diffy = angle > RAD_0 && angle < RAD_180 ? -CUBE : CUBE;
+	
+	ft_printf("angle %f ax %d ay %d diffx %f diffy %f angle/rad90\n", angle, A.x, A.y, diffx, diffy);
 	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
 	{
 		//ft_printf("%d %d\n", A.x, A.y);
 		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
+		{
+			if (is_angle(angle, RAD_90))
+				return (fabsf(p.y - A.y));
 			return (fabs((p.x - A.x) / cosf(angle)));
+		}
+			
 		A.x += diffx;
 		A.y += diffy;
+		ft_printf("here\n");
 	}
 	return INT32_MAX;
 }
 
-static float find_vertical_intersection(float angle)
+static double find_vertical_intersection(double angle)
 {
 	t_point B;
-	float diffy;
-	float diffx;
+	double diffy;
+	double diffx;
 
-	B.x = floorf((float)p.x / CUBE) * CUBE;
-	if (angle > RAD_270 && angle < RAD_90)
+	if (is_angle(angle, RAD_90))
+		return INT32_MAX;
+
+	B.x = floorf((double)p.x / CUBE) * CUBE;
+	B.x = angle > RAD_270 && angle < RAD_90 ? B.x + CUBE : B.x - 1;
+
+	if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
 	{
-		B.x += CUBE;
-		diffx = CUBE;
-	}
-	else if (angle > RAD_90 && angle < RAD_270)
-	{
-		B.x -= 1;
-		diffx = -CUBE;
+		B.y = p.y;
+		diffy = 0;
 	}
 	else
 	{
-		return INT32_MAX;
+		B.y = p.y + (p.x-B.x)*tan(angle);
+		diffy = CUBE / tanf(angle);
 	}
-	B.y = p.y + (p.x-B.x)*tan(angle);
-	diffy = CUBE / tanf(angle);
+	diffx = angle > RAD_270 && angle < RAD_90 ? -CUBE : CUBE;
+	
 	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
 	{
 		//ft_printf("%d %d\n", B.x, B.y);
 		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
+		{
+			if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
+				return (fabsf(p.x - B.x));
 			return (fabs((p.x - B.x) / cosf(angle)));
+		}
+			
 		B.x += diffx;
 		B.y += diffy;
 	}
 	return INT32_MAX;
 }
 
-static float find_wall(float angle)
+static double find_wall(double angle)
 {
-	float a = fminf(
+	double a = fminf(
 		find_horizontal_intersection(angle),
 		find_vertical_intersection(angle)
 		);
-	ft_printf("%f\n", a);
+	//ft_printf("%f\n", a);
 	return a;
 }
 
@@ -213,7 +230,7 @@ static void draw_canvas()
 {
 	int i;
 	int j;
-	float angle;
+	double angle;
 	int slice_height;
 	int slice_top;
 
@@ -319,7 +336,7 @@ void init_sdl(t_map *map, t_player *player)
 
 
 /*
-static void draw_wall(SDL_Surface *surface, float dist)
+static void draw_wall(SDL_Surface *surface, double dist)
 {
 	surface += 1;
 	dist += 1;
@@ -329,10 +346,10 @@ static void draw_wall(SDL_Surface *surface, float dist)
 /*
 void drawCanvas(SDL_Surface *surface)
 {
-	float angle = p.dir;
+	double angle = p.dir;
 	add_arc(&angle, RAD_60 / 2);
-	float angle_increment = -RAD_60 / W;
-	float dist;
+	double angle_increment = -RAD_60 / W;
+	double dist;
 	for (int i = 0; i < W; i++)
 	{
 		dist = find_wall(angle);

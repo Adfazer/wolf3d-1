@@ -11,7 +11,7 @@ t_point	dot(int x, int y)
 
 int	main()
 {
-	/*float arr[1000000];
+	/*double arr[1000000];
 	for (int i = 0; i < 1000000; i++)
 		arr[i] = cos(i);
 		*/
@@ -26,22 +26,22 @@ int	main()
 	int horizontalGrid;      // theoritically, this will be multiple of TILE_SIZE
 								 // , but some trick did here might cause
 								 // the values off by 1
-	float distToNextVerticalGrid; // how far to the next bound (this is multiple of
-	float distToNextHorizontalGrid; // tile size)
+	double distToNextVerticalGrid; // how far to the next bound (this is multiple of
+	double distToNextHorizontalGrid; // tile size)
 	int xIntersection;  // x and y intersections
 	int yIntersection;
-	float distToNextXIntersection;
-	float distToNextYIntersection;
+	double distToNextXIntersection;
+	double distToNextYIntersection;
 
 	int xGridIndex;        // the current cell that the ray is in
 	int yGridIndex;
 
-	float distToVerticalGridBeingHit;      // the distance of the x and y ray intersections from
-	float distToHorizontalGridBeingHit;      // the viewpoint
+	double distToVerticalGridBeingHit;      // the distance of the x and y ray intersections from
+	double distToHorizontalGridBeingHit;      // the viewpoint
 
 	int castArc, castColumn;
 
-	float xtemp;
+	double xtemp;
 	int debug = 1;
 
 static void print_debug()
@@ -156,7 +156,7 @@ static int check_grid(void)
 			}
 		}
 		
-		float dist;
+		double dist;
 		int xOffset;
 		int isVerticalHit=false;
 		if (distToHorizontalGridBeingHit < distToVerticalGridBeingHit)

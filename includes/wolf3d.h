@@ -44,19 +44,19 @@ typedef struct	s_player
 	int			x;
 	int			y;
 	int			size;
-	float		fov;
-	float		dir;
-	float		dist_to_canvas;
-	float		angle_step;
-	float		xmm;
-	float		ymm;
+	double		fov;
+	double		dir;
+	double		dist_to_canvas;
+	double		angle_step;
+	double		xmm;
+	double		ymm;
 }				t_player;
 
-typedef struct	s_float2
+typedef struct	s_double2
 {
-	float		x;
-	float		y;
-}				t_float2;
+	double		x;
+	double		y;
+}				t_double2;
 
 typedef struct	s_angles
 {
@@ -77,15 +77,15 @@ typedef struct	s_angles
 typedef struct	s_t
 {
 	
-	float			*sin;
-	float			*cos;
-	float			*tan;
-	float			*arcsin;
-	float			*arccos;
-	float			*arctan;
-	float			*fishTable;
-	float			*xStepTable;
-	float			*yStepTable;
+	double			*sin;
+	double			*cos;
+	double			*tan;
+	double			*arcsin;
+	double			*arccos;
+	double			*arctan;
+	double			*fishTable;
+	double			*xStepTable;
+	double			*yStepTable;
 	int				PROJECTIONPLANEWIDTH;
 	int				PROJECTIONPLANEHEIGHT;
 	int				TILE_SIZE;
@@ -109,13 +109,13 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 int		color_to_hex(int r, int g, int b);
 void init_sdl(t_map *map, t_player *player);
 t_point	dot(int x, int y);
-float arcToRad(float angle);
+double arcToRad(double angle);
 int raycast(void);
 void drawOverheadMap(SDL_Surface *surface);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
 void drawRay(SDL_Surface *surface, int x, int y);
-int	add_arc(float *arc, float to_add);
+int	add_arc(double *arc, double to_add);
 void drawCanvas(SDL_Surface *surface);
 
 /*
