@@ -2,6 +2,7 @@
 #define WOLF3D_H
 
 #include "../frameworks/SDL2.framework/Headers/SDL.h"
+//#include "../frameworks/SDL2_image.framework/Versions/A/Headers/SDL_image.h"
 //#include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 //#include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
 //#include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
@@ -123,6 +124,7 @@ void drawCanvas(SDL_Surface *surface);
 */
 int	init_tabs(void);
 void	init_player(t_player *player, t_map *map);
+int load_textures(SDL_Surface *dest);
 
 #endif
 

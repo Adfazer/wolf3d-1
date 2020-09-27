@@ -175,7 +175,7 @@ static double find_vertical_intersection(double angle)
 		return INT32_MAX;
 
 	B.x = floorf((double)p.x / CUBE) * CUBE;
-	B.x = angle > RAD_270 && angle < RAD_90 ? B.x + CUBE : B.x - 1;
+	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
 
 	if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
 	{
@@ -185,9 +185,9 @@ static double find_vertical_intersection(double angle)
 	else
 	{
 		B.y = p.y + (p.x-B.x)*tan(angle);
-		diffy = CUBE / tanf(angle);
+		diffy = CUBE * tanf(angle);
 	}
-	diffx = angle > RAD_270 && angle < RAD_90 ? -CUBE : CUBE;
+	diffx = angle > RAD_270 || angle < RAD_90 ? CUBE : -CUBE;
 	
 	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
 	{
@@ -197,8 +197,7 @@ static double find_vertical_intersection(double angle)
 			if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
 				return (fabsf(p.x - B.x));
 			return (fabs((p.x - B.x) / cosf(angle)));
-		}
-			
+		}	
 		B.x += diffx;
 		B.y += diffy;
 	}
@@ -207,6 +206,9 @@ static double find_vertical_intersection(double angle)
 
 static double find_wall(double angle)
 {
+	//double a = find_vertical_intersection(angle);
+	
+	
 	double a = fminf(
 		find_horizontal_intersection(angle),
 		find_vertical_intersection(angle)
@@ -270,6 +272,10 @@ void init_sdl(t_map *map, t_player *player)
 		drawOverheadMap(surface);
         SDL_UpdateWindowSurface(window);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
+
+		
+		
+
         bool isquit = false;
 		SDL_Event event;
 		int x = -0x7ffff;
@@ -325,13 +331,13 @@ void init_sdl(t_map *map, t_player *player)
 			drawOverheadMap(surface);
 			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
-
 			SDL_UpdateWindowSurface(window);
 			
 		}
         SDL_DestroyWindow(window);
         SDL_Quit();
 }
+
 
 
 

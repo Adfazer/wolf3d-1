@@ -20,7 +20,8 @@ ALL_C = main.c \
 		sdl.c \
 		init.c \
 		debug_print.c \
-		aux.c
+		aux.c \
+		load_textures.c
 
 SRCDIR = ./src
 OBJDIR = ./objs
@@ -38,14 +39,17 @@ COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
 FLAGS = #-Wall -Wextra -Werror
 
-SDL_INCS = -I./frameworks/SDL2.framework/Versions/A/Headers
-
-		     #-I./frameworks/SDL2_image.framework/Versions/A/Headers \
-			 #-I./frameworks/SDL2_ttf.framework/Versions/A/Headers \
-			 #-I./frameworks/SDL2_mixer.framework/Versions/A/Headers
+SDL_INCS =	-I./frameworks/SDL2.framework/Versions/A/Headers \
+			-I./frameworks/SDL2_image.framework/Versions/A/Headers \
+			-I./frameworks/SDL2_mixer.framework/Versions/A/Headers \
+			-I./frameworks/SDL2_ttf.framework/Versions/A/Headers
+			 
 FRAMEWORKS  = -F./frameworks \
 				-rpath ./frameworks \
-				-framework SDL2 # -framework SDL2_ttf -framework SDL2_image -framework SDL2_mixer
+				-framework SDL2 \
+				-framework SDL2_ttf \
+				-framework SDL2_image \
+				-framework SDL2_mixer
 
 all: $(LIBFT) $(OBJDIR) $(NAME)
 
