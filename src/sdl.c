@@ -147,7 +147,7 @@ static double find_horizontal_intersection(double angle)
 	}
 	diffy = angle > RAD_0 && angle < RAD_180 ? -CUBE : CUBE;
 	
-	ft_printf("angle %f ax %d ay %d diffx %f diffy %f angle/rad90\n", angle, A.x, A.y, diffx, diffy);
+	// ft_printf("angle %f ax %d ay %d diffx %f diffy %f angle/rad90\n", angle, A.x, A.y, diffx, diffy);
 	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
 	{
 		//ft_printf("%d %d\n", A.x, A.y);
@@ -160,7 +160,7 @@ static double find_horizontal_intersection(double angle)
 			
 		A.x += diffx;
 		A.y += diffy;
-		ft_printf("here\n");
+		// ft_printf("here\n");
 	}
 	return INT32_MAX;
 }
@@ -175,7 +175,7 @@ static double find_vertical_intersection(double angle)
 		return INT32_MAX;
 
 	B.x = floorf((double)p.x / CUBE) * CUBE;
-	B.x = angle > RAD_270 && angle < RAD_90 ? B.x + CUBE : B.x - 1;
+	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
 
 	if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
 	{
@@ -185,9 +185,9 @@ static double find_vertical_intersection(double angle)
 	else
 	{
 		B.y = p.y + (p.x-B.x)*tan(angle);
-		diffy = CUBE / tanf(angle);
+		diffy = CUBE * tanf(angle);
 	}
-	diffx = angle > RAD_270 && angle < RAD_90 ? -CUBE : CUBE;
+	diffx = angle > RAD_270 || angle < RAD_90 ? -CUBE : CUBE;
 	
 	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
 	{
@@ -205,13 +205,13 @@ static double find_vertical_intersection(double angle)
 	return INT32_MAX;
 }
 
-static double find_wall(double angle)
+double find_wall(double angle)
 {
 	double a = fminf(
 		find_horizontal_intersection(angle),
 		find_vertical_intersection(angle)
 		);
-	//ft_printf("%f\n", a);
+	// ft_printf("%f\n", a);
 	return a;
 }
 
@@ -321,8 +321,10 @@ void init_sdl(t_map *map, t_player *player)
     		}
 			
 			//draw_canvas();
-			ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
+			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
 			drawOverheadMap(surface);
+			all_get_distance(map, player);
+			pseudo_3d(player);
 			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
 

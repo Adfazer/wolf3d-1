@@ -41,15 +41,17 @@ typedef struct	s_map
 
 typedef struct	s_player
 {
-	int			x;
+	int			x; 
 	int			y;
 	int			size;
 	double		fov;
-	double		dir;
+	double		dir; //direction - куда смотрит, в радианах
 	double		dist_to_canvas;
 	double		angle_step;
 	double		xmm;
 	double		ymm;
+	float		visibility; // то сколько видит игрок максимум
+	float		distance[W]; // измеренное расстояние до стены
 }				t_player;
 
 typedef struct	s_double2
@@ -123,6 +125,12 @@ void drawCanvas(SDL_Surface *surface);
 */
 int	init_tabs(void);
 void	init_player(t_player *player, t_map *map);
+
+//skaren
+void    all_get_distance(t_map *map, t_player *player);
+void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
+void	pseudo_3d(t_player *player);
+double find_wall(double angle);
 
 #endif
 
