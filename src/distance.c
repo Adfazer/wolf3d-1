@@ -19,7 +19,8 @@ void    all_get_distance(t_map *map, t_player *player)
         x = player->visibility * cos(i); // икс координа конца луча
         // printf("%f--x\n%f--y\n", x, y);
         player->distance[count_distance] = find_wall(i) * cos(cos_agle);
-		// get_distance(map,player, -y, x, fabs(cos_agle), count_distance);
+		//get_distance(map,player, -y, x, fabs(cos_agle), count_distance);
+		// 
 		cos_agle -= step; // косинус используемый для домнажения на длину против эффекта аквариума берем по модулю т.к. в 2 стороны от центра обзора
 		i += step; // следующий угол после самого правого луча
         // ft_printf("%f--mydis\n", player->distance[count_distance]);
@@ -59,7 +60,7 @@ void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos
             // int color = 255 << 16;
             // point.x = (int)x;
             // point.y = (int)y;
-			player->distance[count_distance] = 0.0;
+			player->distance[count_distance] = 0;
             // set_pixel(surface, point, color);
 			// if (data->player.map_view == 1) // убрать отображение лучей 
 			// 	data->img_data[(int)y * data->w + (int)x] = data->color;

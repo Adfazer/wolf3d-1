@@ -48,7 +48,7 @@ void drawOverheadMap(SDL_Surface *surface)
 {
 	map.minimap_width = 5;
 	int p_size = 20;
-	drawBackground(surface);
+	
 	draw_rectangle(surface, map.mm_start,
 	dot(map.mm_cube.x * map.w, map.mm_cube.y * map.h), 
 	color_to_hex(121,121,121));
@@ -69,6 +69,7 @@ void drawOverheadMap(SDL_Surface *surface)
 		dot(p.x / map.mm.x + map.mm_start.x - PLAYER_MM_SIZE, p.y / map.mm.y + map.mm_start.y - PLAYER_MM_SIZE),
 		dot(p_size / map.mm.x + PLAYER_MM_SIZE, p_size / map.mm.y + PLAYER_MM_SIZE), 
 		color_to_hex(255,255,255));
+	drawRay(surface, p.x / map.mm.x + map.mm_start.x, p.y / map.mm.y + map.mm_start.y);
 }
 
 
@@ -135,6 +136,7 @@ static double find_horizontal_intersection(double angle)
 		return INT32_MAX;
 	A.y = floorf((double)p.y / CUBE) * CUBE;
 	A.y = angle > RAD_0 && angle < RAD_180 ? A.y - 1: A.y + CUBE;
+	/*
 	if (is_angle(angle, RAD_90))
 	{
 		A.x = p.x;
@@ -142,9 +144,11 @@ static double find_horizontal_intersection(double angle)
 	}
 	else
 	{
-		A.x = p.x + (p.y - A.y) / tanf(angle);
-		diffx = CUBE / tanf(angle);
-	}
+		*/
+		A.x = p.x + (p.y - A.y) / tan(angle);
+		diffx = CUBE / tan(angle);
+		
+	//}
 	diffy = angle > RAD_0 && angle < RAD_180 ? -CUBE : CUBE;
 	
 	// ft_printf("angle %f ax %d ay %d diffx %f diffy %f angle/rad90\n", angle, A.x, A.y, diffx, diffy);
@@ -153,9 +157,13 @@ static double find_horizontal_intersection(double angle)
 		//ft_printf("%d %d\n", A.x, A.y);
 		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
 		{
+			return sqrt(pow((p.x - A.x), 2) + pow((p.y - A.y), 2));
+			//return (sin(angle) == 0 ? abs(p.x - A.x) / cos(angle) : abs(p.y - A.y) / sin(angle));
+			/*
 			if (is_angle(angle, RAD_90))
 				return (fabsf(p.y - A.y));
 			return (fabs((p.x - A.x) / cosf(angle)));
+			*/
 		}
 			
 		A.x += diffx;
@@ -174,9 +182,10 @@ static double find_vertical_intersection(double angle)
 	if (is_angle(angle, RAD_90))
 		return INT32_MAX;
 
-	B.x = floorf((double)p.x / CUBE) * CUBE;
+	B.x = floor((double)p.x / CUBE) * CUBE;
 	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
 
+/*
 	if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
 	{
 		B.y = p.y;
@@ -184,9 +193,10 @@ static double find_vertical_intersection(double angle)
 	}
 	else
 	{
-		B.y = p.y + (p.x-B.x)*tan(angle);
-		diffy = CUBE * tanf(angle);
-	}
+		*/
+		B.y = p.y + (p.x - B.x) * tan(angle);
+		diffy = CUBE * tan(angle);
+	//}
 	diffx = angle > RAD_270 || angle < RAD_90 ? -CUBE : CUBE;
 	
 	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
@@ -194,11 +204,14 @@ static double find_vertical_intersection(double angle)
 		//ft_printf("%d %d\n", B.x, B.y);
 		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
 		{
+			//return (sin(angle) == 0 ? abs(p.x - B.x) / cos(angle) : abs(p.y - B.y) sin(angle));
+			return sqrt(pow((p.x - B.x), 2) + pow((p.y - B.y), 2));
+			/*
 			if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
 				return (fabsf(p.x - B.x));
 			return (fabs((p.x - B.x) / cosf(angle)));
+			*/
 		}
-			
 		B.x += diffx;
 		B.y += diffy;
 	}
@@ -224,30 +237,6 @@ static void rotate(SDL_Event *event, int *x)
 		add_arc(&p.dir, 0.02);
 	*x = event->motion.x;
 	//debug_player(&p);
-}
-
-static void draw_canvas()
-{
-	int i;
-	int j;
-	double angle;
-	int slice_height;
-	int slice_top;
-
-	i = -1;
-	angle = p.fov / 2;
-	while (++i < W)
-	{
-		slice_height = (H / find_wall(angle)) * p.dist_to_canvas;
-		slice_top = W / 2 - slice_height / 2;
-		ft_printf("%d %d \n", slice_top, slice_height);
-		j = slice_top;
-		while (j > slice_top - slice_height)
-		{
-			set_pixel(surface, dot(i, j--), 0x00ff00);
-		}
-		add_arc(&angle, p.angle_step);
-	}
 }
 
 void init_sdl(t_map *map, t_player *player)
@@ -312,9 +301,9 @@ void init_sdl(t_map *map, t_player *player)
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{
 						if (event.key.keysym.sym == SDLK_RIGHT)
-							add_arc(&p.dir, -RAD_45);
+							add_arc(&p.dir, -RAD_1);
 						if (event.key.keysym.sym == SDLK_LEFT)
-							add_arc(&p.dir, RAD_45);
+							add_arc(&p.dir, RAD_1);
 					}
 
 				}
@@ -322,10 +311,14 @@ void init_sdl(t_map *map, t_player *player)
 			
 			//draw_canvas();
 			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
-			drawOverheadMap(surface);
+			
+			drawBackground(surface);
 			all_get_distance(map, player);
 			pseudo_3d(player);
-			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
+			drawOverheadMap(surface);
+			
+			//printf("%f\n", find_wall(player->dir));
+			ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
 
 			SDL_UpdateWindowSurface(window);
