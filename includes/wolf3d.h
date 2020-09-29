@@ -128,7 +128,7 @@ void	init_player(t_player *player, t_map *map);
 
 //skaren
 void    all_get_distance(t_map *map, t_player *player);
-void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
+// void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
 void	pseudo_3d(t_player *player);
 double find_wall(double angle);
 

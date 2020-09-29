@@ -132,43 +132,43 @@ static double find_horizontal_intersection(double angle)
 	double diffy;
 	double diffx;
 	//find intersection with horizontal grid
-	if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0))
+	if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0) || is_angle(angle, RAD_360))
 		return INT32_MAX;
 	A.y = floorf((double)p.y / CUBE) * CUBE;
 	A.y = angle > RAD_0 && angle < RAD_180 ? A.y - 1: A.y + CUBE;
-	/*
-	if (is_angle(angle, RAD_90))
-	{
-		A.x = p.x;
-		diffx = 0;
-	}
-	else
-	{
-		*/
-		A.x = p.x + (p.y - A.y) / tan(angle);
-		diffx = CUBE / tan(angle);
+	A.x = p.x + (p.y - A.y) / tanf(angle);
+	diffx = CUBE / tanf(angle);
 		
-	//}
-	diffy = angle > RAD_0 && angle < RAD_180 ? -CUBE : CUBE;
+	if (angle > RAD_270 && angle < RAD_360) // 4
+	{
+		diffx = -diffx;
+		diffy = CUBE;
+	}
+	else if (angle > RAD_90 && angle < RAD_180) // 1
+	{
+		diffx = diffx;
+		diffy = -CUBE;
+	}
+	else if (angle > RAD_0 && angle < RAD_90) // 2
+	{
+		diffx = diffx;
+		diffy = -CUBE;
+	}
+	else/* if (angle > RAD_180 && angle < RAD_270)*/ // 3
+	{
+		diffx = -diffx;
+		diffy = CUBE;
+	}
 	
-	// ft_printf("angle %f ax %d ay %d diffx %f diffy %f angle/rad90\n", angle, A.x, A.y, diffx, diffy);
 	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
 	{
-		//ft_printf("%d %d\n", A.x, A.y);
 		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
 		{
-			return sqrt(pow((p.x - A.x), 2) + pow((p.y - A.y), 2));
-			//return (sin(angle) == 0 ? abs(p.x - A.x) / cos(angle) : abs(p.y - A.y) / sin(angle));
-			/*
-			if (is_angle(angle, RAD_90))
-				return (fabsf(p.y - A.y));
-			return (fabs((p.x - A.x) / cosf(angle)));
-			*/
+			float tmp = sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2));
+			return tmp;
 		}
-			
 		A.x += diffx;
 		A.y += diffy;
-		// ft_printf("here\n");
 	}
 	return INT32_MAX;
 }
@@ -179,38 +179,41 @@ static double find_vertical_intersection(double angle)
 	double diffy;
 	double diffx;
 
-	if (is_angle(angle, RAD_90))
+	if (is_angle(angle, RAD_90) || is_angle(angle, RAD_270))
 		return INT32_MAX;
 
-	B.x = floor((double)p.x / CUBE) * CUBE;
+	B.x = floorf((double)p.x / CUBE) * CUBE;
 	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
+	B.y = p.y + (p.x - B.x) * tanf(angle);
+	diffy = CUBE * tanf(angle);
 
-/*
-	if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
+	if (angle > RAD_270 && angle < RAD_360) // 4
 	{
-		B.y = p.y;
-		diffy = 0;
+		diffy = -diffy;
+		diffx = CUBE;
 	}
-	else
+	else if (angle > RAD_90 && angle < RAD_180) // 1
 	{
-		*/
-		B.y = p.y + (p.x - B.x) * tan(angle);
-		diffy = CUBE * tan(angle);
-	//}
-	diffx = angle > RAD_270 || angle < RAD_90 ? -CUBE : CUBE;
+		diffy = diffy;
+		diffx = -CUBE;
+	}
+	else if (angle > RAD_0 && angle < RAD_90) // 2
+	{
+		diffy = -diffy;
+		diffx = CUBE;
+	}
+	else/* if (angle > RAD_180 && angle < RAD_270) */// 3
+	{
+		diffy = diffy;
+		diffx = -CUBE;		
+	}
 	
 	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
 	{
-		//ft_printf("%d %d\n", B.x, B.y);
 		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
 		{
-			//return (sin(angle) == 0 ? abs(p.x - B.x) / cos(angle) : abs(p.y - B.y) sin(angle));
-			return sqrt(pow((p.x - B.x), 2) + pow((p.y - B.y), 2));
-			/*
-			if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
-				return (fabsf(p.x - B.x));
-			return (fabs((p.x - B.x) / cosf(angle)));
-			*/
+			float tmp = sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2));
+			return tmp;
 		}
 		B.x += diffx;
 		B.y += diffy;
@@ -318,7 +321,7 @@ void init_sdl(t_map *map, t_player *player)
 			drawOverheadMap(surface);
 			
 			//printf("%f\n", find_wall(player->dir));
-			ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
+			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
 
 			SDL_UpdateWindowSurface(window);

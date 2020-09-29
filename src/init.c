@@ -15,7 +15,7 @@ void	init_player(t_player *p, t_map *map)
 	p->size = 20;
 	p->dist_to_canvas = (W / 2) / tan(RAD_60 / 2);
 	p->angle_step = p->fov / W;
-	p->visibility = 512.0f;
+	// p->visibility = 512.0f;
 }
 
 int	init_tabs(void)
