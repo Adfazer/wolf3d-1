@@ -13,7 +13,7 @@ int	main()
 {
 	init_map(&map);
 	//init_tabs();
-	load_textures(surface);
+	//load_textures(surface);
 	init_player(&p, &map);
 	init_sdl(&map, &p);
 	return (0);
