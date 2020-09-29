@@ -30,4 +30,11 @@
 # define RAD_90 1.570800f
 # define RAD_45 0.785398f
 # define RAD_270 4.71239f
+
+# define TEXTURE_PATH "small_tex.bmp"
+
+# define RMASK 0x000000ff
+# define GMASK 0x0000ff00
+# define BMASK 0x00ff0000
+# define AMASK 0xff000000
 #endif
