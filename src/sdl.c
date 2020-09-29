@@ -48,7 +48,7 @@ void drawOverheadMap(SDL_Surface *surface)
 {
 	map.minimap_width = 5;
 	int p_size = 20;
-	drawBackground(surface);
+	
 	draw_rectangle(surface, map.mm_start,
 	dot(map.mm_cube.x * map.w, map.mm_cube.y * map.h), 
 	color_to_hex(121,121,121));
@@ -69,6 +69,7 @@ void drawOverheadMap(SDL_Surface *surface)
 		dot(p.x / map.mm.x + map.mm_start.x - PLAYER_MM_SIZE, p.y / map.mm.y + map.mm_start.y - PLAYER_MM_SIZE),
 		dot(p_size / map.mm.x + PLAYER_MM_SIZE, p_size / map.mm.y + PLAYER_MM_SIZE), 
 		color_to_hex(255,255,255));
+	drawRay(surface, p.x / map.mm.x + map.mm_start.x, p.y / map.mm.y + map.mm_start.y);
 }
 
 
@@ -131,36 +132,43 @@ static double find_horizontal_intersection(double angle)
 	double diffy;
 	double diffx;
 	//find intersection with horizontal grid
-	if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0))
+	if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0) || is_angle(angle, RAD_360))
 		return INT32_MAX;
 	A.y = floorf((double)p.y / CUBE) * CUBE;
 	A.y = angle > RAD_0 && angle < RAD_180 ? A.y - 1: A.y + CUBE;
-	if (is_angle(angle, RAD_90))
+	A.x = p.x + (p.y - A.y) / tanf(angle);
+	diffx = CUBE / tanf(angle);
+		
+	if (angle > RAD_270 && angle < RAD_360) // 4
 	{
-		A.x = p.x;
-		diffx = 0;
+		diffx = -diffx;
+		diffy = CUBE;
 	}
-	else
+	else if (angle > RAD_90 && angle < RAD_180) // 1
 	{
-		A.x = p.x + (p.y - A.y) / tanf(angle);
-		diffx = CUBE / tanf(angle);
+		diffx = diffx;
+		diffy = -CUBE;
 	}
-	diffy = angle > RAD_0 && angle < RAD_180 ? -CUBE : CUBE;
+	else if (angle > RAD_0 && angle < RAD_90) // 2
+	{
+		diffx = diffx;
+		diffy = -CUBE;
+	}
+	else/* if (angle > RAD_180 && angle < RAD_270)*/ // 3
+	{
+		diffx = -diffx;
+		diffy = CUBE;
+	}
 	
-	ft_printf("angle %f ax %d ay %d diffx %f diffy %f angle/rad90\n", angle, A.x, A.y, diffx, diffy);
 	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
 	{
-		//ft_printf("%d %d\n", A.x, A.y);
 		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
 		{
-			if (is_angle(angle, RAD_90))
-				return (fabsf(p.y - A.y));
-			return (fabs((p.x - A.x) / cosf(angle)));
+			float tmp = sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2));
+			return tmp;
 		}
-			
 		A.x += diffx;
 		A.y += diffy;
-		ft_printf("here\n");
 	}
 	return INT32_MAX;
 }
@@ -171,49 +179,55 @@ static double find_vertical_intersection(double angle)
 	double diffy;
 	double diffx;
 
-	if (is_angle(angle, RAD_90))
+	if (is_angle(angle, RAD_90) || is_angle(angle, RAD_270))
 		return INT32_MAX;
 
 	B.x = floorf((double)p.x / CUBE) * CUBE;
 	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
+	B.y = p.y + (p.x - B.x) * tanf(angle);
+	diffy = CUBE * tanf(angle);
 
-	if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
+	if (angle > RAD_270 && angle < RAD_360) // 4
 	{
-		B.y = p.y;
-		diffy = 0;
+		diffy = -diffy;
+		diffx = CUBE;
 	}
-	else
+	else if (angle > RAD_90 && angle < RAD_180) // 1
 	{
-		B.y = p.y + (p.x-B.x)*tan(angle);
-		diffy = CUBE * tanf(angle);
+		diffy = diffy;
+		diffx = -CUBE;
 	}
-	diffx = angle > RAD_270 || angle < RAD_90 ? CUBE : -CUBE;
+	else if (angle > RAD_0 && angle < RAD_90) // 2
+	{
+		diffy = -diffy;
+		diffx = CUBE;
+	}
+	else/* if (angle > RAD_180 && angle < RAD_270) */// 3
+	{
+		diffy = diffy;
+		diffx = -CUBE;		
+	}
 	
 	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
 	{
-		//ft_printf("%d %d\n", B.x, B.y);
 		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
 		{
-			if (is_angle(angle, RAD_0) || is_angle(angle, RAD_180))
-				return (fabsf(p.x - B.x));
-			return (fabs((p.x - B.x) / cosf(angle)));
-		}	
+			float tmp = sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2));
+			return tmp;
+		}
 		B.x += diffx;
 		B.y += diffy;
 	}
 	return INT32_MAX;
 }
 
-static double find_wall(double angle)
+double find_wall(double angle)
 {
-	//double a = find_vertical_intersection(angle);
-	
-	
 	double a = fminf(
 		find_horizontal_intersection(angle),
 		find_vertical_intersection(angle)
 		);
-	//ft_printf("%f\n", a);
+	// ft_printf("%f\n", a);
 	return a;
 }
 
@@ -226,30 +240,6 @@ static void rotate(SDL_Event *event, int *x)
 		add_arc(&p.dir, 0.02);
 	*x = event->motion.x;
 	//debug_player(&p);
-}
-
-static void draw_canvas()
-{
-	int i;
-	int j;
-	double angle;
-	int slice_height;
-	int slice_top;
-
-	i = -1;
-	angle = p.fov / 2;
-	while (++i < W)
-	{
-		slice_height = (H / find_wall(angle)) * p.dist_to_canvas;
-		slice_top = W / 2 - slice_height / 2;
-		ft_printf("%d %d \n", slice_top, slice_height);
-		j = slice_top;
-		while (j > slice_top - slice_height)
-		{
-			set_pixel(surface, dot(i, j--), 0x00ff00);
-		}
-		add_arc(&angle, p.angle_step);
-	}
 }
 
 void init_sdl(t_map *map, t_player *player)
@@ -266,16 +256,21 @@ void init_sdl(t_map *map, t_player *player)
     if (!window)
         printf("window error\n");
     
+	Uint32 startTime = 0;
+    Uint32 endTime = 0;
+    Uint32 delta = 0;
+    short fps = 60;
+    short timePerFrame = 16; // miliseconds
+    
+    
+
+
     surface = NULL;
     
     surface = SDL_GetWindowSurface(window);
 		drawOverheadMap(surface);
         SDL_UpdateWindowSurface(window);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
-
-		
-		
-
         bool isquit = false;
 		SDL_Event event;
 		int x = -0x7ffff;
@@ -318,26 +313,56 @@ void init_sdl(t_map *map, t_player *player)
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{
 						if (event.key.keysym.sym == SDLK_RIGHT)
-							add_arc(&p.dir, -RAD_45);
+							add_arc(&p.dir, -RAD_1);
 						if (event.key.keysym.sym == SDLK_LEFT)
-							add_arc(&p.dir, RAD_45);
+							add_arc(&p.dir, RAD_1);
 					}
 
 				}
     		}
+
+			if (!startTime) {
+            // get the time in ms passed from the moment the program started
+            startTime = SDL_GetTicks(); 
+			} else {
+				delta = endTime - startTime; // how many ms for a frame
+			}
+        
+  
+			// if less than 16ms, delay 
+			if (delta < timePerFrame) {
+				SDL_Delay(timePerFrame - delta);
+			}
+        
+			// if delta is bigger than 16ms between frames, get the actual fps
+			if (delta > timePerFrame) {
+				fps = 1000 / delta;
+			}
+			if (SHOW_FPS)
+        		printf("FPS is: %i \n", fps);
+		
+        
+        startTime = endTime;
+        endTime = SDL_GetTicks();
 			
 			//draw_canvas();
-			ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
+			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
+			
+			drawBackground(surface);
+			all_get_distance(map, player);
+			pseudo_3d(player);
 			drawOverheadMap(surface);
-			drawRay(surface, p.x / map->mm.x + map->mm_start.x, p.y / map->mm.y + map->mm_start.y);
+			
+			//printf("%f\n", find_wall(player->dir));
+			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
+
 			SDL_UpdateWindowSurface(window);
 			
 		}
         SDL_DestroyWindow(window);
         SDL_Quit();
 }
-
 
 
 

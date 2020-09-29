@@ -3,4 +3,3 @@ objs
 wolf3d
 libft/*/*.o
 *.o
-

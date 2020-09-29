@@ -12,21 +12,7 @@
 # include <math.h>
 # include "const.h"
 
-# define CHARSET " *012S"
-# define INTBUF_INIT_SIZE 64
-# define INTBUF_RESIZE_COEF 4
-# define MAP_MAX_SIZE 2048
-# define MAP_MIN_SIZE 16
-# define MAP_MIN_ROW_NUM 3
-# define MAP_MIN_COL_NUM 4
-# define MAP_FILEPATH "map.txt"
 
-# define TEX_BORDER '*'
-# define TEX_FLOOR ' '
-
-# define W 512
-# define H 512
-# define CUBE 64
 
 typedef struct	s_map
 {
@@ -42,15 +28,17 @@ typedef struct	s_map
 
 typedef struct	s_player
 {
-	int			x;
+	int			x; 
 	int			y;
 	int			size;
 	double		fov;
-	double		dir;
+	double		dir; //direction - куда смотрит, в радианах
 	double		dist_to_canvas;
 	double		angle_step;
 	double		xmm;
 	double		ymm;
+	float		visibility; // то сколько видит игрок максимум
+	float		distance[W]; // измеренное расстояние до стены
 }				t_player;
 
 typedef struct	s_double2
@@ -125,6 +113,13 @@ void drawCanvas(SDL_Surface *surface);
 int	init_tabs(void);
 void	init_player(t_player *player, t_map *map);
 int load_textures(SDL_Surface *dest);
+
+//skaren
+void    all_get_distance(t_map *map, t_player *player);
+// void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
+void	pseudo_3d(t_player *player);
+double find_wall(double angle);
+int fps(void);
 
 #endif
 

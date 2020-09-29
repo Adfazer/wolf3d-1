@@ -21,7 +21,9 @@ ALL_C = main.c \
 		init.c \
 		debug_print.c \
 		aux.c \
-		load_textures.c
+		load_textures.c \
+		distance.c \
+		pseudo_3d.c
 
 SRCDIR = ./src
 OBJDIR = ./objs
@@ -37,7 +39,7 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -g -ffast-math -O3 #-Wall -Wextra -Werror
 
 SDL_INCS =	-I./frameworks/SDL2.framework/Versions/A/Headers \
 			-I./frameworks/SDL2_image.framework/Versions/A/Headers \

@@ -17,4 +17,3 @@ int	main()
 	init_player(&p, &map);
 	init_sdl(&map, &p);
 	return (0);
-}
