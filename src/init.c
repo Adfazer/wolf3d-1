@@ -3,8 +3,9 @@
 void	init_player(t_player *p, t_map *map)
 {
 	ft_bzero(p, sizeof(t_player));
-	p->x = 100;
-	p->y = 100;
+	p->x = 100.0;
+	p->y = 100.0;
+	p->speed = 3.0;
 	
 	p->xmm = p->x / map->mm.x + map->mm_start.x;
 	p->ymm = p->y / map->mm.y + map->mm_start.y;

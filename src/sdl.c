@@ -290,25 +290,29 @@ void init_sdl(t_map *map, t_player *player)
 					isquit = event.key.keysym.sym == SDLK_ESCAPE ? true : isquit;
 					if (event.key.keysym.sym == SDLK_d)
 					{
-						p.x += CUBE;
-						p.x = p.x > CUBE * map->w - 1? CUBE * map->w - 1 : p.x;
+						p.y += p.speed * sinf(p.dir + RAD_90);
+						p.x -= p.speed * cosf(p.dir + RAD_90);
+						// p.x = p.x > CUBE * map->w - 1? CUBE * map->w - 1 : p.x;
 						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_a)
 					{
-						p.x -= CUBE;
-						p.x = p.x < 0 ? 0 : p.x;
+						p.y += p.speed * sinf(p.dir - RAD_90);
+						p.x -= p.speed * cosf(p.dir - RAD_90);
+						// p.x = p.x < 0 ? 0 : p.x;
 						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 					{
-						p.y += CUBE;
-						p.y = p.y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p.y;
+						p.y += p.speed * sinf(p.dir);
+						p.x -= p.speed * cosf(p.dir);
+						// p.y = p.y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p.y;
 					}
 					if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 					{
-						p.y -= CUBE;
-						p.y = p.y < 0 ? 0 : p.y;
+						p.y -= p.speed * sinf(p.dir);
+						p.x += p.speed * cosf(p.dir);
+						// p.y = p.y < 0 ? 0 : p.y;
 					}
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{

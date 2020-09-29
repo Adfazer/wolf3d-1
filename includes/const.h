@@ -2,7 +2,7 @@
 # define CONST_H
 
 # define DEBUG 1
-# define SHOW_FPS 1
+# define SHOW_FPS 0
 
 # define CHARSET " *012S"
 # define INTBUF_INIT_SIZE 64

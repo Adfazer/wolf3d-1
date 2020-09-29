@@ -28,8 +28,9 @@ typedef struct	s_map
 
 typedef struct	s_player
 {
-	int			x; 
-	int			y;
+	float		x; 
+	float		y;
+	float		speed;
 	int			size;
 	double		fov;
 	double		dir; //direction - куда смотрит, в радианах
