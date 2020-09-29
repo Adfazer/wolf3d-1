@@ -11,21 +11,7 @@
 # include <math.h>
 # include "const.h"
 
-# define CHARSET " *012S"
-# define INTBUF_INIT_SIZE 64
-# define INTBUF_RESIZE_COEF 4
-# define MAP_MAX_SIZE 2048
-# define MAP_MIN_SIZE 16
-# define MAP_MIN_ROW_NUM 3
-# define MAP_MIN_COL_NUM 4
-# define MAP_FILEPATH "map.txt"
 
-# define TEX_BORDER '*'
-# define TEX_FLOOR ' '
-
-# define W 512
-# define H 512
-# define CUBE 64
 
 typedef struct	s_map
 {
@@ -131,6 +117,7 @@ void    all_get_distance(t_map *map, t_player *player);
 // void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
 void	pseudo_3d(t_player *player);
 double find_wall(double angle);
+int fps(void);
 
 #endif
 

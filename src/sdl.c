@@ -256,6 +256,15 @@ void init_sdl(t_map *map, t_player *player)
     if (!window)
         printf("window error\n");
     
+	Uint32 startTime = 0;
+    Uint32 endTime = 0;
+    Uint32 delta = 0;
+    short fps = 60;
+    short timePerFrame = 16; // miliseconds
+    
+    
+
+
     surface = NULL;
     
     surface = SDL_GetWindowSurface(window);
@@ -311,6 +320,30 @@ void init_sdl(t_map *map, t_player *player)
 
 				}
     		}
+
+			if (!startTime) {
+            // get the time in ms passed from the moment the program started
+            startTime = SDL_GetTicks(); 
+			} else {
+				delta = endTime - startTime; // how many ms for a frame
+			}
+        
+  
+			// if less than 16ms, delay 
+			if (delta < timePerFrame) {
+				SDL_Delay(timePerFrame - delta);
+			}
+        
+			// if delta is bigger than 16ms between frames, get the actual fps
+			if (delta > timePerFrame) {
+				fps = 1000 / delta;
+			}
+			if (SHOW_FPS)
+        		printf("FPS is: %i \n", fps);
+		
+        
+        startTime = endTime;
+        endTime = SDL_GetTicks();
 			
 			//draw_canvas();
 			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
