@@ -141,22 +141,22 @@ static double find_horizontal_intersection(double angle)
 		
 	if (angle > RAD_270 && angle < RAD_360) // 4
 	{
-		diffx = -diffx;
+		diffx = ceilf(-diffx);
 		diffy = CUBE;
 	}
-	else if (angle > RAD_90 && angle < RAD_180) // 1
+	else if (angle > RAD_90 && angle < RAD_180) // --1
 	{
 		diffx = diffx;
 		diffy = -CUBE;
 	}
 	else if (angle > RAD_0 && angle < RAD_90) // 2
 	{
-		diffx = diffx;
+		diffx = ceilf(diffx);
 		diffy = -CUBE;
 	}
 	else/* if (angle > RAD_180 && angle < RAD_270)*/ // 3
 	{
-		diffx = -diffx;
+		diffx = ceilf(-diffx);
 		diffy = CUBE;
 	}
 	
@@ -164,8 +164,9 @@ static double find_horizontal_intersection(double angle)
 	{
 		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
 		{
-			float tmp = sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2));
-			return tmp;
+			 return (sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2)));
+			// float tmp = sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2));
+			// return tmp;
 		}
 		A.x += diffx;
 		A.y += diffy;
@@ -189,22 +190,22 @@ static double find_vertical_intersection(double angle)
 
 	if (angle > RAD_270 && angle < RAD_360) // 4
 	{
-		diffy = -diffy;
+		diffy = ceilf(-diffy);
 		diffx = CUBE;
 	}
-	else if (angle > RAD_90 && angle < RAD_180) // 1
+	else if (angle > RAD_90 && angle < RAD_180) // --1
 	{
 		diffy = diffy;
 		diffx = -CUBE;
 	}
 	else if (angle > RAD_0 && angle < RAD_90) // 2
 	{
-		diffy = -diffy;
+		diffy = ceilf(-diffy);
 		diffx = CUBE;
 	}
 	else/* if (angle > RAD_180 && angle < RAD_270) */// 3
 	{
-		diffy = diffy;
+		diffy = ceilf(diffy);
 		diffx = -CUBE;		
 	}
 	
@@ -212,8 +213,9 @@ static double find_vertical_intersection(double angle)
 	{
 		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
 		{
-			float tmp = sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2));
-			return tmp;
+			 return (sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2)));
+			// float tmp = sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2));
+			// return tmp;
 		}
 		B.x += diffx;
 		B.y += diffy;

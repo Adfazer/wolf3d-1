@@ -38,8 +38,7 @@ typedef struct	s_player
 	double		angle_step;
 	double		xmm;
 	double		ymm;
-	float		visibility; // то сколько видит игрок максимум
-	float		distance[W]; // измеренное расстояние до стены
+	float		distance[W + 1]; // измеренное расстояние до стены
 }				t_player;
 
 typedef struct	s_double2
