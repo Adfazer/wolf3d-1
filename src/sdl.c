@@ -130,6 +130,16 @@ static void rotate(SDL_Event *event, int *x)
 	//debug_player(&p);
 }
 
+void	calc_move(t_player *p, double dy, double dx)
+{
+	if ((int)p->x / CUBE != (int)p->x / CUBE || (int)p->y / CUBE != (int)p->y / CUBE)
+	{
+		;
+	}
+	p->x += dx;
+	p->y += dy;
+}
+
 void init_sdl(t_map *map, t_player *player)
 {
 	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
@@ -178,28 +188,32 @@ void init_sdl(t_map *map, t_player *player)
 					isquit = event.key.keysym.sym == SDLK_ESCAPE ? true : isquit;
 					if (event.key.keysym.sym == SDLK_d)
 					{
-						p.y += p.speed * sinf(p.dir + RAD_90);
-						p.x -= p.speed * cosf(p.dir + RAD_90);
+						calc_move(&p, p.speed * sinf(p.dir + RAD_90), -(p.speed * cosf(p.dir + RAD_90)));
+						//p.y += p.speed * sinf(p.dir + RAD_90);
+						//p.x -= p.speed * cosf(p.dir + RAD_90);
 						// p.x = p.x > CUBE * map->w - 1? CUBE * map->w - 1 : p.x;
 						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_a)
 					{
-						p.y += p.speed * sinf(p.dir - RAD_90);
-						p.x -= p.speed * cosf(p.dir - RAD_90);
+						calc_move(&p, p.speed * sinf(p.dir - RAD_90), -(p.speed * cosf(p.dir - RAD_90)));
+						//p.y += p.speed * sinf(p.dir - RAD_90);
+						//p.x -= p.speed * cosf(p.dir - RAD_90);
 						// p.x = p.x < 0 ? 0 : p.x;
 						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 					{
-						p.y += p.speed * sinf(p.dir);
-						p.x -= p.speed * cosf(p.dir);
+						calc_move(&p, p.speed * sinf(p.dir), -(p.speed * cosf(p.dir)));
+						//p.y += p.speed * sinf(p.dir);
+						//p.x -= p.speed * cosf(p.dir);
 						// p.y = p.y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p.y;
 					}
 					if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 					{
-						p.y -= p.speed * sinf(p.dir);
-						p.x += p.speed * cosf(p.dir);
+						calc_move(&p, -(p.speed * sinf(p.dir)), p.speed * cosf(p.dir));
+						//p.y -= p.speed * sinf(p.dir);
+						//p.x += p.speed * cosf(p.dir);
 						// p.y = p.y < 0 ? 0 : p.y;
 					}
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
