@@ -47,6 +47,12 @@ typedef struct	s_double2
 	double		y;
 }				t_double2;
 
+typedef struct	s_float2
+{
+	float		x;
+	float		y;
+}				t_float2;
+
 typedef struct	s_angles
 {
 	int a0;

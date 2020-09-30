@@ -196,7 +196,7 @@ void init_sdl(t_map *map, t_player *player)
 			draw_minimap(surface);
 			
 			//printf("%f\n", find_wall(player->dir));
-			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
+			// ft_printf("%f dist %f dir\n", dist_to_wall(player->dir), p.dir);
 			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
 
 			SDL_UpdateWindowSurface(window);

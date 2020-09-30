@@ -40,7 +40,7 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
-FLAGS = -g -ffast-math -O3 #-Wall -Wextra -Werror
+FLAGS = -g #-ffast-math -O3 #-Wall -Wextra -Werror
 
 SDL_INCS =	-I./frameworks/SDL2.framework/Versions/A/Headers \
 			-I./frameworks/SDL2_image.framework/Versions/A/Headers \
