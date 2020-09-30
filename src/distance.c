@@ -1,5 +1,11 @@
 #include "../includes/wolf3d.h"
 
+int is_angle(float angle, float rad)
+{
+	//printf("%f\n", fabsf(cosf(angle) - cosf(rad)));
+	return fabsf(cosf(angle) - cosf(rad)) < KLUDGE;
+}
+
 void    all_get_distance(t_map *map, t_player *player)
 {
 	float			i;
@@ -24,4 +30,111 @@ void    all_get_distance(t_map *map, t_player *player)
 		i += step; // следующий угол после самого правого луча
 		count_distance++; // считаем количество лучей
 	}
+}
+
+static double find_horizontal_intersection(double angle)
+{
+	t_point A;
+	double diffy;
+	double diffx;
+	//find intersection with horizontal grid
+	if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0) || is_angle(angle, RAD_360))
+		return INT32_MAX;
+	A.y = floorf((double)p.y / CUBE) * CUBE;
+	A.y = angle > RAD_0 && angle < RAD_180 ? A.y - 1: A.y + CUBE;
+	A.x = p.x + (p.y - A.y) / tanf(angle);
+	diffx = CUBE / tanf(angle);
+		
+	if (angle > RAD_270 && angle < RAD_360) // 4
+	{
+		diffx = ceilf(-diffx);
+		diffy = CUBE;
+	}
+	else if (angle > RAD_90 && angle < RAD_180) // --1
+	{
+		diffx = diffx;
+		diffy = -CUBE;
+	}
+	else if (angle > RAD_0 && angle < RAD_90) // 2
+	{
+		diffx = ceilf(diffx);
+		diffy = -CUBE;
+	}
+	else/* if (angle > RAD_180 && angle < RAD_270)*/ // 3
+	{
+		diffx = ceilf(-diffx);
+		diffy = CUBE;
+	}
+	
+	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
+	{
+		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
+		{
+			 return (sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2)));
+			// float tmp = sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2));
+			// return tmp;
+		}
+		A.x += diffx;
+		A.y += diffy;
+	}
+	return INT32_MAX;
+}
+
+static double find_vertical_intersection(double angle)
+{
+	t_point B;
+	double diffy;
+	double diffx;
+
+	if (is_angle(angle, RAD_90) || is_angle(angle, RAD_270))
+		return INT32_MAX;
+
+	B.x = floorf((double)p.x / CUBE) * CUBE;
+	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
+	B.y = p.y + (p.x - B.x) * tanf(angle);
+	diffy = CUBE * tanf(angle);
+
+	if (angle > RAD_270 && angle < RAD_360) // 4
+	{
+		diffy = ceilf(-diffy);
+		diffx = CUBE;
+	}
+	else if (angle > RAD_90 && angle < RAD_180) // --1
+	{
+		diffy = diffy;
+		diffx = -CUBE;
+	}
+	else if (angle > RAD_0 && angle < RAD_90) // 2
+	{
+		diffy = ceilf(-diffy);
+		diffx = CUBE;
+	}
+	else/* if (angle > RAD_180 && angle < RAD_270) */// 3
+	{
+		diffy = ceilf(diffy);
+		diffx = -CUBE;		
+	}
+	
+	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
+	{
+		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
+		{
+			 return (sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2)));
+			// float tmp = sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2));
+			// return tmp;
+		}
+		B.x += diffx;
+		B.y += diffy;
+	}
+	return INT32_MAX;
+}
+
+double find_wall(double angle)
+{
+	double a = fminf(
+		find_horizontal_intersection(angle),
+		find_vertical_intersection(angle)
+		);
+	// ft_printf("%f\n", a);
+	return a;
 }
