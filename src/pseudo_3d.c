@@ -1,5 +1,10 @@
 #include "../includes/wolf3d.h"
 
+void	draw_column()
+{
+
+}
+
 void	pseudo_3d(t_player *player)
 {
     t_point point;
@@ -16,7 +21,9 @@ void	pseudo_3d(t_player *player)
 		if (player->distance[count_distance] != 0) // проверка сталкивается ли луч с чем либо 
 		{
 			// y = (int)((1 - (data->player.distance[count_distance] / data->player.visibility)) * data->h);
+			//point.y =  (CUBE * player->dist_to_canvas) /  player->distance[count_distance];
 			point.y = (int)(((2.0f * atan((1.0f / (2.0f * (float)player->distance[count_distance])))) / ((float)H / ((float)W / (float)(player->fov * 0.02)))) * (float)H);
+			
 			//что то альфа = 2 * арктан(1/2*дистанция)] находим колличество пикселей по игрек от серидины в обе стороны которые надо закрасить 
 			if (point.y > H) // затычка чтоб не крашилось при залете в стенку 
 				point.y = H;
@@ -24,11 +31,14 @@ void	pseudo_3d(t_player *player)
 			cash = (cash - point.y) / 2; // половина не закрашеной части по игрек (низ или верх) колличество пикселей
 			point.y = cash;
 			int y1 = point.y;
+
 			while (point.y < H - y1) // закрашиваем стенку по игреку или можно както сразу #строку# по вертикали закрсить ??
 			{
 				set_pixel(surface, point, color);
 				point.y++;
 			}
+			//ft_printf("%d %d %d\n", point.y, y1, count_distance);
+			
 		}
 		count_distance--; // следующий луч
 		point.x++;;
