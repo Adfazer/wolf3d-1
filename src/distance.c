@@ -25,14 +25,19 @@ void    all_get_distance(t_map *map, t_player *player)
 			temp_i -= RAD_360;
 		if (temp_i < RAD_0)
 			temp_i += RAD_360;
-        player->distance[count_distance] = find_wall(temp_i) * cosf(cos_agle);
+        player->distance[count_distance] = dist_to_wall(temp_i) * cosf(cos_agle);
 		cos_agle -= step; // косинус используемый для домнажения на длину против эффекта аквариума берем по модулю т.к. в 2 стороны от центра обзора
 		i += step; // следующий угол после самого правого луча
 		count_distance++; // считаем количество лучей
 	}
 }
 
-static double find_horizontal_intersection(double angle)
+int		is_texture(float x, float y, char texture)
+{
+	return (map.map[((int)y / CUBE) * map.w + ((int)x / CUBE)] == texture);
+}
+
+static double find_horizontal_intersection(double angle, char texture)
 {
 	t_point A;
 	double diffy;
@@ -42,7 +47,7 @@ static double find_horizontal_intersection(double angle)
 		return INT32_MAX;
 	A.y = floorf((double)p.y / CUBE) * CUBE;
 	A.y = angle > RAD_0 && angle < RAD_180 ? A.y - 1: A.y + CUBE;
-	A.x = p.x + (p.y - A.y) / tanf(angle);
+	A.x = p.x + (p.y - (float)A.y) / tanf(angle);
 	diffx = CUBE / tanf(angle);
 		
 	if (angle > RAD_270 && angle < RAD_360) // 4
@@ -68,7 +73,7 @@ static double find_horizontal_intersection(double angle)
 	
 	while (A.y >= 0 && A.y < H && A.x >= 0 && A.x < W)
 	{
-		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == TEX_BORDER)
+		if (map.map[(A.y / CUBE) * map.w + (A.x / CUBE)] == texture)
 		{
 			 return (sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2)));
 			// float tmp = sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2));
@@ -80,7 +85,7 @@ static double find_horizontal_intersection(double angle)
 	return INT32_MAX;
 }
 
-static double find_vertical_intersection(double angle)
+static double find_vertical_intersection(double angle, char texture)
 {
 	t_point B;
 	double diffy;
@@ -91,7 +96,7 @@ static double find_vertical_intersection(double angle)
 
 	B.x = floorf((double)p.x / CUBE) * CUBE;
 	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
-	B.y = p.y + (p.x - B.x) * tanf(angle);
+	B.y = p.y + (p.x - (float)B.x) * tanf(angle);
 	diffy = CUBE * tanf(angle);
 
 	if (angle > RAD_270 && angle < RAD_360) // 4
@@ -117,7 +122,7 @@ static double find_vertical_intersection(double angle)
 	
 	while (B.y >= 0 && B.y < H && B.x >= 0 && B.x < W)
 	{
-		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == TEX_BORDER)
+		if (map.map[(B.y / CUBE) * map.w + (B.x / CUBE)] == texture)
 		{
 			 return (sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2)));
 			// float tmp = sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2));
@@ -129,11 +134,21 @@ static double find_vertical_intersection(double angle)
 	return INT32_MAX;
 }
 
-double find_wall(double angle)
+double	dist_to_wall(double angle)
+{
+	return (dist_to_texture(angle, TEX_BORDER));
+}
+
+double	dist_to_floor(double angle)
+{
+	return (dist_to_texture(angle, TEX_FLOOR));
+}
+
+double dist_to_texture(double angle, char texture)
 {
 	double a = fminf(
-		find_horizontal_intersection(angle),
-		find_vertical_intersection(angle)
+		find_horizontal_intersection(angle, TEX_BORDER),
+		find_vertical_intersection(angle, TEX_BORDER)
 		);
 	// ft_printf("%f\n", a);
 	return a;

@@ -23,7 +23,8 @@ ALL_C = main.c \
 		aux.c \
 		load_textures.c \
 		distance.c \
-		pseudo_3d.c
+		pseudo_3d.c \
+		draw.c
 
 SRCDIR = ./src
 OBJDIR = ./objs

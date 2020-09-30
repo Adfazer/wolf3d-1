@@ -18,5 +18,5 @@ int	add_arc(double *arc, double to_add)
 		*arc += RAD_360;
 	else if (*arc >= RAD_360)
 		*arc -= RAD_360;
-	return (*arc);
+	return 0;
 }

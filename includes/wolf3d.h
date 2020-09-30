@@ -100,13 +100,15 @@ void init_sdl(t_map *map, t_player *player);
 t_point	dot(int x, int y);
 double arcToRad(double angle);
 int raycast(void);
-void drawOverheadMap(SDL_Surface *surface);
+void draw_minimap(SDL_Surface *surface);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
 void drawRay(SDL_Surface *surface, int x, int y);
 int	add_arc(double *arc, double to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
+void draw_background(SDL_Surface *surface);
+void draw_minimap(SDL_Surface *surface);
 
 /*
 ** init.c
@@ -119,8 +121,12 @@ int load_textures(SDL_Surface *dest);
 void    all_get_distance(t_map *map, t_player *player);
 // void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
 void	pseudo_3d(t_player *player);
-double find_wall(double angle);
+double dist_to_wall(double angle);
+double dist_to_floor(double angle);
+double dist_to_texture(double angle, char texture);
 int fps(void);
+int		is_texture(float x, float y, char texture);
+
 
 #endif
 
