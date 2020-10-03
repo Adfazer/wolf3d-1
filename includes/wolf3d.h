@@ -26,26 +26,28 @@ typedef struct	s_map
 	t_point		mm_cube;
 }				t_map;
 
+typedef struct		s_distance
+{
+	float			dist;
+	char			tex;
+}					t_distance;
+
 typedef struct	s_player
 {
 	float		x; 
 	float		y;
 	float		speed;
 	int			size;
-	double		fov;
-	double		dir; //direction - куда смотрит, в радианах
-	double		dist_to_canvas;
-	double		angle_step;
-	double		xmm;
-	double		ymm;
-	float		distance[W + 1]; // измеренное расстояние до стены
+	float		fov;
+	float		dir; //direction - куда смотрит, в радианах
+	float		dist_to_canvas;
+	float		step;
+	float		xmm;
+	float		ymm;
+	t_distance	distance[W]; // измеренное расстояние до стены
+	t_point		*ray_coord[W];
 }				t_player;
 
-typedef struct	s_double2
-{
-	double		x;
-	double		y;
-}				t_double2;
 
 typedef struct	s_float2
 {
@@ -72,15 +74,15 @@ typedef struct	s_angles
 typedef struct	s_t
 {
 	
-	double			*sin;
-	double			*cos;
-	double			*tan;
-	double			*arcsin;
-	double			*arccos;
-	double			*arctan;
-	double			*fishTable;
-	double			*xStepTable;
-	double			*yStepTable;
+	float			*sin;
+	float			*cos;
+	float			*tan;
+	float			*arcsin;
+	float			*arccos;
+	float			*arctan;
+	float			*fishTable;
+	float			*xStepTable;
+	float			*yStepTable;
 	int				PROJECTIONPLANEWIDTH;
 	int				PROJECTIONPLANEHEIGHT;
 	int				TILE_SIZE;
@@ -88,6 +90,9 @@ typedef struct	s_t
 	int				frameRate;
 
 }				t_t;
+
+
+
 
 t_t t;
 t_angles a;
@@ -104,13 +109,13 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 int		color_to_hex(int r, int g, int b);
 void init_sdl(t_map *map, t_player *player);
 t_point	dot(int x, int y);
-double arcToRad(double angle);
+float arcToRad(float angle);
 int raycast(void);
 void draw_minimap(SDL_Surface *surface);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
 void drawRay(SDL_Surface *surface, int x, int y);
-int	add_arc(double *arc, double to_add);
+int	add_arc(float *arc, float to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
 void draw_background(SDL_Surface *surface);
@@ -127,9 +132,9 @@ int load_textures(SDL_Surface *dest);
 void    all_get_distance(t_map *map, t_player *player);
 // void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
 void	pseudo_3d(t_player *player);
-double dist_to_wall(double angle);
-double dist_to_floor(double angle);
-double dist_to_texture(double angle, char texture);
+t_distance dist_to_wall(float angle);
+t_distance dist_to_floor(float angle);
+t_distance dist_to_texture(float angle, char texture);
 int fps(void);
 int		is_texture(float x, float y, char texture);
 

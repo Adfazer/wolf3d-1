@@ -4,7 +4,7 @@
 # define DEBUG 1
 # define SHOW_FPS 0
 
-# define CHARSET " *012S"
+# define CHARSET " *#012S"
 # define INTBUF_INIT_SIZE 64
 # define INTBUF_RESIZE_COEF 4
 # define MAP_MAX_SIZE 2048
@@ -13,8 +13,11 @@
 # define MAP_MIN_COL_NUM 4
 # define MAP_FILEPATH "map.txt"
 
+# define WALLSET "*#"
 # define TEX_BORDER '*'
 # define TEX_FLOOR ' '
+# define TEX_WALL '#'
+# define TEX_INF '8' //возвращается с бесконечностью, не является текстурой
 
 # define W 512
 # define H 512

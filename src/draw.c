@@ -94,7 +94,7 @@ void draw_minimap(SDL_Surface *surface)
 
 	for (int i = 0; i < map.h * map.w; i++)
 	{
-		if (map.map[i] == TEX_BORDER)
+		if (ft_strchr(WALLSET, map.map[i]))
 		{
 			int xx = x_to_mm((i % map.w ) * CUBE);
 			int yy = y_to_mm((i / map.h) * CUBE);

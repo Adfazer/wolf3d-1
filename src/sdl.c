@@ -21,7 +21,7 @@ static void rotate(SDL_Event *event, int *x)
 
 
 //работает, пускает в углы
-void	calc_move(t_player *p, double dy, double dx)
+void	calc_move(t_player *p, float dy, float dx)
 {
 	if (is_texture(p->x + dx, p->y, TEX_FLOOR))
 		p->x += dx;
@@ -30,11 +30,11 @@ void	calc_move(t_player *p, double dy, double dx)
 }
 //не работает
 /*
-void	calc_move(t_player *p, double dy, double dx, int key)
+void	calc_move(t_player *p, float dy, float dx, int key)
 {
 	float diffx;
 	float diffy;
-	double dir;
+	float dir;
 
 	dir = p->dir;
 	if (key == SDLK_d)
@@ -205,29 +205,3 @@ void init_sdl(t_map *map, t_player *player)
         SDL_DestroyWindow(window);
         SDL_Quit();
 }
-
-
-
-/*
-static void draw_wall(SDL_Surface *surface, double dist)
-{
-	surface += 1;
-	dist += 1;
-}
-*/
-
-/*
-void drawCanvas(SDL_Surface *surface)
-{
-	double angle = p.dir;
-	add_arc(&angle, RAD_60 / 2);
-	double angle_increment = -RAD_60 / W;
-	double dist;
-	for (int i = 0; i < W; i++)
-	{
-		dist = find_wall(angle);
-		draw_wall(surface, dist);
-		add_arc(&angle, angle_increment);
-	}
-}
-*/

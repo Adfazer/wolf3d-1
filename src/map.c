@@ -92,8 +92,8 @@ static void		check_logic(t_map *map)
 	s = NULL;
 	while (++i < map->w)
 	{
-		if (map->map[i] != TEX_BORDER
-		|| map->map[map->w * (map->h - 1) + i] != TEX_BORDER)
+		if (!ft_strchr(WALLSET, map->map[i])
+		|| !ft_strchr(WALLSET, map->map[map->w * (map->h - 1) + i]))
 		{
 			ft_asprintf(&s,
 				"There must be a border texture at column %d", i);
@@ -103,8 +103,8 @@ static void		check_logic(t_map *map)
 	i = -1;
 	while (++i < map->h)
 	{
-		if (map->map[i * map->w] != TEX_BORDER
-		|| map->map[i * map->w + (map->w - 1)] != TEX_BORDER)
+		if (!ft_strchr(WALLSET, map->map[i * map->w])
+		|| !ft_strchr(WALLSET, map->map[i * map->w + (map->w - 1)]))
 		{
 			ft_asprintf(&s,
 				"There must be a border texture at row %d", i);
