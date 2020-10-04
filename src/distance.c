@@ -204,15 +204,15 @@ t_distance	t_distance_dummy(float angle)
 	//printf("%f %f\n",x_step, y_step);
 	while ((int)(x - x1) || (int)(y - y1))
 	{
-		if (ft_strchr(WALLSET, map.map[((int)y / CUBE) * map.w + ((int)x / CUBE)]))
+		if (ft_strchr(WALLSET, map.map[(int)(y / CUBE) * map.w + (int)(x / CUBE)]))
 		{
 			dist.dist = sqrt(pow((p.x - x), 2) + pow((p.y - y), 2));
-			dist.tex = TEX_BORDER;
+			dist.tex = *ft_strchr(WALLSET, map.map[(int)(y / CUBE) * map.w + (int)(x / CUBE)]);
 			break;
 		}
 		else
 		{
-			dist.dist = 0.0;
+			
 			x += x_step;
 			y += y_step;
 		}
@@ -220,6 +220,14 @@ t_distance	t_distance_dummy(float angle)
 	}
 	return dist;
 }
+
+t_distance other_dummy(float angle)
+{
+	float step = 0.1;
+
+	
+}
+
 
 t_distance	dist_to_wall(float angle)
 {
