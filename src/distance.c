@@ -24,7 +24,7 @@ void    all_get_distance(t_map *map, t_player *player)
 			temp_i -= RAD_360;
 		if (temp_i < RAD_0)
 			temp_i += RAD_360;
-		player->distance[count_distance] = dist_to_wall(temp_i);
+		player->distance[count_distance] = t_distance_dummy(temp_i);// dist_to_wall(temp_i);
         player->distance[count_distance].dist *= cosf(cos_agle);
 
 		cos_agle -= player->step; // косинус используемый для домнажения на длину против эффекта аквариума берем по модулю т.к. в 2 стороны от центра обзора
@@ -173,6 +173,52 @@ static t_distance find_vertical_intersection(float angle, char texture)
 		B.y += diffy;
 	}
 	return inf;
+}
+
+t_distance	t_distance_dummy(float angle)
+{
+	
+	float	x_step;
+	float	y_step;
+	int		max_;
+	float	x;
+	float	y;
+
+	t_distance dist;
+	dist.dist = 0;
+	dist.dist = TEX_FLOOR;
+	float y1 = -(p.view_dist * sin(angle)); // игрек координата конца луча
+	float x1 = p.view_dist * cos(angle); // икс координа конца луча
+	x = p.x;
+	y = p.y;
+	x_step = x1;
+	y_step = y1;
+	y1 = y + y1;
+	x1 = x + x1;
+	
+	max_ = fmaxf(fabs(x_step), fabs(y_step));
+	x_step /= max_;
+	y_step /= max_;
+	int counter = 0;
+	#include <stdio.h>
+	//printf("%f %f\n",x_step, y_step);
+	while ((int)(x - x1) || (int)(y - y1))
+	{
+		if (ft_strchr(WALLSET, map.map[((int)y / CUBE) * map.w + ((int)x / CUBE)]))
+		{
+			dist.dist = sqrt(pow((p.x - x), 2) + pow((p.y - y), 2));
+			dist.tex = TEX_BORDER;
+			break;
+		}
+		else
+		{
+			dist.dist = 0.0;
+			x += x_step;
+			y += y_step;
+		}
+		//printf("%d\n",counter++);
+	}
+	return dist;
 }
 
 t_distance	dist_to_wall(float angle)

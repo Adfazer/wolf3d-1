@@ -44,6 +44,7 @@ typedef struct	s_player
 	float		step;
 	float		xmm;
 	float		ymm;
+	float		view_dist;
 	t_distance	distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
 }				t_player;
@@ -137,7 +138,7 @@ t_distance dist_to_floor(float angle);
 t_distance dist_to_texture(float angle, char texture);
 int fps(void);
 int		is_texture(float x, float y, char texture);
-
+t_distance	t_distance_dummy(float angle);
 
 #endif
 
