@@ -139,6 +139,7 @@ t_distance dist_to_texture(float angle, char texture);
 int fps(void);
 int		is_texture(float x, float y, char texture);
 t_distance	t_distance_dummy(float angle);
+t_distance other_dummy(float angle);
 
 #endif
 

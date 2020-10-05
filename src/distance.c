@@ -24,7 +24,7 @@ void    all_get_distance(t_map *map, t_player *player)
 			temp_i -= RAD_360;
 		if (temp_i < RAD_0)
 			temp_i += RAD_360;
-		player->distance[count_distance] = t_distance_dummy(temp_i);// dist_to_wall(temp_i);
+		player->distance[count_distance] = other_dummy(temp_i); //t_distance_dummy(temp_i);// dist_to_wall(temp_i);
         player->distance[count_distance].dist *= cosf(cos_agle);
 
 		cos_agle -= player->step; // косинус используемый для домнажения на длину против эффекта аквариума берем по модулю т.к. в 2 стороны от центра обзора
@@ -223,9 +223,26 @@ t_distance	t_distance_dummy(float angle)
 
 t_distance other_dummy(float angle)
 {
-	float step = 0.1;
+	float step = 0.0f;
+	float x;
+	float y;
+	t_distance dist;
 
-	
+	dist.dist = p.view_dist;
+	dist.tex = TEX_FLOOR;
+	while (step < p.view_dist)
+	{
+		x = p.x + step * cosf(angle);
+		y = p.y + step * sinf(angle);
+		if (ft_strchr(WALLSET, map.map[(int)(y / CUBE) * map.w + (int)(x / CUBE)]))
+		{
+			dist.dist = step;
+			dist.tex = *ft_strchr(WALLSET, map.map[(int)(y / CUBE) * map.w + (int)(x / CUBE)]);
+			break ;
+		}
+		step += 0.05f;
+	}
+	return dist;
 }
 
 
