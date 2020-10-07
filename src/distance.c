@@ -24,7 +24,7 @@ void    all_get_distance(t_map *map, t_player *player)
 			temp_i -= RAD_360;
 		if (temp_i < RAD_0)
 			temp_i += RAD_360;
-		player->distance[count_distance] = other_dummy(temp_i); //t_distance_dummy(temp_i);// dist_to_wall(temp_i);
+		player->distance[count_distance] = dist_to_wall(temp_i); //t_distance_dummy(temp_i);// dist_to_wall(temp_i);
         player->distance[count_distance].dist *= cosf(cos_agle);
 
 		cos_agle -= player->step; // косинус используемый для домнажения на длину против эффекта аквариума берем по модулю т.к. в 2 стороны от центра обзора
@@ -46,6 +46,7 @@ static t_distance find_horizontal_intersection(float angle, char texture)
 
 	//find intersection with horizontal grid
 	t_distance	inf;
+	t_distance 	dist;
 
 	inf.dist = INT32_MAX;
 	inf.tex = TEX_INF;
@@ -54,7 +55,7 @@ static t_distance find_horizontal_intersection(float angle, char texture)
 
 
 	A.y = floorf((float)p.y / CUBE) * CUBE;
-	A.y = angle > RAD_0 && angle < RAD_180 ? A.y - 1: A.y + CUBE;
+	A.y = angle > RAD_0 && angle < RAD_180 ? A.y/* - 1*/: A.y + CUBE;
 	A.x = p.x + (p.y - A.y) / tanf(angle);
 	diffx = CUBE / tanf(angle);
 		
@@ -81,31 +82,23 @@ static t_distance find_horizontal_intersection(float angle, char texture)
 	
 	while (A.y > -1 && A.y < H && A.x > -1 && A.x < W)
 	{
-		if (ft_strchr(WALLSET, map.map[((int)A.y / CUBE) * map.w + ((int)A.x / CUBE)]))
+		if (angle > RAD_0 && angle < RAD_180)
 		{
-			if (angle > RAD_0 && angle < RAD_180)
-				A.y++;
-			if (fabsf(p.y - A.y) < KLUDGE)
-				return inf;
-			// if ((angle > RAD_0 && angle < RAD_180) && ((int)A.y % 64 == 0))
-			// 	A.y--;
-			// return (sqrtf(powf((p.x - A.x), 2) + powf((p.y - A.y), 2)));
-			t_distance dist;
+			if (ft_strchr(WALLSET, map.map[((int)(A.y - 1) / CUBE) * map.w + ((int)A.x / CUBE)]))
+			{
+			dist.dist = fabsf((p.y - A.y) / sinf(angle));
 			dist.tex = map.map[((int)A.y / CUBE) * map.w + ((int)A.x / CUBE)];
-			if (sinf(angle) > KLUDGE)
-			{
-				dist.dist = fabsf((p.y - A.y) / sinf(angle));
-			}
-			else
-				dist.dist = fabsf((p.x - A.x) / cosf(angle));
 			return (dist);
-
-				/*
-			else
-			{
-				return (fabsf((p.x - A.x) / cosf(angle)));
+			// return (fabsf((p.x - A.x) / cosf(angle)));
+			
 			}
-			*/
+		}
+		else if (ft_strchr(WALLSET, map.map[((int)A.y / CUBE) * map.w + ((int)A.x / CUBE)]))
+		{
+			dist.dist = fabsf((p.y - A.y) / sinf(angle));
+			dist.tex = map.map[((int)A.y / CUBE) * map.w + ((int)A.x / CUBE)];
+			return (dist);
+			// return (fabsf((p.x - A.x) / cosf(angle)));
 			
 		}
 		A.x += diffx;
@@ -120,14 +113,16 @@ static t_distance find_vertical_intersection(float angle, char texture)
 	float		diffy;
 	float		diffx;
 	t_distance	inf;
+	t_distance 	dist;
 
 	inf.dist = INT32_MAX;
 	inf.tex = TEX_INF;
 	if (is_angle(angle, RAD_90) || is_angle(angle, RAD_270))
 		return inf;
 
+
 	B.x = floorf((float)p.x / CUBE) * CUBE;
-	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x - 1;
+	B.x = angle > RAD_270 || angle < RAD_90 ? B.x + CUBE : B.x/* - 1*/;
 	B.y = p.y + (p.x - B.x) * tanf(angle);
 	diffy = CUBE * tanf(angle);
 
@@ -154,16 +149,18 @@ static t_distance find_vertical_intersection(float angle, char texture)
 	
 	while (B.y >-1  && B.y < H && B.x > -1 && B.x < W)
 	{
+		if (angle < RAD_270 && angle > RAD_90)
+		{
+			if (ft_strchr(WALLSET, map.map[((int)B.y / CUBE) * map.w + ((int)(B.x - 1) / CUBE)]))
+			{
+			dist.dist = fabsf((p.x - B.x) / cosf(angle));
+			dist.tex = map.map[((int)B.y / CUBE) * map.w + ((int)B.x / CUBE)];
+			return dist;
+			// return (fabsf((p.y - B.y) / sinf(angle))); 
+			}
+		}
 		if (ft_strchr(WALLSET, map.map[((int)B.y / CUBE) * map.w + ((int)B.x / CUBE)]))
 		{
-			if (angle < RAD_270 && angle > RAD_90)
-				B.x++;
-			if (fabsf(p.x - B.x) < KLUDGE)
-				return inf;
-			// if ((angle < RAD_270 && angle > RAD_90) && ((int)B.x % 64 == 0))
-			// 	B.x--;
-			// return (sqrtf(powf((p.x - B.x), 2) + powf((p.y - B.y), 2)));
-			t_distance dist;
 			dist.dist = fabsf((p.x - B.x) / cosf(angle));
 			dist.tex = map.map[((int)B.y / CUBE) * map.w + ((int)B.x / CUBE)];
 			return dist;
@@ -199,8 +196,10 @@ t_distance	t_distance_dummy(float angle)
 	max_ = fmaxf(fabs(x_step), fabs(y_step));
 	x_step /= max_;
 	y_step /= max_;
-	int counter = 0;
-	#include <stdio.h>
+	// x_step = cos(angle);
+	// y_step = -sin(angle);
+	// int counter = 0;
+	// #include <stdio.h>
 	//printf("%f %f\n",x_step, y_step);
 	while ((int)(x - x1) || (int)(y - y1))
 	{
@@ -243,6 +242,25 @@ t_distance other_dummy(float angle)
 		step += 0.05f;
 	}
 	return dist;
+
+	// float c = 0;
+
+	// for (; c<p.view_dist; c+=1)
+	// { 
+	// 	float x = player_x + ccos(player_a);
+	// 	float y = player_y + csin(player_a);
+	// 	if (ft_strchr(WALLSET, map.map[(int)(y / CUBE) * map.w + (int)(x / CUBE)]))
+	// 	{
+	// 		c -= 1;
+	// 		break;
+	// 	}
+	// for (; c<p.view_dist; c+=.05)
+	// {
+	// 	float x = player_x + ccos(player_a);
+	// 	float y = player_y + csin(player_a);
+	// 	if (ft_strchr(WALLSET, map.map[(int)(y / CUBE) * map.w + (int)(x / CUBE)]))
+	// 		break;
+	// }
 }
 
 
