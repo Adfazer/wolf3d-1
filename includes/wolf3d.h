@@ -47,6 +47,7 @@ typedef struct	s_player
 	float		view_dist;
 	t_distance	distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
+	int			sides; //режим сторон света, будет в t_wolf
 }				t_player;
 
 
@@ -56,50 +57,35 @@ typedef struct	s_float2
 	float		y;
 }				t_float2;
 
-typedef struct	s_angles
+typedef struct		s_sdl
 {
-	int a0;
-	int a60;
-	int a30;
-	int a15;
-	int a90;
-	int a180;
-	int a360;
-	int a270;
-	int a5;
-	int a10;
-	int a45;
-	
-}				t_angles;
+	SDL_Surface		*scrs;
+	SDL_Surface		*textures;
+	SDL_Surface		**arr;
+	SDL_Renderer	*rend;
+	SDL_Window		*win;
+	SDL_Texture		*win_texture;
+	SDL_Event		e;
+	int				y;
+	unsigned char	*bytes;
+	unsigned char	*bytes_texture;
+	int				pitch;
+	bool			run;
+}					t_sdl;
 
-typedef struct	s_t
+typedef struct	s_wolf
 {
-	
-	float			*sin;
-	float			*cos;
-	float			*tan;
-	float			*arcsin;
-	float			*arccos;
-	float			*arctan;
-	float			*fishTable;
-	float			*xStepTable;
-	float			*yStepTable;
-	int				PROJECTIONPLANEWIDTH;
-	int				PROJECTIONPLANEHEIGHT;
-	int				TILE_SIZE;
-	int				WALL_HEIGHT;
-	int				frameRate;
+	t_map		*map;
+	t_player	*player;
+	t_sdl		*sdl;
+	SDL_Surface	*surface;
+}				t_wolf;
 
-}				t_t;
-
-
-
-
-t_t t;
-t_angles a;
+/*
 t_map map;
 t_player p;
 SDL_Surface* surface;
+*/
 
 int		error(char *s);
 void		init_map(t_map *map);
@@ -108,36 +94,34 @@ void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel);
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
 int		color_to_hex(int r, int g, int b);
-void init_sdl(t_map *map, t_player *player);
+void init_sdl(t_map *map, t_player *player, SDL_Surface *surface);
 t_point	dot(int x, int y);
-float arcToRad(float angle);
 int raycast(void);
-void draw_minimap(SDL_Surface *surface);
+void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
-void drawRay(SDL_Surface *surface, int x, int y);
+void drawRay(SDL_Surface *surface, t_player *player, int x, int y);
 int	add_arc(float *arc, float to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
 void draw_background(SDL_Surface *surface);
-void draw_minimap(SDL_Surface *surface);
 
 /*
 ** init.c
 */
-int	init_tabs(void);
+
 void	init_player(t_player *player, t_map *map);
-int load_textures(SDL_Surface *dest);
+int load_textures(t_sdl *sdl);
 
 //skaren
 void    all_get_distance(t_map *map, t_player *player);
 // void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
-void	pseudo_3d(t_player *player);
-t_distance dist_to_wall(float angle);
-t_distance dist_to_floor(float angle);
-t_distance dist_to_texture(float angle, char texture);
+void	pseudo_3d(t_player *player, SDL_Surface *surface);
+t_distance dist_to_wall(t_player *p, t_map *map, float angle);
+t_distance dist_to_floor(t_player *p, t_map *map, float angle);
+t_distance dist_to_texture(t_player *p, t_map *map, float angle, char texture);
 int fps(void);
-int		is_texture(float x, float y, char texture);
+int		is_texture(t_map *map, float x, float y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
 

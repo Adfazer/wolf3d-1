@@ -38,16 +38,19 @@ switch (bpp)
 }
 
 
-int load_textures(SDL_Surface *dest)
+int load_textures(t_sdl *sdl)
 {
 	SDL_Surface *tex;
 	//arr - массив с текстурами		
 	//t_img **arr = (t_img **)malloc(sizeof(t_img *) * 8 *  32);
 	if (!(tex = SDL_LoadBMP(TEXTURE_PATH)))
 		printf("%s\n", SDL_GetError());
-	
-	
-	SDL_Surface **arr = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * tex->w / CUBE * tex->h / CUBE);
+	//sdl->textures = SDL_ConvertSurfaceFormat(tex, SDL_PIXELFORMAT_ABGR8888, 0);
+	//sdl->bytes_texture = (unsigned char*)sdl->textures->pixels;
+
+	sdl->arr = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * tex->w / CUBE * tex->h / CUBE);
+	SDL_Surface **arr = sdl->arr;
+	 
 
 	int		i;
 	int		j;
@@ -75,5 +78,6 @@ int load_textures(SDL_Surface *dest)
 	}
 
 	SDL_FreeSurface(tex);
+	
 	return 0;
 }

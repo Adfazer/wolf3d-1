@@ -5,6 +5,18 @@ void	draw_column(SDL_Surface *surface, t_point point, t_distance dist, int size)
 	int color;
 
 	color = dist.tex == '*' ? 0x0000ff : 0x00ff00;
+	if (dist.tex == '*')
+		color = 0x0000ff;
+	else if (dist.tex == '#')
+		color = 0x00ff00;
+	else if (dist.tex == 'S')
+		color = 0x231232;
+	else if (dist.tex == 'N')
+		color = 0x550132;
+	else if (dist.tex == 'E')
+		color = 0xffffff;
+	else if (dist.tex == 'W')
+		color = 0x111111;
 	while (point.y < size) // закрашиваем стенку по игреку или можно както сразу #строку# по вертикали закрсить ??
 	{
 		set_pixel(surface, point, color);
@@ -12,7 +24,7 @@ void	draw_column(SDL_Surface *surface, t_point point, t_distance dist, int size)
 	}
 }
 
-void	pseudo_3d(t_player *player)
+void	pseudo_3d(t_player *player, SDL_Surface *surface)
 {
     t_point point;
     int     count_distance;

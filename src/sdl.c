@@ -1,7 +1,5 @@
 #include "wolf3d.h"
 
-
-
 void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel)
 {
   Uint32 *target_pixel = (Uint32 *)((Uint8 *)surface->pixels + point.y * surface->pitch
@@ -9,74 +7,28 @@ void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel)
   *target_pixel = pixel;
 }
 
-static void rotate(SDL_Event *event, int *x)
+static void rotate(SDL_Event *event, int *x, t_player *p)
 {
 	if (event->motion.xrel >= 0)
-		add_arc(&p.dir, -0.02);
+		add_arc(&(p->dir), -0.02);
 	else
-		add_arc(&p.dir, 0.02);
+		add_arc(&(p->dir), 0.02);
 	*x = event->motion.x;
 	//debug_player(&p);
 }
 
 
 //работает, пускает в углы
-void	calc_move(t_player *p, float dy, float dx)
+void	calc_move(t_map *map, t_player *p, float dy, float dx)
 {
-	if (is_texture(p->x + dx, p->y, TEX_FLOOR))
+	if (is_texture(map, p->x + dx, p->y, TEX_FLOOR))
 		p->x += dx;
-	if (is_texture(p->x, p->y + dy, TEX_FLOOR))
+	if (is_texture(map, p->x, p->y + dy, TEX_FLOOR))
 		p->y += dy;
 }
-//не работает
-/*
-void	calc_move(t_player *p, float dy, float dx, int key)
-{
-	float diffx;
-	float diffy;
-	float dir;
 
-	dir = p->dir;
-	if (key == SDLK_d)
-		add_arc(&dir, -RAD_90);
-	else if (key == SDLK_a)
-		add_arc(&dir, RAD_90);
-	else if (key == SDLK_s || key == SDLK_DOWN)
-		add_arc(&dir, RAD_180);
-	//diffy = dir > RAD_180 && dir < RAD_360 ? 0 : 1;
-	//diffx = dir > RAD_270 || dir < RAD_90 ? 0 : 1;
-	if ((int)p->x / CUBE != (int)(p->x + dx + diffx) / CUBE || (int)p->y / CUBE != (int)(p->y + dy + diffy) / CUBE)
-	{
-		diffx = 0;
-		diffy = 0;
-        float cx = 0.1;
-        float cy = 0.1;
-		float targetx = p->x + dx;
-		float targety = p->y + dy;
-        int i = -1;
-        dx = 0;
-        dy = 0;
-        while (++i < fmaxf(dx,dy))
-        {
-        	if (is_texture(p->x + dx, p->y + dy, TEX_FLOOR))
-			{
-				dx += cx;
-				dy += cy;
-			}
-        	else
-			{
-				dx -= cx;
-				dy -= cy;
-				break;
-			}
-        }
-	}
-	p->x += dx;
-	p->y += dy;
-}
-*/
 
-void init_sdl(t_map *map, t_player *player)
+void init_sdl(t_map *map, t_player *p, SDL_Surface *surface)
 {
 	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
     {
@@ -102,7 +54,7 @@ void init_sdl(t_map *map, t_player *player)
     surface = NULL;
     
     surface = SDL_GetWindowSurface(window);
-		draw_minimap(surface);
+		draw_minimap(surface, map, p);
         SDL_UpdateWindowSurface(window);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
         bool isquit = false;
@@ -116,91 +68,60 @@ void init_sdl(t_map *map, t_player *player)
 					isquit = true;
 				if (event.type == SDL_MOUSEMOTION)
 				{
-					rotate(&event, &x);
+					rotate(&event, &x, p);
 					//debug_player(player);
 				}
 				if (event.type == SDL_KEYDOWN)
 				{
 					isquit = event.key.keysym.sym == SDLK_ESCAPE ? true : isquit;
+					
 					if (event.key.keysym.sym == SDLK_d)
 					{
-						calc_move(&p, p.speed * sinf(p.dir + RAD_90), -(p.speed * cosf(p.dir + RAD_90)));
-						//p.y += p.speed * sinf(p.dir + RAD_90);
-						//p.x -= p.speed * cosf(p.dir + RAD_90);
-						// p.x = p.x > CUBE * map->w - 1? CUBE * map->w - 1 : p.x;
+						calc_move(map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
+						//p->y += p->speed * sinf(p->dir + RAD_90);
+						//p->x -= p->speed * cosf(p->dir + RAD_90);
+						// p->x = p->x > CUBE * map->w - 1? CUBE * map->w - 1 : p->x;
 						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_a)
 					{
-						calc_move(&p, p.speed * sinf(p.dir - RAD_90), -(p.speed * cosf(p.dir - RAD_90)));
-						//p.y += p.speed * sinf(p.dir - RAD_90);
-						//p.x -= p.speed * cosf(p.dir - RAD_90);
-						// p.x = p.x < 0 ? 0 : p.x;
+						calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
+						//p->y += p->speed * sinf(p->dir - RAD_90);
+						//p->x -= p->speed * cosf(p->dir - RAD_90);
+						// p->x = p->x < 0 ? 0 : p->x;
 						//debug_player(player);
 					}
 					if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 					{
-						calc_move(&p, p.speed * sinf(p.dir), -(p.speed * cosf(p.dir)));
-						//p.y += p.speed * sinf(p.dir);
-						//p.x -= p.speed * cosf(p.dir);
-						// p.y = p.y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p.y;
+						calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
+						//p->y += p->speed * sinf(p->dir);
+						//p->x -= p->speed * cosf(p->dir);
+						// p->y = p->y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p->y;
 					}
 					if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 					{
-						calc_move(&p, -(p.speed * sinf(p.dir)), p.speed * cosf(p.dir));
-						//p.y -= p.speed * sinf(p.dir);
-						//p.x += p.speed * cosf(p.dir);
-						// p.y = p.y < 0 ? 0 : p.y;
+						calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
+						//p->y -= p->speed * sinf(p->dir);
+						//p->x += p->speed * cosf(p->dir);
+						// p->y = p->y < 0 ? 0 : p->y;
 					}
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{
 						if (event.key.keysym.sym == SDLK_RIGHT)
-							add_arc(&p.dir, -RAD_1);
+							add_arc(&p->dir, -RAD_1);
 						if (event.key.keysym.sym == SDLK_LEFT)
-							add_arc(&p.dir, RAD_1);
+							add_arc(&p->dir, RAD_1);
 					}
+					if (event.key.keysym.sym == SDLK_p)
+						p->sides = p->sides == 1 ? 0 : 1;
 
 				}
     		}
-
-			if (!startTime) {
-            // get the time in ms passed from the moment the program started
-            startTime = SDL_GetTicks(); 
-			} else {
-				delta = endTime - startTime; // how many ms for a frame
-			}
-        
-  
-			// if less than 16ms, delay 
-			if (delta < timePerFrame) {
-				SDL_Delay(timePerFrame - delta);
-			}
-        
-			// if delta is bigger than 16ms between frames, get the actual fps
-			if (delta > timePerFrame) {
-				fps = 1000 / delta;
-			}
-			if (SHOW_FPS)
-        		printf("FPS is: %i \n", fps);
-		
-        
-        startTime = endTime;
-        endTime = SDL_GetTicks();
-			
-			//draw_canvas();
-			// ft_printf("%f dist %f dir\n", find_wall(player->dir), p.dir);
-			
 			draw_background(surface);
-			all_get_distance(map, player);
-			pseudo_3d(player);
-			draw_minimap(surface);
-			
-			//printf("%f\n", find_wall(player->dir));
-			// ft_printf("%f dist %f dir\n", dist_to_wall(player->dir), p.dir);
-			//draw_line(surface, dot(50,50), dot(10, 10), 0xFFFFFF);
-
+			all_get_distance(map, p);
+			pseudo_3d(p, surface);
+			draw_minimap(surface, map, p);
 			SDL_UpdateWindowSurface(window);
-			
 		}
         SDL_DestroyWindow(window);
         SDL_Quit();

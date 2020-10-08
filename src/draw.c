@@ -1,13 +1,13 @@
 #include "wolf3d.h"
 
-static int	x_to_mm(int x)
+static int	x_to_mm(t_map *map, int x)
 {
-	return map.mm_start.x + x / (map.mm.x);
+	return map->mm_start.x + x / (map->mm.x);
 }
 
-static int	y_to_mm(int y)
+static int	y_to_mm(t_map *map, int y)
 {
-	return map.mm_start.y + y / (map.mm.y);
+	return map->mm_start.y + y / (map->mm.y);
 }
 
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
@@ -49,20 +49,12 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
-void drawRay(SDL_Surface *surface, int x, int y)
+void drawRay(SDL_Surface *surface, t_player *p, int x, int y)
 {
-	int dx0 = cos(p.dir) * CUBE;
-	int dy0 = sin(p.dir) * CUBE;
-	draw_line(
-		surface,
-		dot(x, y),
-		dot(x + dx0, y - dy0),
-		color_to_hex(255, 255, 255));
-	/*
-	int dx0 = cos(p.dir - RAD_60 / 2) * CUBE;
-	int dy0 = sin(p.dir - RAD_60 / 2) * CUBE;
-	int dx1 = cos(p.dir + RAD_60 / 2) * CUBE;
-	int dy1 = sin(p.dir + RAD_60 / 2) * CUBE;
+	int dx0 = cos(p->dir - RAD_60 / 2) * CUBE;
+	int dy0 = sin(p->dir - RAD_60 / 2) * CUBE;
+	int dx1 = cos(p->dir + RAD_60 / 2) * CUBE;
+	int dy1 = sin(p->dir + RAD_60 / 2) * CUBE;
 	
 	draw_line(
 		surface,
@@ -75,7 +67,6 @@ void drawRay(SDL_Surface *surface, int x, int y)
 		dot(x, y),
 		dot(x + dx1, y - dy1),
 		color_to_hex(255, 255, 255));
-		*/
 }
 
 void draw_background(SDL_Surface *surface)
@@ -83,30 +74,30 @@ void draw_background(SDL_Surface *surface)
 	draw_rectangle(surface, dot(0,0), dot(W, H), 0);
 }
 
-void draw_minimap(SDL_Surface *surface)
+void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p)
 {
-	map.minimap_width = 5;
+	map->minimap_width = 5;
 	int p_size = 20;
 	
-	draw_rectangle(surface, map.mm_start,
-	dot(map.mm_cube.x * map.w, map.mm_cube.y * map.h), 
+	draw_rectangle(surface, map->mm_start,
+	dot(map->mm_cube.x * map->w, map->mm_cube.y * map->h), 
 	color_to_hex(121,121,121));
 
-	for (int i = 0; i < map.h * map.w; i++)
+	for (int i = 0; i < map->h * map->w; i++)
 	{
-		if (ft_strchr(WALLSET, map.map[i]))
+		if (ft_strchr(WALLSET, map->map[i]))
 		{
-			int xx = x_to_mm((i % map.w ) * CUBE);
-			int yy = y_to_mm((i / map.h) * CUBE);
+			int xx = x_to_mm(map, (i % map->w ) * CUBE);
+			int yy = y_to_mm(map, (i / map->h) * CUBE);
 			draw_rectangle(surface, \
 			dot(xx, yy),
-			dot(CUBE / (map.mm.x), CUBE / (map.mm.y)), 0xbbbb00);
+			dot(CUBE / (map->mm.x), CUBE / (map->mm.y)), 0xbbbb00);
 		}
 	}
 
 	draw_rectangle(surface, 
-		dot(p.x / map.mm.x + map.mm_start.x - PLAYER_MM_SIZE, p.y / map.mm.y + map.mm_start.y - PLAYER_MM_SIZE),
-		dot(p_size / map.mm.x + PLAYER_MM_SIZE, p_size / map.mm.y + PLAYER_MM_SIZE), 
+		dot(p->x / map->mm.x + map->mm_start.x - PLAYER_MM_SIZE, p->y / map->mm.y + map->mm_start.y - PLAYER_MM_SIZE),
+		dot(p_size / map->mm.x + PLAYER_MM_SIZE, p_size / map->mm.y + PLAYER_MM_SIZE), 
 		color_to_hex(255,255,255));
-	drawRay(surface, p.x / map.mm.x + map.mm_start.x, p.y / map.mm.y + map.mm_start.y);
+	drawRay(surface, p, p->x / map->mm.x + map->mm_start.x, p->y / map->mm.y + map->mm_start.y);
 }

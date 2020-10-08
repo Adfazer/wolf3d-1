@@ -43,46 +43,6 @@ static char		*get_map(int *was_read)
 	return s;
 }
 
-/*
-void		prebuild_map(t_map *map)
-{
-	int		y;
-	int		x;
-
-	map->w = 8;
-	map->h = 8;
-	map->map = (int *)malloc(sizeof(int) * (map->w * map->h));
-	y = -1;
-	while (++y < map->h)
-	{
-		x = -1;
-		while (++x < map->w)
-			if (x == 0 || y == 0 || x == map->w - 1 || y == map->h - 1)
-				map->map[y * map->w + x] = 11;
-			else
-				map->map[y * map->w + x] = 10;
-	}
-	map->map[1 * map->w + 3] = 15;
-	map->map[2 * map->w + 3] = 12;
-	map->map[5 * map->w + 5] = 12;
-}
-*/
-
-/*
-void	map_rect_w(t_map *map)
-{
-	int rect_w;
-	int rect_h;
-
-	rect_w = W_W / map->w / 3;
-	rect_h = W_H / map->h / 3;
-	if (rect_h < rect_w)
-		map->rect_w = rect_h;
-	else
-		map->rect_w = rect_w;
-}
-*/
-
 static void		check_logic(t_map *map)
 {
 	int		i;
