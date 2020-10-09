@@ -5,7 +5,7 @@
 //#include "../frameworks/SDL2_image.framework/Versions/A/Headers/SDL_image.h"
 //#include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 //#include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
-//#include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
+#include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
 # include <stdbool.h>
 # include <fcntl.h>
 # include "../libft/includes/ft_printf.h"
@@ -48,6 +48,11 @@ typedef struct	s_player
 	t_distance	distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
 	int			sides; //режим сторон света, будет в t_wolf
+
+	int			music_flag; // включает музыку
+	Mix_Music	*music;
+
+
 }				t_player;
 
 
@@ -124,6 +129,7 @@ int fps(void);
 int		is_texture(t_map *map, float x, float y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
+void	music(t_player *player);
 
 #endif
 

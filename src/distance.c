@@ -95,7 +95,12 @@ static t_distance find_horizontal_intersection(t_player *p, t_map *map, float an
 			if (p->sides)
 				dist.tex = 'S';
 			else
+			{
+				// float a;
+				// dist.tex = modff(A.x / CUBE, &a);
+				// https://proglib.io/p/raycasting-for-the-smallest шаг 11
 				dist.tex = map->map[((int)(A.y - 1) / CUBE) * map->w + ((int)A.x / CUBE)];
+			}
 			return (dist);
 			}
 		}
@@ -105,7 +110,12 @@ static t_distance find_horizontal_intersection(t_player *p, t_map *map, float an
 			if (p->sides)
 				dist.tex = 'N';
 			else
+			{
+				// float b;
+				// dist.tex = modff(A.x / CUBE, &b);
+				// https://proglib.io/p/raycasting-for-the-smallest шаг 11
 				dist.tex = map->map[((int)A.y / CUBE) * map->w + ((int)A.x / CUBE)];
+			}
 			return (dist);
 		}
 		A.x += diffx;
@@ -164,17 +174,26 @@ static t_distance find_vertical_intersection(t_player *p, t_map *map, float angl
 			if (p->sides)
 				dist.tex = 'W';
 			else
+			{
+				// float a;
+				// dist.tex = modff(B.y / CUBE, &a);
+				// https://proglib.io/p/raycasting-for-the-smallest шаг 11
+				// нужно помимо меры передавать с каким блоком столкнулись
 				dist.tex = map->map[((int)B.y / CUBE) * map->w + ((int)(B.x - 1) / CUBE)];
+			}
 			return dist;
 			}
 		}
-		if (ft_strchr(WALLSET, map->map[((int)B.y / CUBE) * map->w + ((int)B.x / CUBE)]))
+		else if (ft_strchr(WALLSET, map->map[((int)B.y / CUBE) * map->w + ((int)B.x / CUBE)]))
 		{
 			dist.dist = fabsf((p->x - B.x) / cosf(angle));
 			if (p->sides)
 				dist.tex = 'E';
 			else
 			{
+				// float b;
+				// dist.tex = modff(B.y / CUBE, &b);
+				// https://proglib.io/p/raycasting-for-the-smallest шаг 11
 				dist.tex = map->map[((int)B.y / CUBE) * map->w + ((int)B.x / CUBE)];
 			}
 			return dist;

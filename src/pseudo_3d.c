@@ -41,7 +41,7 @@ void	pseudo_3d(t_player *player, SDL_Surface *surface)
 		{
 			// y = (int)((1 - (data->player.distance[count_distance] / data->player.visibility)) * data->h);
 			point.y =  (CUBE * player->dist_to_canvas) /  player->distance[count_distance].dist;
-			//point.y = (int)(((2.0f * atan((1.0f / (2.0f * (float)player->distance[count_distance])))) / ((float)H / ((float)W / (float)(player->fov * 0.02)))) * (float)H);
+			// point.y = (int)(((2.0f * atan((1.0f / (2.0f * (float)player->distance[count_distance])))) / ((float)H / ((float)W / (float)(player->fov * 0.02)))) * (float)H);
 			
 			//что то альфа = 2 * арктан(1/2*дистанция)] находим колличество пикселей по игрек от серидины в обе стороны которые надо закрасить 
 			if (point.y > H) // затычка чтоб не крашилось при залете в стенку 

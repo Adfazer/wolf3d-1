@@ -114,9 +114,23 @@ void init_sdl(t_map *map, t_player *p, SDL_Surface *surface)
 					}
 					if (event.key.keysym.sym == SDLK_p)
 						p->sides = p->sides == 1 ? 0 : 1;
-
+					if (event.key.keysym.sym == SDLK_o)
+					{
+						if (p->music_flag == 0)
+						{
+							Mix_PlayMusic(p->music, -1);
+							p->music_flag = 1;
+						}
+						else
+						{
+							p->music_flag = 0;
+							Mix_HaltMusic();
+						}
+						
+					}
 				}
     		}
+			// music(p);
 			draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(p, surface);

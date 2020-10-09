@@ -34,6 +34,7 @@ int	main()
 	init_map(wolf->map);
 	//load_textures(surface);
 	init_player(wolf->player, wolf->map);
+	music(wolf->player);
 	init_sdl(wolf->map, wolf->player, wolf->surface);
 	return (0);
 }
