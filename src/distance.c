@@ -55,8 +55,8 @@ static t_distance find_horizontal_intersection(t_player *p, t_map *map, float an
 
 	inf.dist = INT32_MAX;
 	inf.tex = TEX_INF;
-	if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0) || is_angle(angle, RAD_360))
-		return inf;
+	// if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0) || is_angle(angle, RAD_360))
+	// 	return inf;
 
 
 	A.y = floorf((float)p->y / CUBE) * CUBE;
@@ -134,8 +134,8 @@ static t_distance find_vertical_intersection(t_player *p, t_map *map, float angl
 
 	inf.dist = INT32_MAX;
 	inf.tex = TEX_INF;
-	if (is_angle(angle, RAD_90) || is_angle(angle, RAD_270))
-		return inf;
+	// if (is_angle(angle, RAD_90) || is_angle(angle, RAD_270))
+	// 	return inf;
 
 
 	B.x = floorf((float)p->x / CUBE) * CUBE;

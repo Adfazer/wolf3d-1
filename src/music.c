@@ -10,6 +10,7 @@ void	music(t_player *player)
 		exit(0);
 	}
 	Mix_Volume(0, 32);
-	Mix_PlayMusic(player->music, -1);
+    if (player->music_flag == 1)
+	    Mix_PlayMusic(player->music, -1);
 	Mix_VolumeMusic(5);
 }
