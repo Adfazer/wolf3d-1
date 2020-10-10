@@ -30,11 +30,23 @@ int	main()
 {
 	t_wolf *wolf;
 
+	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
+    {
+        printf("error\n");
+        exit(1);
+    }
+	
+
 	wolf = t_wolf_new();
+	
+
+
+
 	init_map(wolf->map);
-	//load_textures(surface);
+	load_textures(wolf, wolf->sdl);
 	init_player(wolf->player, wolf->map);
 	music(wolf->player);
-	init_sdl(wolf->map, wolf->player, wolf->surface);
+	
+	init_sdl(wolf, wolf->map, wolf->player);
 	return (0);
 }

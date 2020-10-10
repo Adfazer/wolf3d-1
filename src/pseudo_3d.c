@@ -1,6 +1,6 @@
 #include "../includes/wolf3d.h"
 
-void	draw_column(SDL_Surface *surface, t_point point, t_distance dist, int size)
+void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance dist, int size, int offsety)
 {
 	int color;
 
@@ -17,14 +17,29 @@ void	draw_column(SDL_Surface *surface, t_point point, t_distance dist, int size)
 		color = 0xffffff;
 	else if (dist.tex == 'W')
 		color = 0x111111;
+	int y_start = point.y;
+	float height = size - point.y;
+	//printf("%d\n", point.y);
+	int i = 0;
+	       
 	while (point.y < size) // закрашиваем стенку по игреку или можно както сразу #строку# по вертикали закрсить ??
 	{
+		int y = point.y + W / 2 - size / 2;
+		if (dist.tex == 'W')
+			color = getpixel(wolf->sdl->textures, dist.offsetx, (int)(((float)i / height) * (CUBE - 2 * offsety)) + offsety);
+		else if (dist.tex == 'S')
+			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE, (int)(((float)i / height) * (CUBE - 2 * offsety)) + offsety);
+		else if (dist.tex == 'N')
+			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 2, (int)(((float)i / height) * (CUBE - 2 * offsety)) + offsety);
+		else if (dist.tex == 'E')
+			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 3, (int)(((float)i / height) * (CUBE - 2 * offsety)) + offsety);
 		set_pixel(surface, point, color);
 		point.y++;
+		i++;
 	}
 }
 
-void	pseudo_3d(t_player *player, SDL_Surface *surface)
+void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 {
     t_point point;
     int     count_distance;
@@ -50,7 +65,17 @@ void	pseudo_3d(t_player *player, SDL_Surface *surface)
 			cash = (cash - point.y) / 2; // половина не закрашеной части по игрек (низ или верх) колличество пикселей
 			point.y = cash;
 			int y1 = point.y;
-			draw_column(surface, point, player->distance[count_distance], H - y1);
+			int offsety = 0;
+
+			
+			if (player->distance[count_distance].dist < player->dist_to_canvas)
+			{
+				offsety = (int)(CUBE / player->dist_to_canvas) * player->distance[count_distance].dist;
+				//printf("%d\n", offsety);
+			}
+			
+			
+			draw_column(wolf, surface, point, player->distance[count_distance], H - y1, offsety);
 			
 			//draw_column();
 			

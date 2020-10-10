@@ -30,6 +30,7 @@ typedef struct		s_distance
 {
 	float			dist;
 	char			tex;
+	int				offsetx;
 }					t_distance;
 
 typedef struct	s_player
@@ -99,7 +100,7 @@ void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel);
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
 int		color_to_hex(int r, int g, int b);
-void init_sdl(t_map *map, t_player *player, SDL_Surface *surface);
+void init_sdl(t_wolf *wolf, t_map *map, t_player *player);
 t_point	dot(int x, int y);
 int raycast(void);
 void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p);
@@ -110,18 +111,20 @@ int	add_arc(float *arc, float to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
 void draw_background(SDL_Surface *surface);
+Uint32 getpixel(SDL_Surface *surface, int x, int y);
+int	get_color(Uint32 pixel, SDL_PixelFormat *format);
 
 /*
 ** init.c
 */
 
 void	init_player(t_player *player, t_map *map);
-int load_textures(t_sdl *sdl);
+int load_textures(t_wolf *wolf, t_sdl *sdl);
 
 //skaren
 void    all_get_distance(t_map *map, t_player *player);
 // void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
-void	pseudo_3d(t_player *player, SDL_Surface *surface);
+void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface);
 t_distance dist_to_wall(t_player *p, t_map *map, float angle);
 t_distance dist_to_floor(t_player *p, t_map *map, float angle);
 t_distance dist_to_texture(t_player *p, t_map *map, float angle, char texture);

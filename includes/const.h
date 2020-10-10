@@ -35,7 +35,9 @@
 # define RAD_45 0.785398f
 # define RAD_270 4.71239f
 
-# define TEXTURE_PATH "small_tex.bmp"
+# define TEXTURE_PATH "tex.bmp"
+# define ICON_PATH "icon.bmp"
+
 
 # define RMASK 0x000000ff
 # define GMASK 0x0000ff00

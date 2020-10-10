@@ -1,11 +1,5 @@
 #include "wolf3d.h"
 
-void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel)
-{
-  Uint32 *target_pixel = (Uint32 *)((Uint8 *)surface->pixels + point.y * surface->pitch
-  	 + point.x * sizeof *target_pixel);
-  *target_pixel = pixel;
-}
 
 static void rotate(SDL_Event *event, int *x, t_player *p)
 {
@@ -28,33 +22,37 @@ void	calc_move(t_map *map, t_player *p, float dy, float dx)
 }
 
 
-void init_sdl(t_map *map, t_player *p, SDL_Surface *surface)
+void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 {
-	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
-    {
-        printf("error\n");
-        exit(1);
-    }    
+	
+
+	   
     SDL_Window* window = NULL;
     window = SDL_CreateWindow("Hello, SDL 2!", 100, 
                                 100, W, H, 
                                 SDL_WINDOW_SHOWN);
+
+	SDL_Surface* icon;
+	if (!(icon = SDL_LoadBMP(ICON_PATH)))
+		printf("%s\n", SDL_GetError());
+	SDL_SetWindowIcon(window, icon);
     if (!window)
         printf("window error\n");
     
+	
+
 	Uint32 startTime = 0;
     Uint32 endTime = 0;
     Uint32 delta = 0;
     short fps = 60;
     short timePerFrame = 16; // miliseconds
-    
-    
 
-
-    surface = NULL;
-    
+    SDL_Surface *surface = wolf->surface;
     surface = SDL_GetWindowSurface(window);
-		draw_minimap(surface, map, p);
+	draw_minimap(surface, map, p);
+	//set_pixel(surface, dot(0,0), 0xff0000);
+	//wolf->sdl->bytes = (unsigned char *)wolf->surface->pixels;
+	//printf("%c\n", wolf->sdl->bytes[0]);
         SDL_UpdateWindowSurface(window);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
         bool isquit = false;
@@ -133,10 +131,24 @@ void init_sdl(t_map *map, t_player *p, SDL_Surface *surface)
 			// music(p);
 			draw_background(surface);
 			all_get_distance(map, p);
-			pseudo_3d(p, surface);
+			pseudo_3d(wolf, p, surface);
 			draw_minimap(surface, map, p);
+			/*
+			for (int o = 0; o < CUBE; o++)
+			{
+				for (int p = 0; p < CUBE; p++)
+				{
+					set_pixel(surface, dot(p,o), getpixel(wolf->sdl->textures, p, o));
+				}
+			}
+			*/
 			SDL_UpdateWindowSurface(window);
+			
+			
+			
+			
 		}
+		
         SDL_DestroyWindow(window);
         SDL_Quit();
 }
