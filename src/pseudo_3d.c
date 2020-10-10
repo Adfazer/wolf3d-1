@@ -70,8 +70,8 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 			
 			if (player->distance[count_distance].dist < player->dist_to_canvas)
 			{
-				offsety = (int)(CUBE / player->dist_to_canvas) * player->distance[count_distance].dist;
-				//printf("%d\n", offsety);
+				offsety = CUBE - (int)(player->distance[count_distance].dist / player->dist_to_canvas) * CUBE;
+				printf("%d\n", offsety);
 			}
 			
 			
