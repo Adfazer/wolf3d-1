@@ -23,17 +23,42 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance d
 	while (point.y < size) // закрашиваем стенку по игреку или можно както сразу #строку# по вертикали закрсить ??
 	{
 		if (dist.tex == 'W')
-			color = getpixel(wolf->sdl->textures, dist.offsetx, (int)(((float)i / height) * 62));
+			color = getpixel(wolf->sdl->textures, dist.offsetx, (int)(((float)i / height) * CUBE));
 		else if (dist.tex == 'S')
-			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE, (int)(((float)i / height) * 62));
+			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE, (int)(((float)i / height) * CUBE));
 		else if (dist.tex == 'N')
-			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 2, (int)(((float)i / height) * 62));
+			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 2, (int)(((float)i / height) * CUBE));
 		else if (dist.tex == 'E')
-			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 3, (int)(((float)i / height) * 62));
+			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 3, (int)(((float)i / height) * CUBE));
 		if (point.y > 0 && point.y < H)
 			set_pixel(surface, point, color);
 		point.y++;
 		i++;
+	}
+}
+
+# define COLOR_SKY_BLUE  0x15DAEA
+# define COLOR_GREY  0xAAAAAA
+# define COLOR_BROWN 0xBE8641
+
+void	draw_floor(t_wolf *wolf, SDL_Surface *surface, int x, int y)
+{
+	while (y < W)
+	{
+		set_pixel(surface, dot(x,y), COLOR_BROWN);
+		y++;
+	}
+		
+}
+
+void	draw_sky(t_wolf *wolf, SDL_Surface *surface, int x, int y)
+{
+	int		i;
+
+	i = -1;
+	while (++i < y)
+	{
+		set_pixel(surface, dot(x,i), COLOR_GREY);
 	}
 }
 
@@ -53,7 +78,9 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 			point.y = (CUBE * player->dist_to_canvas) /  player->distance[count_distance].dist;
 			point.y = (H - point.y) / 2; // половина не закрашеной части по игрек (низ или верх) колличество пикселей
 			float height = H - point.y * 2;
-			draw_column(wolf, surface, point, player->distance[count_distance], H - point.y, height);			
+			draw_column(wolf, surface, point, player->distance[count_distance], H - point.y, height);
+			draw_sky(wolf, surface, point.x, point.y);
+			draw_floor(wolf, surface, point.x, H - point.y + 1);	
 		}
 		count_distance--; // следующий луч
 		point.x++;;
