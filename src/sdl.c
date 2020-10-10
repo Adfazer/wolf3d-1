@@ -35,6 +35,8 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 	SDL_Surface* icon;
 	if (!(icon = SDL_LoadBMP(ICON_PATH)))
 		printf("%s\n", SDL_GetError());
+	if (!(wolf->sdl->sky = SDL_LoadBMP(SKY_PATH)))
+		printf("%s\n", SDL_GetError());	
 	SDL_SetWindowIcon(window, icon);
     if (!window)
         printf("window error\n");

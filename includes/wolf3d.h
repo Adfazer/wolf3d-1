@@ -67,6 +67,7 @@ typedef struct		s_sdl
 {
 	SDL_Surface		*scrs;
 	SDL_Surface		*textures;
+	SDL_Surface		*sky;
 	SDL_Surface		**arr;
 	SDL_Renderer	*rend;
 	SDL_Window		*win;
@@ -76,7 +77,6 @@ typedef struct		s_sdl
 	unsigned char	*bytes;
 	unsigned char	*bytes_texture;
 	int				pitch;
-	bool			run;
 }					t_sdl;
 
 typedef struct	s_wolf

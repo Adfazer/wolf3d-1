@@ -37,6 +37,7 @@
 
 # define TEXTURE_PATH "tex.bmp"
 # define ICON_PATH "icon.bmp"
+# define SKY_PATH "sky.bmp"
 
 
 # define RMASK 0x000000ff

@@ -58,7 +58,7 @@ void	draw_sky(t_wolf *wolf, SDL_Surface *surface, int x, int y)
 	i = -1;
 	while (++i < y)
 	{
-		set_pixel(surface, dot(x,i), COLOR_GREY);
+		set_pixel(surface, dot(x, i) , getpixel(wolf->sdl->sky, x, i));
 	}
 }
 
