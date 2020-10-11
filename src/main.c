@@ -35,7 +35,11 @@ int	main()
         printf("error\n");
         exit(1);
     }
-	
+	if (TTF_Init() != 0)
+	{
+        printf("error\n");
+        exit(1);
+	}
 
 	wolf = t_wolf_new();
 	

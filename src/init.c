@@ -19,6 +19,7 @@ void	init_player(t_player *p, t_map *map)
 	p->view_dist = 512.0f;
 	p->sides = 1;
 	p->music_flag = 0;
+	p->fps = 1;
 	// p->visibility = 512.0f;
 }
 
