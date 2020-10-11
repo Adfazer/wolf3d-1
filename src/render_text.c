@@ -15,7 +15,7 @@ void    render_text(int fps, SDL_Surface *screen)
 	SDL_Surface* textSurface = NULL;
 	char *str;
 	str = ft_itoa(fps);
-	textSurface = TTF_RenderText_Shaded(my_font, ft_itoa(fps), fore_color, back_color);
+	textSurface = TTF_RenderText_Shaded(my_font, str, fore_color, back_color);
 	free(str);
 	if(textSurface == NULL)
 	{
