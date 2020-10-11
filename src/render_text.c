@@ -13,7 +13,10 @@ void    render_text(int fps, SDL_Surface *screen)
 	SDL_Color fore_color = { RED_COLOR };
 	SDL_Color back_color = { BLUE_COLOR };
 	SDL_Surface* textSurface = NULL;
+	char *str;
+	str = ft_itoa(fps);
 	textSurface = TTF_RenderText_Shaded(my_font, ft_itoa(fps), fore_color, back_color);
+	free(str);
 	if(textSurface == NULL)
 	{
 		printf("error\n");
