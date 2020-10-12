@@ -156,12 +156,39 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 							Mix_HaltMusic();
 						}
 					}
+					if (event.key.keysym.sym == SDLK_i)
+					{
+						if (p->fps == 0)
+							p->fps = 1;
+						else
+							p->fps = 0;
+					}
 				}
     		}
 			// music(p);
+
+			if (!startTime) {
+            // get the time in ms passed from the moment the program started
+            startTime = SDL_GetTicks(); 
+			} else {
+				delta = endTime - startTime; // how many ms for a frame
+			}
+			// if less than 16ms, delay 
+			if (delta < timePerFrame) {
+				SDL_Delay(timePerFrame - delta);
+			}
+			// if delta is bigger than 16ms between frames, get the actual fps
+			if (delta > timePerFrame) {
+				fps = 1000 / delta;
+			}
+     	   	startTime = endTime;
+       		endTime = SDL_GetTicks();
+			
 			draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
+			if (p->fps)
+        		render_text(fps, surface);
 			draw_minimap(surface, map, p);
 			/*
 			for (int o = 0; o < CUBE; o++)
@@ -176,5 +203,6 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 			SDL_UpdateWindowSurface(window);
 		}
         SDL_DestroyWindow(window);
+		TTF_Quit();
         SDL_Quit();
 }

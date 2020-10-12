@@ -3,7 +3,7 @@
 
 #include "../frameworks/SDL2.framework/Headers/SDL.h"
 //#include "../frameworks/SDL2_image.framework/Versions/A/Headers/SDL_image.h"
-//#include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
+#include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
 //#include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
 #include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
 # include <stdbool.h>
@@ -58,6 +58,7 @@ typedef struct	s_player
 	int			music_flag; // включает музыку
 	Mix_Music	*music;
 
+	int			fps;
 
 }				t_player;
 
@@ -140,6 +141,7 @@ int		is_texture(t_map *map, float x, float y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
 void	music(t_player *player);
+void    render_text(int fps, SDL_Surface *screen);
 
 #endif
 

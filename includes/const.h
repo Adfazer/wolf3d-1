@@ -2,7 +2,7 @@
 # define CONST_H
 
 # define DEBUG 1
-# define SHOW_FPS 0
+# define SHOW_FPS 1
 
 
 
@@ -49,6 +49,12 @@
 # define GMASK 0x0000ff00
 # define BMASK 0x00ff0000
 # define AMASK 0xff000000
+
+
+#define BLACK_COLOR 0,0,0
+#define WHITE_COLOR 255,255,255
+#define RED_COLOR 255,0,0
+#define BLUE_COLOR 0,0,255
 
 
 #endif
