@@ -73,6 +73,48 @@ static void		check_logic(t_map *map)
 	}
 }
 
+
+
+void		check_start(t_map *map)
+{
+	int		start_counter;
+	int		i;
+
+	start_counter = 0;
+	i = -1;
+	while (++i < map->w * map->h)
+	{
+		if (map->map[i] == TEX_START)
+		{
+			map->player_start = i;
+			map->map[i] = TEX_FLOOR;
+			start_counter++;
+		}
+	}
+	!start_counter ? error("no player start position") : 0;
+	start_counter > 1 ? error("ambiguous player start position") : 0;
+}
+
+
+void		init_mm(t_map *map)
+{
+	int map_max_side;
+
+	map_max_side = max(map->w, map->h);
+	map->mm_cube = (W / 3) / map_max_side;
+	map->mm_start.x = 16;
+	map->mm_start.y = 16;
+	
+	map->mm_w = map->mm_cube * map->w;
+	map->mm_h = map->mm_cube * map->h;
+
+	map->mm_p_size = map->mm_cube / 4;
+	map->mm_cube_coef = (float)map->mm_cube / CUBE;
+	map->mm_map_coef = (float)map->mm_w / W;
+
+	map->mm_show = 1;
+}
+
 void		init_map(t_map *map)
 {
 	int		map_size;
@@ -85,14 +127,7 @@ void		init_map(t_map *map)
 	validate_map(str_map, map_size, map);
 	map->map =ft_strnew(map->h * map->w);
 	!map->map ? error("malloc") : 1;
-
-	map->mm_start.x = 16;
-	map->mm_start.y = 16;
-
-	map->mm.x = 4;
-	map->mm.y = 4;
-	map->mm_cube.x = CUBE / map->mm.x;
-	map->mm_cube.y = CUBE / map->mm.y;
+	
 	i = -1;
 	j = 0;
 	while (++i < map_size)
@@ -100,7 +135,9 @@ void		init_map(t_map *map)
 		if (str_map[i] != '\n')
 			map->map[j++] = str_map[i];
 	}
-	//map_rect_w(map);
 	free(str_map);
+	check_start(map);
 	check_logic(map);
+	init_mm(map);
+	//debug_map(map);
 }

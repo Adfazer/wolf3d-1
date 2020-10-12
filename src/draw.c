@@ -1,23 +1,12 @@
 #include "wolf3d.h"
 
-static int	x_to_mm(t_map *map, int x)
-{
-	return map->mm_start.x + x / (map->mm.x);
-}
-
-static int	y_to_mm(t_map *map, int y)
-{
-	return map->mm_start.y + y / (map->mm.y);
-}
-
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 {
-	
-		int dx = abs(end.x-start.x), sx = start.x<end.x ? 1 : -1;
-		int dy = abs(end.y-start.y), sy = start.y<end.y ? 1 : -1; 
-		int err = (dx>dy ? dx : -dy)/2, e2;
+	int dx = abs(end.x-start.x), sx = start.x<end.x ? 1 : -1;
+	int dy = abs(end.y-start.y), sy = start.y<end.y ? 1 : -1; 
+	int err = (dx>dy ? dx : -dy)/2, e2;
 
-	for(;;)
+	while (1)
 	{
 		if (start.x > W || start.x < 0 || start.y > H || start.y < 0)
 			break ;
@@ -25,8 +14,14 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 		if (start.x==end.x && start.y==end.y)
 			break;
 		e2 = err;
-		if (e2 >-dx) { err -= dy; start.x += sx; }
-		if (e2 < dy) { err += dx; start.y += sy; }
+		if (e2 >-dx)
+		{
+			err -= dy; start.x += sx;
+		}
+		if (e2 < dy)
+		{
+			err += dx; start.y += sy;
+		}
 	}
 }
 
@@ -49,24 +44,24 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
-void drawRay(SDL_Surface *surface, t_player *p, int x, int y)
+void drawRay(SDL_Surface *surface, float dir, int x, int y)
 {
-	int dx0 = cos(p->dir - RAD_60 / 2) * CUBE;
-	int dy0 = sin(p->dir - RAD_60 / 2) * CUBE;
-	int dx1 = cos(p->dir + RAD_60 / 2) * CUBE;
-	int dy1 = sin(p->dir + RAD_60 / 2) * CUBE;
+	int dx0 = cos(dir - RAD_60 / 2) * CUBE;
+	int dy0 = sin(dir - RAD_60 / 2) * CUBE;
+	int dx1 = cos(dir + RAD_60 / 2) * CUBE;
+	int dy1 = sin(dir + RAD_60 / 2) * CUBE;
 	
 	draw_line(
 		surface,
 		dot(x, y),
 		dot(x + dx0, y - dy0),
-		color_to_hex(255, 255, 255));
+		COLOR_WHITE);
 		
 	draw_line(
 		surface,
 		dot(x, y),
 		dot(x + dx1, y - dy1),
-		color_to_hex(255, 255, 255));
+		COLOR_WHITE);
 }
 
 void draw_background(SDL_Surface *surface)
@@ -74,30 +69,31 @@ void draw_background(SDL_Surface *surface)
 	draw_rectangle(surface, dot(0,0), dot(W, H), 0);
 }
 
-void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p)
+void	draw_minimap(SDL_Surface *surface, t_map *map, t_player *p)
 {
-	map->minimap_width = 5;
-	int p_size = 20;
-	
-	draw_rectangle(surface, map->mm_start,
-	dot(map->mm_cube.x * map->w, map->mm_cube.y * map->h), 
-	color_to_hex(121,121,121));
+	int	xx;
+	int	yy;
+	int	i;
 
-	for (int i = 0; i < map->h * map->w; i++)
+	if (!map->mm_show)
+		return ;
+	draw_rectangle(surface, map->mm_start,
+	dot(map->mm_w, map->mm_h), 
+	COLOR_GREY_LIGHT);
+	i = -1;
+	while (++i < map->h * map->w)
 	{
 		if (ft_strchr(WALLSET, map->map[i]))
 		{
-			int xx = x_to_mm(map, (i % map->w ) * CUBE);
-			int yy = y_to_mm(map, (i / map->h) * CUBE);
-			draw_rectangle(surface, \
-			dot(xx, yy),
-			dot(CUBE / (map->mm.x), CUBE / (map->mm.y)), 0xbbbb00);
+			xx = (i % map->w) * map->mm_cube + map->mm_start.x;
+			yy = (i / map->w) * map->mm_cube + map->mm_start.y;
+			draw_rectangle(surface, dot(xx, yy),
+			dot(map->mm_cube, map->mm_cube), 0xbbbb00);
 		}
 	}
-
 	draw_rectangle(surface, 
-		dot(p->x / map->mm.x + map->mm_start.x - PLAYER_MM_SIZE, p->y / map->mm.y + map->mm_start.y - PLAYER_MM_SIZE),
-		dot(p_size / map->mm.x + PLAYER_MM_SIZE, p_size / map->mm.y + PLAYER_MM_SIZE), 
-		color_to_hex(255,255,255));
-	drawRay(surface, p, p->x / map->mm.x + map->mm_start.x, p->y / map->mm.y + map->mm_start.y);
+		dot(p->x * map->mm_cube_coef + (map->mm_start.x - map->mm_p_size), p->y * map->mm_cube_coef + (map->mm_start.y - map->mm_p_size)),
+		dot(map->mm_p_size * 2, map->mm_p_size * 2), 
+		0xFFFFFF);
+	drawRay(surface, p->dir, p->x * map->mm_cube_coef + map->mm_start.x, p->y * map->mm_cube_coef + map->mm_start.y);
 }

@@ -24,14 +24,13 @@ int	get_color(Uint32 pixel, SDL_PixelFormat *format)
 	return color_to_hex(rgb.r, rgb.g, rgb.b);
 }
 
-int load_textures(t_wolf *wolf, t_sdl *sdl)
+int				load_textures(t_wolf *wolf, t_sdl *sdl)
 {
-	SDL_Surface *tex;
-	//arr - массив с текстурами		
-	//t_img **arr = (t_img **)malloc(sizeof(t_img *) * 8 *  32);
+	SDL_Surface	*tex;
+
 	if (!(tex = SDL_LoadBMP(TEXTURE_PATH)))
 		printf("%s\n", SDL_GetError());
-	sdl->textures = tex;	
+	sdl->textures = tex;
 	//sdl->textures = SDL_ConvertSurfaceFormat(tex, SDL_PIXELFORMAT_ABGR8888, 0);
 	sdl->bytes_texture = (unsigned char*)sdl->textures->pixels;
 	

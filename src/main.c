@@ -36,17 +36,11 @@ int	main()
         exit(1);
     }
 	
-
 	wolf = t_wolf_new();
-	
-
-
-
 	init_map(wolf->map);
 	load_textures(wolf, wolf->sdl);
 	init_player(wolf->player, wolf->map);
 	music(wolf->player);
-	
 	init_sdl(wolf, wolf->map, wolf->player);
 	return (0);
 }

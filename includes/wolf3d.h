@@ -11,6 +11,7 @@
 # include "../libft/includes/ft_printf.h"
 # include <math.h>
 # include "const.h"
+# include "colors.h"
 
 
 
@@ -19,11 +20,15 @@ typedef struct	s_map
 	char		*map;
 	int			w;
 	int			h;
-	int			minimap_width;
-	int			minimap_height;
 	t_point		mm_start;
-	t_point		mm;
-	t_point		mm_cube;
+	int			mm_cube;
+	int			mm_show;
+	int			mm_w;
+	int			mm_h;
+	int			mm_p_size;
+	float		mm_map_coef;
+	float		mm_cube_coef;
+	int			player_start;
 }				t_map;
 
 typedef struct		s_distance
@@ -77,6 +82,7 @@ typedef struct		s_sdl
 	unsigned char	*bytes;
 	unsigned char	*bytes_texture;
 	int				pitch;
+	int				skybox_offset;
 }					t_sdl;
 
 typedef struct	s_wolf
@@ -106,13 +112,14 @@ int raycast(void);
 void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
-void drawRay(SDL_Surface *surface, t_player *player, int x, int y);
+void drawRay(SDL_Surface *surface, float player, int x, int y);
 int	add_arc(float *arc, float to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
 void draw_background(SDL_Surface *surface);
 Uint32 getpixel(SDL_Surface *surface, int x, int y);
 int	get_color(Uint32 pixel, SDL_PixelFormat *format);
+int	max(int a, int b);
 
 /*
 ** init.c

@@ -1,12 +1,26 @@
 #include "wolf3d.h"
 
+static void	add_skybox_offset(t_sdl *sdl, int to_add)
+{
+	sdl->skybox_offset += to_add;
+	if (sdl->skybox_offset > sdl->sky->w - 1)
+		sdl->skybox_offset -= sdl->sky->w;
+	if (sdl->skybox_offset < 0)
+		sdl->skybox_offset += sdl->sky->w;
+}
 
-static void rotate(SDL_Event *event, int *x, t_player *p)
+static void rotate(t_wolf *wolf, SDL_Event *event, int *x)
 {
 	if (event->motion.xrel >= 0)
-		add_arc(&(p->dir), -0.02);
+	{
+		add_arc(&(wolf->player->dir), -0.02);
+		add_skybox_offset(wolf->sdl, 2);
+	}
 	else
-		add_arc(&(p->dir), 0.02);
+	{
+		add_arc(&(wolf->player->dir), 0.02);
+		add_skybox_offset(wolf->sdl, -2);
+	}
 	*x = event->motion.x;
 	//debug_player(&p);
 }
@@ -15,19 +29,24 @@ static void rotate(SDL_Event *event, int *x, t_player *p)
 //работает, пускает в углы
 void	calc_move(t_map *map, t_player *p, float dy, float dx)
 {
-	if (is_texture(map, p->x + dx, p->y, TEX_FLOOR))
+	int		player_box;
+
+	player_box = dx > 0 ? p->size : -p->size;
+	if (is_texture(map, p->x + dx + player_box, p->y, TEX_FLOOR))
+	{
 		p->x += dx;
-	if (is_texture(map, p->x, p->y + dy, TEX_FLOOR))
+	}
+	player_box = dy > 0 ? p->size : -p->size;
+	if (is_texture(map, p->x, p->y + dy + player_box, TEX_FLOOR))
+	{
 		p->y += dy;
+	}
 }
 
 
 void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 {
-	
-
-	   
-    SDL_Window* window = NULL;
+	SDL_Window* window = NULL;
     window = SDL_CreateWindow("Hello, SDL 2!", 100, 
                                 100, W, H, 
                                 SDL_WINDOW_SHOWN);
@@ -49,8 +68,10 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
     short fps = 60;
     short timePerFrame = 16; // miliseconds
 
-    SDL_Surface *surface = wolf->surface;
+    SDL_Surface *surface;
     surface = SDL_GetWindowSurface(window);
+	wolf->sdl->skybox_offset = 0;
+	wolf->surface = surface;
 	draw_minimap(surface, map, p);
 	//set_pixel(surface, dot(0,0), 0xff0000);
 	//wolf->sdl->bytes = (unsigned char *)wolf->surface->pixels;
@@ -68,7 +89,7 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 					isquit = true;
 				if (event.type == SDL_MOUSEMOTION)
 				{
-					rotate(&event, &x, p);
+					rotate(wolf, &event, &x);
 					//debug_player(player);
 				}
 				if (event.type == SDL_KEYDOWN)
@@ -108,12 +129,20 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 					{
 						if (event.key.keysym.sym == SDLK_RIGHT)
+						{
 							add_arc(&p->dir, -RAD_1);
+							add_skybox_offset(wolf->sdl, 2);
+						}
 						if (event.key.keysym.sym == SDLK_LEFT)
+						{
 							add_arc(&p->dir, RAD_1);
+							add_skybox_offset(wolf->sdl, -2);
+						}
 					}
 					if (event.key.keysym.sym == SDLK_p)
 						p->sides = p->sides == 1 ? 0 : 1;
+					if (event.key.keysym.sym == SDLK_m)
+						map->mm_show = map->mm_show == 1 ? 0 : 1;
 					if (event.key.keysym.sym == SDLK_o)
 					{
 						if (p->music_flag == 0)
@@ -126,7 +155,6 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 							p->music_flag = 0;
 							Mix_HaltMusic();
 						}
-						
 					}
 				}
     		}
@@ -144,13 +172,9 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 				}
 			}
 			*/
+		//debug_player(p);
 			SDL_UpdateWindowSurface(window);
-			
-			
-			
-			
 		}
-		
         SDL_DestroyWindow(window);
         SDL_Quit();
 }

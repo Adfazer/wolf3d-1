@@ -15,3 +15,8 @@ int	add_arc(float *arc, float to_add)
 		*arc -= RAD_360;
 	return 0;
 }
+
+int	max(int a, int b)
+{
+	return (a > b ? a : b);
+}
