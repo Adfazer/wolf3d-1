@@ -67,6 +67,10 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
     Uint32 delta = 0;
     short fps = 60;
     short timePerFrame = 16; // miliseconds
+	
+	int flag_guns = 0;
+	Uint32 start_guns;
+
 
     SDL_Surface *surface;
     surface = SDL_GetWindowSurface(window);
@@ -92,6 +96,16 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 					rotate(wolf, &event, &x);
 					//debug_player(player);
 				}
+				// if( event.type == SDL_MOUSEBUTTONDOWN )
+				// {
+        		// 	if( event.button.button == SDL_BUTTON_LEFT )
+				// 		p->guns_fire = 1;
+				// }
+				// if( event.type == SDL_MOUSEBUTTONUP )
+				// {
+        		// 	if( event.button.button == SDL_BUTTON_LEFT )
+				// 		p->guns_fire = 0;
+				// }
 				if (event.type == SDL_KEYDOWN)
 				{
 					isquit = event.key.keysym.sym == SDLK_ESCAPE ? true : isquit;
@@ -163,6 +177,10 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 						else
 							p->fps = 0;
 					}
+					if (event.key.keysym.sym == SDLK_SPACE)
+					{
+						p->guns_fire = 1;
+					}
 				}
     		}
 			// music(p);
@@ -189,6 +207,25 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 			pseudo_3d(wolf, p, surface);
 			if (p->fps)
         		render_fps(fps, surface);
+			if (p->guns_fire || flag_guns != 0)
+			{
+				p->guns_fire = 0;
+				if (!start_guns)
+				{
+					flag_guns++;
+					start_guns = SDL_GetTicks();
+				}
+				if (start_guns + 200 < SDL_GetTicks())
+				{
+					flag_guns++;
+					start_guns = SDL_GetTicks();
+				}
+				guns_shot(surface, flag_guns);
+				flag_guns == 5 ? Mix_HaltMusic(): 0;
+				flag_guns == 5 ? flag_guns = 0: 0;
+			}
+			else
+				guns_shot(surface, 1);
 			draw_minimap(surface, map, p);
 			/*
 			for (int o = 0; o < CUBE; o++)

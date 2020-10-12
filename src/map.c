@@ -28,13 +28,13 @@ static void	validate_map(char *map, int map_size, t_map *map_struct)
 	map_struct->w = len_first;
 }
 
-static char		*get_map(int *was_read)
+static char		*get_map(int *was_read, char *b)
 {
 	char	*s;
 	int		fd;
 	
 	s = ft_strnew(MAP_MAX_SIZE + 1);
-	fd = open(MAP_FILEPATH, O_RDONLY);
+	fd = open(b, O_RDONLY);
 	fd < 0 ? error("cant open") : 0;
 	read(fd, s, 0) < 0 ? error("cant read") : 0;
 	*was_read = read(fd, s, MAP_MAX_SIZE + 1);
@@ -115,7 +115,7 @@ void		init_mm(t_map *map)
 	map->mm_show = 1;
 }
 
-void		init_map(t_map *map)
+void		init_map(t_map *map, char *b)
 {
 	int		map_size;
 	char	*str_map;
@@ -123,7 +123,7 @@ void		init_map(t_map *map)
 	int		j;
 	
 	
-	str_map = get_map(&map_size);
+	str_map = get_map(&map_size, b);
 	validate_map(str_map, map_size, map);
 	map->map =ft_strnew(map->h * map->w);
 	!map->map ? error("malloc") : 1;

@@ -2,9 +2,9 @@
 #define WOLF3D_H
 
 #include "../frameworks/SDL2.framework/Headers/SDL.h"
-//#include "../frameworks/SDL2_image.framework/Versions/A/Headers/SDL_image.h"
+// #include "../frameworks/SDL2_image.framework/Versions/A/Headers/SDL_image.h"
 #include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
-//#include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
+#include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
 #include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
 # include <stdbool.h>
 # include <fcntl.h>
@@ -52,7 +52,6 @@ typedef struct	s_player
 	float		step;
 	float		xmm;
 	float		ymm;
-	float		view_dist;
 	t_distance	distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
 	int			sides; //режим сторон света, будет в t_wolf
@@ -61,6 +60,7 @@ typedef struct	s_player
 	Mix_Music	*music;
 
 	int			fps;
+	int			guns_fire;
 
 }				t_player;
 
@@ -95,7 +95,7 @@ typedef struct	s_wolf
 }				t_wolf;
 
 int		error(char *s);
-void		init_map(t_map *map);
+void		init_map(t_map *map, char *b);
 
 void set_pixel(SDL_Surface *surface, t_point point, Uint32 pixel);
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
@@ -136,6 +136,7 @@ t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
 void	music(t_player *player);
 void    render_fps(int fps, SDL_Surface *screen);
+void    guns_shot(SDL_Surface *screen, int flag);
 
 #endif
 

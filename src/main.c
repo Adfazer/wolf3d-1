@@ -26,10 +26,15 @@ t_wolf		*t_wolf_new(void)
 	return new;
 }
 
-int	main()
+int	main(int a, char **b)
 {
 	t_wolf *wolf;
 
+	if (a != 2)
+	{
+		printf("usage : ./wolf3d [map]\n");
+        exit(1);
+	}
 	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
     {
         printf("error\n");
@@ -40,9 +45,8 @@ int	main()
         printf("error\n");
         exit(1);
 	}
-
 	wolf = t_wolf_new();
-	init_map(wolf->map);
+	init_map(wolf->map, b[1]);
 	load_textures(wolf, wolf->sdl);
 	init_player(wolf->player, wolf->map);
 	music(wolf->player);
