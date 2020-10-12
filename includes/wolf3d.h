@@ -20,6 +20,8 @@ typedef struct	s_map
 	char		*map;
 	int			w;
 	int			h;
+	int			w_pix;
+	int			h_pix;
 	t_point		mm_start;
 	int			mm_cube;
 	int			mm_show;
@@ -74,12 +76,10 @@ typedef struct		s_sdl
 	SDL_Surface		*scrs;
 	SDL_Surface		*textures;
 	SDL_Surface		*sky;
-	SDL_Surface		**arr;
 	SDL_Renderer	*rend;
 	SDL_Window		*win;
 	SDL_Texture		*win_texture;
 	SDL_Event		e;
-	int				y;
 	unsigned char	*bytes;
 	unsigned char	*bytes_texture;
 	int				pitch;
@@ -94,12 +94,6 @@ typedef struct	s_wolf
 	SDL_Surface	*surface;
 }				t_wolf;
 
-/*
-t_map map;
-t_player p;
-SDL_Surface* surface;
-*/
-
 int		error(char *s);
 void		init_map(t_map *map);
 
@@ -113,7 +107,7 @@ int raycast(void);
 void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
-void drawRay(SDL_Surface *surface, float player, int x, int y);
+void draw_ray(SDL_Surface *surface, float player, int x, int y);
 int	add_arc(float *arc, float to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
@@ -141,7 +135,7 @@ int		is_texture(t_map *map, float x, float y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
 void	music(t_player *player);
-void    render_text(int fps, SDL_Surface *screen);
+void    render_fps(int fps, SDL_Surface *screen);
 
 #endif
 

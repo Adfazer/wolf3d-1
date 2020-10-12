@@ -26,7 +26,7 @@ ALL_C = main.c \
 		pseudo_3d.c \
 		draw.c \
 		music.c \
-		render_text.c
+		render_fps.c
 
 SRCDIR = ./src
 OBJDIR = ./objs

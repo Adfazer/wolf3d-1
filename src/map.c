@@ -135,6 +135,8 @@ void		init_map(t_map *map)
 		if (str_map[i] != '\n')
 			map->map[j++] = str_map[i];
 	}
+	map->w_pix = map->w * CUBE;
+	map->h_pix = map->h * CUBE;
 	free(str_map);
 	check_start(map);
 	check_logic(map);

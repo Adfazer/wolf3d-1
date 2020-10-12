@@ -44,7 +44,7 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
-void drawRay(SDL_Surface *surface, float dir, int x, int y)
+void draw_ray(SDL_Surface *surface, float dir, int x, int y)
 {
 	int dx0 = cos(dir - RAD_60 / 2) * CUBE;
 	int dy0 = sin(dir - RAD_60 / 2) * CUBE;
@@ -95,5 +95,5 @@ void	draw_minimap(SDL_Surface *surface, t_map *map, t_player *p)
 		dot(p->x * map->mm_cube_coef + (map->mm_start.x - map->mm_p_size), p->y * map->mm_cube_coef + (map->mm_start.y - map->mm_p_size)),
 		dot(map->mm_p_size * 2, map->mm_p_size * 2), 
 		0xFFFFFF);
-	drawRay(surface, p->dir, p->x * map->mm_cube_coef + map->mm_start.x, p->y * map->mm_cube_coef + map->mm_start.y);
+	draw_ray(surface, p->dir, p->x * map->mm_cube_coef + map->mm_start.x, p->y * map->mm_cube_coef + map->mm_start.y);
 }

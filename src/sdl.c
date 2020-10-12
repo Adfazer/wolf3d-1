@@ -188,7 +188,7 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
 			if (p->fps)
-        		render_text(fps, surface);
+        		render_fps(fps, surface);
 			draw_minimap(surface, map, p);
 			/*
 			for (int o = 0; o < CUBE; o++)

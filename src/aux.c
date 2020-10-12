@@ -20,3 +20,8 @@ int	max(int a, int b)
 {
 	return (a > b ? a : b);
 }
+
+int is_angle(float angle, float rad)
+{
+	return fabsf(cosf(angle) - cosf(rad)) < KLUDGE;
+}

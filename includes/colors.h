@@ -4,4 +4,9 @@
 # define COLOR_GREY_LIGHT 0x797979
 # define COLOR_WHITE 0xFFFFFF
 # define COLOR_BLACK 0x000000
+
+#define BLACK_COLOR 0,0,0
+#define WHITE_COLOR 255,255,255
+#define RED_COLOR 255,0,0
+#define BLUE_COLOR 0,0,255
 #endif

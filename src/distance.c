@@ -1,11 +1,5 @@
 #include "../includes/wolf3d.h"
 
-int is_angle(float angle, float rad)
-{
-	//printf("%f\n", fabsf(cosf(angle) - cosf(rad)));
-	return fabsf(cosf(angle) - cosf(rad)) < KLUDGE;
-}
-
 static int	float_is_equal(float a, float b)
 {
 	return fabsf(a - b) < KLUDGE;
@@ -85,7 +79,7 @@ static t_distance find_horizontal_intersection(t_player *p, t_map *map, float an
 		diffy = CUBE;
 	}
 	
-	while (A.y > -1 && A.y < H && A.x > -1 && A.x < W)
+	while (A.y > -1 && A.y < map->h_pix && A.x > -1 && A.x < map->w_pix)
 	{
 		if (angle > RAD_0 && angle < RAD_180)
 		{
@@ -166,7 +160,7 @@ static t_distance find_vertical_intersection(t_player *p, t_map *map, float angl
 		diffx = -CUBE;		
 	}
 	
-	while (B.y >-1  && B.y < H && B.x > -1 && B.x < W)
+	while (B.y >-1  && B.y < map->h_pix && B.x > -1 && B.x < map->w_pix)
 	{
 		if (angle < RAD_270 && angle > RAD_90)
 		{

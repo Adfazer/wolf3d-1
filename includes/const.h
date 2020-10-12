@@ -4,8 +4,6 @@
 # define DEBUG 1
 # define SHOW_FPS 1
 
-
-
 # define INTBUF_INIT_SIZE 64
 # define INTBUF_RESIZE_COEF 4
 # define MAP_MAX_SIZE 2048
@@ -51,10 +49,7 @@
 # define AMASK 0xff000000
 
 
-#define BLACK_COLOR 0,0,0
-#define WHITE_COLOR 255,255,255
-#define RED_COLOR 255,0,0
-#define BLUE_COLOR 0,0,255
+
 
 
 #endif

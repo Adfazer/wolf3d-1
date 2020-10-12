@@ -1,10 +1,11 @@
 #include "../includes/wolf3d.h"
 
-void    render_text(int fps, SDL_Surface *screen)
+void    render_fps(int fps, SDL_Surface *screen)
 {
-	TTF_Font*   my_font = NULL;
+	TTF_Font*	my_font;
 
-	my_font = TTF_OpenFont("ttf/19888.ttf", 12);
+	my_font = NULL;
+	my_font = TTF_OpenFont("ttf/19888.ttf", 14);
 	if (my_font == NULL)
 	{
 		printf("error\n");
