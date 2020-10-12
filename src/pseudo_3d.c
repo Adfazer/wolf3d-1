@@ -33,7 +33,7 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance d
 		else if (dist.tex == 'E')
 			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 3, (int)(((float)i / height) * CUBE));
 		if (point.y > 0 && point.y < H)
-			set_pixel(surface, point, color);
+			set_pixel(surface, point.x, point.y, color);
 		point.y++;
 		i++;
 	}
@@ -47,7 +47,7 @@ void	draw_floor(t_wolf *wolf, SDL_Surface *surface, int x, int y)
 {
 	while (y < W)
 	{
-		set_pixel(surface, dot(x,y), COLOR_BROWN);
+		set_pixel(surface, x, y, COLOR_BROWN);
 		y++;
 	}	
 }
@@ -59,7 +59,7 @@ void	draw_sky(t_wolf *wolf, int xtex, int x, int y)
 	
 	while (++i < y)
 	{
-		set_pixel(wolf->surface, dot(x, i) , getpixel(wolf->sdl->sky, x + wolf->sdl->skybox_offset, i));
+		set_pixel(wolf->surface, x, i, getpixel(wolf->sdl->sky, x + wolf->sdl->skybox_offset, i));
 	}
 }
 

@@ -10,7 +10,7 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 	{
 		if (start.x > W || start.x < 0 || start.y > H || start.y < 0)
 			break ;
-		set_pixel(surface, start, color);
+		set_pixel(surface, start.x, start.y, color);
 		if (start.x==end.x && start.y==end.y)
 			break;
 		e2 = err;
@@ -24,6 +24,7 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 		}
 	}
 }
+
 
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color)
 {
@@ -39,7 +40,7 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 		while (++j < width_height.x)
 		{
 			temp.x = j + start.x;
-			set_pixel(surface, temp, color);
+			set_pixel(surface, temp.x, temp.y, color);
 		}
 	}
 }
@@ -64,9 +65,22 @@ void draw_ray(SDL_Surface *surface, float dir, int x, int y)
 		COLOR_WHITE);
 }
 
+
+
 void draw_background(SDL_Surface *surface)
 {
-	draw_rectangle(surface, dot(0,0), dot(W, H), 0);
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < W)
+	{
+		j = -1;
+		while (++j < H)
+		{
+			set_pixel(surface, i, j, COLOR_BLACK);
+		}
+	}
 }
 
 void	draw_minimap(SDL_Surface *surface, t_map *map, t_player *p)

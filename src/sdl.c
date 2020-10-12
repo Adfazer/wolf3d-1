@@ -202,7 +202,7 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
      	   	startTime = endTime;
        		endTime = SDL_GetTicks();
 			
-			draw_background(surface);
+			//draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
 			if (p->fps)
