@@ -82,6 +82,12 @@ static void	check_start(t_wolf *wolf)
 	i = -1;
 	while (++i < map->w * map->h)
 	{
+		if (map->map[i] == TEX_COIN)
+		{
+			wolf->bon->coint_pos.y = ((i / wolf->map->w) + 0.5) * CUBE;
+			wolf->bon->coint_pos.x = ((i % wolf->map->w) + 0.5) * CUBE;
+			map->map[i] = TEX_FLOOR;
+		}
 		if (map->map[i] == TEX_START)
 		{
 			map->player_start = i;

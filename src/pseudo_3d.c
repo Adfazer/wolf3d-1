@@ -79,10 +79,10 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 			int height = H - point.y * 2;
 			//printf("%d %f\n", point.x, height);
 			draw_column(wolf, surface, point, player->distance[count_distance], H - point.y, height);
-			//draw_sky(wolf, (int)((dir / RAD_360) * wolf->sdl->sky->w),point.x, point.y);
+			// draw_sky(wolf, (int)((dir / RAD_360) * wolf->sdl->sky->w),point.x, point.y);
 			
 			//floorcast(wolf, surface, H - point.y + 1);
-			//draw_floor(wolf, surface, point.x, H - point.y + 1);	
+			// draw_floor(wolf, surface, point.x, H - point.y + 1);
 		}
 		count_distance--; // следующий луч
 		point.x++;

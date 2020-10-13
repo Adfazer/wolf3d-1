@@ -6,7 +6,7 @@ void	player_init(t_player *p, t_map *map)
 	p->size = 10;
 	p->x = CUBE * (map->player_start % map->w) + p->size;
 	p->y = CUBE * (map->player_start / map->w) + p->size;
-	p->speed = 10.0;
+	p->speed = 7.0;
 	p->fov = RAD_60;
 	p->dir = RAD_180;
 	p->size = 10;
@@ -18,6 +18,8 @@ void	bonus_init(t_bonus *bon)
 {
 	bon->music_flag = 0;
 	bon->fps = 1;
+	bon->startTime = 0;
+	bon->fps_count = 0;
 	bon->guns_fire = 0;
 	bon->music = NULL;
 	bon->image_1 = IMG_Load("textures/guns-1.bmp");
@@ -25,6 +27,7 @@ void	bonus_init(t_bonus *bon)
 	bon->image_3 = IMG_Load("textures/guns-3.bmp");
 	bon->image_4 = IMG_Load("textures/guns-4.bmp");
 	bon->image_5 = IMG_Load("textures/guns-5.bmp");
+	bon->image_coin = IMG_Load("textures/coin.bmp");
 	bon->my_font = TTF_OpenFont("ttf/19888.ttf", 14);
 	
 	bon->imgLocation.w = W / 3;
