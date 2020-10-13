@@ -12,18 +12,19 @@
 # define MAP_MIN_COL_NUM 4
 # define MAP_FILEPATH "maps/map.txt"
 
-# define CHARSET " *#012S"
+# define CHARSET " *#012S$"
 # define WALLSET "*#"
 # define FLOORSET " S"
 # define TEX_BORDER '*'
 # define TEX_FLOOR ' '
+# define TEX_COIN '$'
 # define TEX_WALL '#'
 # define TEX_INF '8'  //возвращается с бесконечностью, не является текстурой
 # define TEX_START 'S' 
 
 
-# define W 512
-# define H 512
+# define W 384
+# define H 384
 # define CUBE 64
 
 # define PLAYER_MM_SIZE 4

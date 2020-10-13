@@ -57,6 +57,12 @@ typedef struct	s_player
 	int			sides; //режим сторон света, будет в t_wolf
 }				t_player;
 
+typedef struct	s_float2
+{
+	float		x;
+	float		y;
+}				t_float2;
+
 typedef struct	s_bonus
 {
 	int			music_flag; // включает музыку
@@ -70,18 +76,14 @@ typedef struct	s_bonus
 	SDL_Surface *image_3;
 	SDL_Surface *image_4;
 	SDL_Surface *image_5;
+	SDL_Surface *image_coin;
+	t_float2	coint_pos;
 	SDL_Rect	imgLocation;
 	int 		flag_guns;
 	Uint32		start_guns;
 
 	TTF_Font*	my_font;
 }				t_bonus;
-
-typedef struct	s_float2
-{
-	float		x;
-	float		y;
-}				t_float2;
 
 typedef struct		s_sdl
 {
@@ -165,6 +167,7 @@ void    render_fps(SDL_Surface *screen, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	bonus_init(t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);
+void	render_coin(t_wolf *wolf, SDL_Surface *surface);
 
 #endif
 

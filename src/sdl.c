@@ -32,12 +32,12 @@ void	calc_move(t_map *map, t_player *p, float dy, float dx)
 	int		player_box;
 
 	player_box = dx > 0 ? p->size : -p->size;
-	if (is_texture(map, p->x + dx + player_box, p->y, TEX_FLOOR))
+	if (is_texture(map, p->x + dx + player_box, p->y, TEX_FLOOR) || is_texture(map, p->x + dx + player_box, p->y, TEX_COIN))
 	{
 		p->x += dx;
 	}
 	player_box = dy > 0 ? p->size : -p->size;
-	if (is_texture(map, p->x, p->y + dy + player_box, TEX_FLOOR))
+	if (is_texture(map, p->x, p->y + dy + player_box, TEX_FLOOR) || is_texture(map, p->x, p->y + dy + player_box, TEX_COIN))
 	{
 		p->y += dy;
 	}
@@ -149,11 +149,11 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
 				// }
 				handle_keys(wolf, event, wolf->map, wolf->player);
 			}
-			
 			draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
         	render_fps(surface, wolf->bon);
+			render_coin(wolf, surface);
 			render_shot(wolf, surface);
 			draw_minimap(surface, map, p);
 			SDL_UpdateWindowSurface(window);
