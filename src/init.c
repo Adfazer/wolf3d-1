@@ -19,6 +19,8 @@ void	bonus_init(t_bonus *bon)
 {
 	bon->music_flag = 0;
 	bon->fps = 1;
+	bon->startTime = 0;
+	bon->fps_count = 0;
 	bon->guns_fire = 0;
 	bon->music = NULL;
 	bon->image_1 = IMG_Load("textures/guns-1.bmp");

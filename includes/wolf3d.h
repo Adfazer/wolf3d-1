@@ -62,8 +62,9 @@ typedef struct	s_bonus
 	int			music_flag; // включает музыку
 	Mix_Music	*music;
 	int			fps;
+	Uint32		startTime;
+	int			fps_count;
 	int			guns_fire;
-
 	SDL_Surface *image_1;
 	SDL_Surface *image_2;
 	SDL_Surface *image_3;
@@ -160,7 +161,7 @@ int		is_texture(t_map *map, int x, int y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
 void	music(t_bonus *bon);
-void    render_fps(int fps, SDL_Surface *screen, t_bonus *bon);
+void    render_fps(SDL_Surface *screen, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	bonus_init(t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);
