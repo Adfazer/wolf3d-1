@@ -126,6 +126,7 @@ void draw_background(SDL_Surface *surface);
 Uint32 getpixel(SDL_Surface *surface, int x, int y);
 int	get_color(Uint32 pixel, SDL_PixelFormat *format);
 int	max(int a, int b);
+int	float_is_equal(float a, float b);
 
 /*
 ** init.c
@@ -142,7 +143,7 @@ t_distance dist_to_wall(t_player *p, t_map *map, float angle);
 t_distance dist_to_floor(t_player *p, t_map *map, float angle);
 t_distance dist_to_texture(t_player *p, t_map *map, float angle, char texture);
 int fps(void);
-int		is_texture(t_map *map, float x, float y, char texture);
+int		is_texture(t_map *map, int x, int y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
 void	music(t_bonus *bon);

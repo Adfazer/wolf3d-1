@@ -1,10 +1,5 @@
 #include "../includes/wolf3d.h"
 
-static int	float_is_equal(float a, float b)
-{
-	return fabsf(a - b) < KLUDGE;
-}
-
 void    all_get_distance(t_map *map, t_player *player)
 {
 	float			i;
@@ -32,9 +27,9 @@ void    all_get_distance(t_map *map, t_player *player)
 	}
 }
 
-int		is_texture(t_map *map, float x, float y, char texture)
+int		is_texture(t_map *map, int x, int y, char texture)
 {
-	return (map->map[((int)y / CUBE) * map->w + ((int)x / CUBE)] == texture);
+	return (map->map[(y / CUBE) * map->w + (x / CUBE)] == texture);
 }
 
 static t_distance find_horizontal_intersection(t_player *p, t_map *map, float angle, char texture)
@@ -42,16 +37,7 @@ static t_distance find_horizontal_intersection(t_player *p, t_map *map, float an
 	t_float2	A;
 	float		diffy;
 	float		diffx;
-
-	//find intersection with horizontal grid
-	t_distance	inf;
 	t_distance 	dist;
-
-	inf.dist = INT32_MAX;
-	inf.tex = TEX_INF;
-	// if (is_angle(angle, RAD_180) || is_angle(angle, RAD_0) || is_angle(angle, RAD_360))
-	// 	return inf;
-
 
 	A.y = floorf((float)p->y / CUBE) * CUBE;
 	A.y = angle > RAD_0 && angle < RAD_180 ? A.y/* - 1*/: A.y + CUBE;
@@ -117,7 +103,7 @@ static t_distance find_horizontal_intersection(t_player *p, t_map *map, float an
 		A.x += diffx;
 		A.y += diffy;
 	}
-	return inf;
+	return dist;
 }
 
 static t_distance find_vertical_intersection(t_player *p, t_map *map, float angle, char texture)

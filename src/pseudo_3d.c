@@ -5,10 +5,12 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance d
 	int color;
 
 	int i = 0;      
-	while (point.y < size) // закрашиваем стенку по игреку или можно както сразу #строку# по вертикали закрсить ??
+	while (point.y < size)
 	{
+		/*
 		if (point.x == W / 2)
 			printf("%d\n", height);
+			*/
 		if (dist.tex == 'W')
 			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 0, i * CUBE / height);
 		else if (dist.tex == 'S')
@@ -16,7 +18,7 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance d
 		else if (dist.tex == 'N')
 			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 2, i * CUBE / height);
 		else if (dist.tex == 'E')
-			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 3, i * CUBE / height);
+			color = getpixel(wolf->sdl->textures, dist.offsetx + CUBE * 6, i * CUBE / height);
 		if (point.y > 0 && point.y < H)
 			set_pixel(surface, point.x, point.y, color);
 		point.y++;

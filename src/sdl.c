@@ -61,13 +61,13 @@ void handle_keys(t_wolf *wolf, SDL_Event event, t_map *map, t_player *p)
 		{
 			if (event.key.keysym.sym == SDLK_RIGHT)
 			{
-				add_arc(&p->dir, -RAD_1);
-				add_skybox_offset(wolf->sdl, 2);
+				add_arc(&p->dir, -RAD_30);
+				add_skybox_offset(wolf->sdl, 52);
 			}
 			if (event.key.keysym.sym == SDLK_LEFT)
 			{
-				add_arc(&p->dir, RAD_1);
-				add_skybox_offset(wolf->sdl, -2);
+				add_arc(&p->dir, RAD_30);
+				add_skybox_offset(wolf->sdl, -52);
 			}
 		}
 		if (event.key.keysym.sym == SDLK_p)

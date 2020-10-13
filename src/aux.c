@@ -25,3 +25,8 @@ int is_angle(float angle, float rad)
 {
 	return fabsf(cosf(angle) - cosf(rad)) < KLUDGE;
 }
+
+int	float_is_equal(float a, float b)
+{
+	return fabsf(a - b) < KLUDGE;
+}
