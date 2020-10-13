@@ -55,15 +55,24 @@ typedef struct	s_player
 	t_distance	distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
 	int			sides; //режим сторон света, будет в t_wolf
+}				t_player;
 
+typedef struct	s_bonus
+{
 	int			music_flag; // включает музыку
 	Mix_Music	*music;
-
 	int			fps;
 	int			guns_fire;
 
-}				t_player;
+	SDL_Surface *image_1;
+	SDL_Surface *image_2;
+	SDL_Surface *image_3;
+	SDL_Surface *image_4;
+	SDL_Surface *image_5;
+	SDL_Rect	imgLocation;
 
+	TTF_Font*	my_font;
+}				t_bonus;
 
 typedef struct	s_float2
 {
@@ -92,6 +101,7 @@ typedef struct	s_wolf
 	t_player	*player;
 	t_sdl		*sdl;
 	SDL_Surface	*surface;
+	t_bonus		*bon;
 }				t_wolf;
 
 int		error(char *s);
@@ -134,9 +144,10 @@ int fps(void);
 int		is_texture(t_map *map, float x, float y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
-void	music(t_player *player);
-void    render_fps(int fps, SDL_Surface *screen);
-void    guns_shot(SDL_Surface *screen, int flag);
+void	music(t_bonus *bon);
+void    render_fps(int fps, SDL_Surface *screen, t_bonus *bon);
+void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
+void	bonus_init(t_bonus *bon);
 
 #endif
 

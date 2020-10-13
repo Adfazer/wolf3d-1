@@ -23,6 +23,9 @@ t_wolf		*t_wolf_new(void)
 		exit(1);
 	if (!(new->sdl = (t_sdl *)malloc(sizeof(t_sdl))))
 		exit(1);
+	if (!(new->bon = (t_bonus *)malloc(sizeof(t_bonus))))
+		exit(1);
+	
 	return new;
 }
 
@@ -49,7 +52,8 @@ int	main(int a, char **b)
 	init_map(wolf->map, b[1]);
 	load_textures(wolf, wolf->sdl);
 	init_player(wolf->player, wolf->map);
-	music(wolf->player);
+	bonus_init(wolf->bon);
+	music(wolf->bon);
 	init_sdl(wolf, wolf->map, wolf->player);
 	return (0);
 }

@@ -138,7 +138,7 @@ HEAD=includes/libft.h \
 OBJ=$(SRC:.c=.o)
 INCLUDES=-I./includes
 
-CC=gcc -Wall -Wextra -Werror -ffast-math -O3
+CC=gcc -Wall -Wextra -Werror #-ffast-math -O3
 A = $(find . -type f | wc -l)
 X = 1
 all: $(NAME)

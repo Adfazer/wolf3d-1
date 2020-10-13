@@ -159,27 +159,27 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 						map->mm_show = map->mm_show == 1 ? 0 : 1;
 					if (event.key.keysym.sym == SDLK_o)
 					{
-						if (p->music_flag == 0)
+						if (wolf->bon->music_flag == 0)
 						{
-							Mix_PlayMusic(p->music, -1);
-							p->music_flag = 1;
+							Mix_PlayMusic(wolf->bon->music, -1);
+							wolf->bon->music_flag = 1;
 						}
 						else
 						{
-							p->music_flag = 0;
+							wolf->bon->music_flag = 0;
 							Mix_HaltMusic();
 						}
 					}
 					if (event.key.keysym.sym == SDLK_i)
 					{
-						if (p->fps == 0)
-							p->fps = 1;
+						if (wolf->bon->fps == 0)
+							wolf->bon->fps = 1;
 						else
-							p->fps = 0;
+							wolf->bon->fps = 0;
 					}
 					if (event.key.keysym.sym == SDLK_SPACE)
 					{
-						p->guns_fire = 1;
+						wolf->bon->guns_fire = 1;
 					}
 				}
     		}
@@ -205,11 +205,11 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 			//draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
-			if (p->fps)
-        		render_fps(fps, surface);
-			if (p->guns_fire || flag_guns != 0)
+			if (wolf->bon->fps)
+        		render_fps(fps, surface, wolf->bon);
+			if (wolf->bon->guns_fire || flag_guns != 0)
 			{
-				p->guns_fire = 0;
+				wolf->bon->guns_fire = 0;
 				if (!start_guns)
 				{
 					flag_guns++;
@@ -220,12 +220,12 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 					flag_guns++;
 					start_guns = SDL_GetTicks();
 				}
-				guns_shot(surface, flag_guns);
-				flag_guns == 5 ? Mix_HaltMusic(): 0;
+				guns_shot(surface, flag_guns, wolf->bon);
+				// flag_guns == 5 ? Mix_HaltMusic(): 0;
 				flag_guns == 5 ? flag_guns = 0: 0;
 			}
 			else
-				guns_shot(surface, 1);
+				guns_shot(surface, 1, wolf->bon);
 			draw_minimap(surface, map, p);
 			/*
 			for (int o = 0; o < CUBE; o++)
