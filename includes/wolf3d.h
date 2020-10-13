@@ -105,13 +105,13 @@ typedef struct	s_wolf
 }				t_wolf;
 
 int		error(char *s);
-void		init_map(t_map *map, char *b);
+void		map_init(t_map *map, char *b);
 
 void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
 int		color_to_hex(int r, int g, int b);
-void init_sdl(t_wolf *wolf, t_map *map, t_player *player);
+void sdl_init(t_wolf *wolf, t_map *map, t_player *player);
 t_point	dot(int x, int y);
 int raycast(void);
 void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p);
@@ -130,7 +130,7 @@ int	max(int a, int b);
 ** init.c
 */
 
-void	init_player(t_player *player, t_map *map);
+void	player_init(t_player *player, t_map *map);
 int load_textures(t_wolf *wolf, t_sdl *sdl);
 
 //skaren

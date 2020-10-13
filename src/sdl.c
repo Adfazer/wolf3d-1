@@ -44,10 +44,10 @@ void	calc_move(t_map *map, t_player *p, float dy, float dx)
 }
 
 
-void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
+void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
 {
 	SDL_Window* window = NULL;
-    window = SDL_CreateWindow("Hello, SDL 2!", 100, 
+    window = SDL_CreateWindow("Wolf3d", 100, 
                                 100, W, H, 
                                 SDL_WINDOW_SHOWN);
 
@@ -202,7 +202,7 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
      	   	startTime = endTime;
        		endTime = SDL_GetTicks();
 			
-			//draw_background(surface);
+			draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
 			if (wolf->bon->fps)
@@ -237,6 +237,7 @@ void init_sdl(t_wolf *wolf, t_map *map, t_player *p)
 			}
 			*/
 		//debug_player(p);
+			set_pixel(surface, 200, 200, COLOR_WHITE);
 			SDL_UpdateWindowSurface(window);
 		}
         SDL_DestroyWindow(window);

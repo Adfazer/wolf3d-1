@@ -2,9 +2,9 @@
 
 static void	validate_map(char *map, int map_size, t_map *map_struct)
 {
-	int len_first;
-	int	curr_start;
-	int	i;
+	int		len_first;
+	int		curr_start;
+	int		i;
 
 	i = 0;
 	len_first = -1;
@@ -28,7 +28,7 @@ static void	validate_map(char *map, int map_size, t_map *map_struct)
 	map_struct->w = len_first;
 }
 
-static char		*get_map(int *was_read, char *b)
+static char	*get_map(int *was_read, char *b)
 {
 	char	*s;
 	int		fd;
@@ -43,7 +43,7 @@ static char		*get_map(int *was_read, char *b)
 	return s;
 }
 
-static void		check_logic(t_map *map)
+static void	check_logic(t_map *map)
 {
 	int		i;
 	char	*s;
@@ -98,24 +98,21 @@ void		check_start(t_map *map)
 
 void		init_mm(t_map *map)
 {
-	int map_max_side;
+	int		map_max_side;
 
 	map_max_side = max(map->w, map->h);
 	map->mm_cube = (W / 3) / map_max_side;
 	map->mm_start.x = 16;
 	map->mm_start.y = 16;
-	
 	map->mm_w = map->mm_cube * map->w;
 	map->mm_h = map->mm_cube * map->h;
-
 	map->mm_p_size = map->mm_cube / 4;
 	map->mm_cube_coef = (float)map->mm_cube / CUBE;
 	map->mm_map_coef = (float)map->mm_w / W;
-
 	map->mm_show = 1;
 }
 
-void		init_map(t_map *map, char *b)
+void		map_init(t_map *map, char *b)
 {
 	int		map_size;
 	char	*str_map;
@@ -127,7 +124,6 @@ void		init_map(t_map *map, char *b)
 	validate_map(str_map, map_size, map);
 	map->map =ft_strnew(map->h * map->w);
 	!map->map ? error("malloc") : 1;
-	
 	i = -1;
 	j = 0;
 	while (++i < map_size)
@@ -141,5 +137,4 @@ void		init_map(t_map *map, char *b)
 	check_start(map);
 	check_logic(map);
 	init_mm(map);
-	//debug_map(map);
 }

@@ -49,11 +49,11 @@ int	main(int a, char **b)
         exit(1);
 	}
 	wolf = t_wolf_new();
-	init_map(wolf->map, b[1]);
+	map_init(wolf->map, b[1]);
 	load_textures(wolf, wolf->sdl);
-	init_player(wolf->player, wolf->map);
+	player_init(wolf->player, wolf->map);
 	bonus_init(wolf->bon);
 	music(wolf->bon);
-	init_sdl(wolf, wolf->map, wolf->player);
+	sdl_init(wolf, wolf->map, wolf->player);
 	return (0);
 }
