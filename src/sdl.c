@@ -116,12 +116,6 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
     
 	wolf->sdl->sides_mode = 1;
 
-	Uint32 startTime = 0;
-    Uint32 endTime = 0;
-    Uint32 delta = 0;
-    short fps = 60;
-    short timePerFrame = 16; // miliseconds
-
     SDL_Surface *surface;
     surface = SDL_GetWindowSurface(window);
 	wolf->sdl->skybox_offset = 0;
@@ -154,29 +148,11 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
 				// }
 				handle_keys(wolf, event, wolf->map, wolf->player);
 			}
-			// music(p);
-
-			if (!startTime) {
-            // get the time in ms passed from the moment the program started
-            startTime = SDL_GetTicks(); 
-			} else {
-				delta = endTime - startTime; // how many ms for a frame
-			}
-			// if less than 16ms, delay 
-			if (delta < timePerFrame) {
-				SDL_Delay(timePerFrame - delta);
-			}
-			// if delta is bigger than 16ms between frames, get the actual fps
-			if (delta > timePerFrame) {
-				fps = 1000 / delta;
-			}
-     	   	startTime = endTime;
-       		endTime = SDL_GetTicks();
 			draw_background(surface);
 			all_get_distance(wolf);
 			pseudo_3d(wolf, p, surface);
-        	render_fps(surface, wolf->bon);
 			render_coin(wolf, surface);
+        	render_fps(surface, wolf->bon);
 			render_shot(wolf, surface);
 			draw_minimap(wolf, surface, map, p);
 			SDL_UpdateWindowSurface(window);

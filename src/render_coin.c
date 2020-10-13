@@ -23,10 +23,10 @@ void	render_coin(t_wolf *wolf, SDL_Surface *surface)
 	{
 		SDL_Rect	imgLocation;
 
-		imgLocation.w = W / 3 * wolf->player->dist_to_canvas / dist;
-		imgLocation.h = H / 3 * wolf->player->dist_to_canvas / dist;
-		imgLocation.x = (W / wolf->player->fov) * (wolf->player->fov - (angle - (wolf->player->dir - wolf->player->fov / 2)));
-		imgLocation.y = H / 3;
+		imgLocation.w = (W / 10) * (wolf->player->dist_to_canvas / dist);
+		imgLocation.h = (H / 10) * (wolf->player->dist_to_canvas / dist);
+		imgLocation.x = (W / wolf->player->fov) * (wolf->player->fov - (angle - (wolf->player->dir - wolf->player->fov / 2))) - ((W / 10) * (wolf->player->dist_to_canvas / dist)) / 2;
+		imgLocation.y = (H / 2) - ((H / 10) * (wolf->player->dist_to_canvas / dist)) / 2;
 
 		SDL_BlitScaled(wolf->bon->image_coin, NULL, surface, &imgLocation);
 
