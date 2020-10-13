@@ -70,6 +70,8 @@ typedef struct	s_bonus
 	SDL_Surface *image_4;
 	SDL_Surface *image_5;
 	SDL_Rect	imgLocation;
+	int 		flag_guns;
+	Uint32		start_guns;
 
 	TTF_Font*	my_font;
 }				t_bonus;
@@ -149,7 +151,7 @@ void	music(t_bonus *bon);
 void    render_fps(int fps, SDL_Surface *screen, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	bonus_init(t_bonus *bon);
-void	render_shot(t_wolf *wolf, SDL_Surface *surface, int *flag_guns, int start_guns);
+void	render_shot(t_wolf *wolf, SDL_Surface *surface);
 
 #endif
 

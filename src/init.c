@@ -32,4 +32,7 @@ void	bonus_init(t_bonus *bon)
     bon->imgLocation.h = H / 3;
     bon->imgLocation.x = (W / 2) - (W / 6);
     bon->imgLocation.y = H - H / 3;
+
+	bon->flag_guns = 0;
+	bon->start_guns = 0;
 }

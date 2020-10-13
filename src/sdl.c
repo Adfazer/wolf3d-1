@@ -124,10 +124,6 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
     Uint32 delta = 0;
     short fps = 60;
     short timePerFrame = 16; // miliseconds
-	
-	int flag_guns = 0;
-	Uint32 start_guns;
-
 
     SDL_Surface *surface;
     surface = SDL_GetWindowSurface(window);
@@ -180,12 +176,12 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
      	   	startTime = endTime;
        		endTime = SDL_GetTicks();
 			
-        	render_fps(fps, surface, wolf->bon);
-			render_shot(wolf, surface, &flag_guns, start_guns);
 			
 			draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
+        	render_fps(fps, surface, wolf->bon);
+			render_shot(wolf, surface);
 			draw_minimap(surface, map, p);
 			SDL_UpdateWindowSurface(window);
 		}
