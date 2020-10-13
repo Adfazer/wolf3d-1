@@ -22,24 +22,24 @@ void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon)
 	flag == 5 ? SDL_BlitScaled(bon->image_5, NULL, screen, &bon->imgLocation): 0;
 }
 
-void	render_shot(t_wolf *wolf, SDL_Surface *surface, int *flag_guns, int start_guns)
+void	render_shot(t_wolf *wolf, SDL_Surface *surface)
 {
-	if (wolf->bon->guns_fire || *flag_guns != 0)
+	if (wolf->bon->guns_fire || wolf->bon->flag_guns != 0)
 	{
 		wolf->bon->guns_fire = 0;
-		if (!start_guns)
+		if (!wolf->bon->start_guns)
 		{
-			*flag_guns++;
-			start_guns = SDL_GetTicks();
+			wolf->bon->flag_guns++;
+			wolf->bon->start_guns = SDL_GetTicks();
 		}
-		if (start_guns + 200 < SDL_GetTicks())
+		if (wolf->bon->start_guns + 200 < SDL_GetTicks())
 		{
-			*flag_guns++;
-			start_guns = SDL_GetTicks();
+			wolf->bon->flag_guns++;
+			wolf->bon->start_guns = SDL_GetTicks();
 		}
-		guns_shot(surface, *flag_guns, wolf->bon);
+		guns_shot(surface, wolf->bon->flag_guns, wolf->bon);
 		// flag_guns == 5 ? Mix_HaltMusic(): 0;
-		*flag_guns == 5 ? *flag_guns = 0: 0;
+		wolf->bon->flag_guns == 5 ? wolf->bon->flag_guns = 0: 0;
 	}
 	else
 		guns_shot(surface, 1, wolf->bon);

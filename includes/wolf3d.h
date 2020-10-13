@@ -70,6 +70,8 @@ typedef struct	s_bonus
 	SDL_Surface *image_4;
 	SDL_Surface *image_5;
 	SDL_Rect	imgLocation;
+	int 		flag_guns;
+	Uint32		start_guns;
 
 	TTF_Font*	my_font;
 }				t_bonus;
@@ -105,8 +107,7 @@ typedef struct	s_wolf
 	t_bonus		*bon;
 }				t_wolf;
 
-int		error(char *s);
-void		map_init(t_map *map, char *b);
+
 
 void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
@@ -127,6 +128,18 @@ Uint32 getpixel(SDL_Surface *surface, int x, int y);
 int	get_color(Uint32 pixel, SDL_PixelFormat *format);
 int	max(int a, int b);
 int	float_is_equal(float a, float b);
+
+/*
+** map.c
+*/
+void		init_mm(t_map *map);
+void		map_init(t_wolf *wolf, char *b);
+
+/*
+** error.c
+*/
+int			error_free_s(char *s);
+int			error(char *s);
 
 /*
 ** init.c
@@ -150,7 +163,7 @@ void	music(t_bonus *bon);
 void    render_fps(int fps, SDL_Surface *screen, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	bonus_init(t_bonus *bon);
-void	render_shot(t_wolf *wolf, SDL_Surface *surface, int *flag_guns, int start_guns);
+void	render_shot(t_wolf *wolf, SDL_Surface *surface);
 
 #endif
 

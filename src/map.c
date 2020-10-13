@@ -1,6 +1,6 @@
 #include "../includes/wolf3d.h"
 
-static void	validate_map(char *map, int map_size, t_map *map_struct)
+static void	validate_map(t_wolf *wolf, char *map, int map_size)
 {
 	int		len_first;
 	int		curr_start;
@@ -8,7 +8,7 @@ static void	validate_map(char *map, int map_size, t_map *map_struct)
 
 	i = 0;
 	len_first = -1;
-	map_struct->h = 0;
+	wolf->map->h = 0;
 	while (i < map_size)
 	{
 		curr_start = i;
@@ -22,19 +22,19 @@ static void	validate_map(char *map, int map_size, t_map *map_struct)
 		len_first = len_first == -1 ? i - curr_start : len_first;
 		len_first != i - curr_start ? error("Diff row") : 0;
 		i++;
-		map_struct->h++;
+		wolf->map->h++;
 	}
-	map_struct->h < MAP_MIN_ROW_NUM ? error("min row") : 0;
-	map_struct->w = len_first;
+	wolf->map->h < MAP_MIN_ROW_NUM ? error("min row") : 0;
+	wolf->map->w = len_first;
 }
 
-static char	*get_map(int *was_read, char *b)
+static char	*get_map(int *was_read, char *map_name)
 {
 	char	*s;
 	int		fd;
 	
 	s = ft_strnew(MAP_MAX_SIZE + 1);
-	fd = open(b, O_RDONLY);
+	fd = open(map_name, O_RDONLY);
 	fd < 0 ? error("cant open") : 0;
 	read(fd, s, 0) < 0 ? error("cant read") : 0;
 	*was_read = read(fd, s, MAP_MAX_SIZE + 1);
@@ -43,43 +43,38 @@ static char	*get_map(int *was_read, char *b)
 	return s;
 }
 
-static void	check_logic(t_map *map)
+static void	check_logic(t_wolf *wolf)
 {
 	int		i;
 	char	*s;
+	t_map	*map;
 
+	map = wolf->map;
 	i = -1;
 	s = NULL;
 	while (++i < map->w)
 	{
-		if (!ft_strchr(WALLSET, map->map[i])
-		|| !ft_strchr(WALLSET, map->map[map->w * (map->h - 1) + i]))
-		{
-			ft_asprintf(&s,
-				"There must be a border texture at column %d", i);
-			error(s);
-		}
+		if (!ft_strchr(WALLSET, map->map[i]) ||
+		!ft_strchr(WALLSET, map->map[map->w * (map->h - 1) + i]))
+			ft_asprintf(&s, "There must be a border texture at column %d", i);
 	}
 	i = -1;
 	while (++i < map->h)
 	{
-		if (!ft_strchr(WALLSET, map->map[i * map->w])
-		|| !ft_strchr(WALLSET, map->map[i * map->w + (map->w - 1)]))
-		{
-			ft_asprintf(&s,
-				"There must be a border texture at row %d", i);
-			error(s);
-		}
+		if (!ft_strchr(WALLSET, map->map[i * map->w]) ||
+		!ft_strchr(WALLSET, map->map[i * map->w + (map->w - 1)]))
+			ft_asprintf(&s, "There must be a border texture at row %d", i);
 	}
+	s ? error_free_s(s) : 0;
 }
 
-
-
-void		check_start(t_map *map)
+static void	check_start(t_wolf *wolf)
 {
 	int		start_counter;
 	int		i;
+	t_map	*map;
 
+	map = wolf->map;
 	start_counter = 0;
 	i = -1;
 	while (++i < map->w * map->h)
@@ -112,29 +107,28 @@ void		init_mm(t_map *map)
 	map->mm_show = 1;
 }
 
-void		map_init(t_map *map, char *b)
+void		map_init(t_wolf *wolf, char *map_name)
 {
 	int		map_size;
 	char	*str_map;
 	int		i;
 	int		j;
-	
-	
-	str_map = get_map(&map_size, b);
-	validate_map(str_map, map_size, map);
-	map->map =ft_strnew(map->h * map->w);
-	!map->map ? error("malloc") : 1;
+
+	str_map = get_map(&map_size, map_name);
+	validate_map(wolf, str_map, map_size);
+	wolf->map->map =ft_strnew(wolf->map->h * wolf->map->w);
+	!wolf->map->map ? error("malloc") : 1;
 	i = -1;
 	j = 0;
 	while (++i < map_size)
 	{
 		if (str_map[i] != '\n')
-			map->map[j++] = str_map[i];
+			wolf->map->map[j++] = str_map[i];
 	}
-	map->w_pix = map->w * CUBE;
-	map->h_pix = map->h * CUBE;
+	wolf->map->w_pix = wolf->map->w * CUBE;
+	wolf->map->h_pix = wolf->map->h * CUBE;
 	free(str_map);
-	check_start(map);
-	check_logic(map);
-	init_mm(map);
+	check_start(wolf);
+	check_logic(wolf);
+	init_mm(wolf->map);
 }
