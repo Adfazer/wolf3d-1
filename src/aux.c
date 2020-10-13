@@ -30,3 +30,8 @@ int	float_is_equal(float a, float b)
 {
 	return fabsf(a - b) < KLUDGE;
 }
+
+int		is_texture(t_map *map, int x, int y, char texture)
+{
+	return (map->map[(y / CUBE) * map->w + (x / CUBE)] == texture);
+}

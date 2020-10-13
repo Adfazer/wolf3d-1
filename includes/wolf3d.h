@@ -12,6 +12,7 @@
 # include <math.h>
 # include "const.h"
 # include "colors.h"
+# include "errors.h"
 
 
 
@@ -54,7 +55,7 @@ typedef struct	s_player
 	float		ymm;
 	t_distance	distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
-	int			sides; //режим сторон света, будет в t_wolf
+	
 }				t_player;
 
 typedef struct	s_bonus
@@ -96,6 +97,7 @@ typedef struct		s_sdl
 	int				pitch;
 	int				skybox_offset;
 	int				run;
+	int				sides_mode; //режим сторон света, будет в t_wolf
 }					t_sdl;
 
 typedef struct	s_wolf
@@ -116,18 +118,19 @@ int		color_to_hex(int r, int g, int b);
 void sdl_init(t_wolf *wolf, t_map *map, t_player *player);
 t_point	dot(int x, int y);
 int raycast(void);
-void draw_minimap(SDL_Surface *surface, t_map *map, t_player *p);
+void draw_minimap(t_wolf *wolf, SDL_Surface *surface, t_map *map, t_player *p);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
-void draw_ray(SDL_Surface *surface, float player, int x, int y);
+void draw_ray(t_wolf *wolf, float player, int x, int y);
 int	add_arc(float *arc, float to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
 void draw_background(SDL_Surface *surface);
 Uint32 getpixel(SDL_Surface *surface, int x, int y);
-int	get_color(Uint32 pixel, SDL_PixelFormat *format);
+
 int	max(int a, int b);
 int	float_is_equal(float a, float b);
+
 
 /*
 ** map.c
@@ -140,6 +143,8 @@ void		map_init(t_wolf *wolf, char *b);
 */
 int			error_free_s(char *s);
 int			error(char *s);
+int			error_inv_c(char *s, char inv_char);
+int			error_inv_n(char *s, int inv_num);
 
 /*
 ** init.c
@@ -148,13 +153,21 @@ int			error(char *s);
 void	player_init(t_player *player, t_map *map);
 int load_textures(t_wolf *wolf, t_sdl *sdl);
 
+/*
+** distance.c
+*/
+t_distance find_vertical_intersection(t_wolf *wolf, float angle, char texture);
+t_distance find_horizontal_intersection(t_wolf *wolf, float angle);
+t_distance dist_to_wall(t_wolf *wolf, float angle);
+t_distance dist_to_floor(t_wolf *wolf, float angle);
+t_distance dist_to_texture(t_wolf *wolf, float angle, char texture);
+
 //skaren
-void    all_get_distance(t_map *map, t_player *player);
+void    all_get_distance(t_wolf *wolf);
 // void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
 void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface);
-t_distance dist_to_wall(t_player *p, t_map *map, float angle);
-t_distance dist_to_floor(t_player *p, t_map *map, float angle);
-t_distance dist_to_texture(t_player *p, t_map *map, float angle, char texture);
+
+
 int fps(void);
 int		is_texture(t_map *map, int x, int y, char texture);
 t_distance	t_distance_dummy(float angle);

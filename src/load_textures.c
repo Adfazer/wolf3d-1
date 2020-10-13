@@ -15,14 +15,6 @@ Uint32 getpixel(SDL_Surface *surface, int x, int y)
 	return *(Uint32 *)p;
 }
 
-int	get_color(Uint32 pixel, SDL_PixelFormat *format)
-{
-	SDL_Color rgb;
-
-	SDL_GetRGB(pixel, format, &rgb.r, &rgb.g, &rgb.b);
-	return color_to_hex(rgb.r, rgb.g, rgb.b);
-}
-
 int				load_textures(t_wolf *wolf, t_sdl *sdl)
 {
 	SDL_Surface	*tex;

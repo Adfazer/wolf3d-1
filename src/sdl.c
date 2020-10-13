@@ -22,11 +22,8 @@ static void rotate(t_wolf *wolf, SDL_Event *event, int *x)
 		add_skybox_offset(wolf->sdl, -2);
 	}
 	*x = event->motion.x;
-	//debug_player(&p);
 }
 
-
-//работает, пускает в углы
 void	calc_move(t_map *map, t_player *p, float dy, float dx)
 {
 	int		player_box;
@@ -71,7 +68,7 @@ void handle_keys(t_wolf *wolf, SDL_Event event, t_map *map, t_player *p)
 			}
 		}
 		if (event.key.keysym.sym == SDLK_p)
-			p->sides = p->sides == 1 ? 0 : 1;
+			wolf->sdl->sides_mode = wolf->sdl->sides_mode == 1 ? 0 : 1;
 		if (event.key.keysym.sym == SDLK_m)
 			map->mm_show = map->mm_show == 1 ? 0 : 1;
 		if (event.key.keysym.sym == SDLK_o)
@@ -117,7 +114,7 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
     if (!window)
         printf("window error\n");
     
-	
+	wolf->sdl->sides_mode = 1;
 
 	Uint32 startTime = 0;
     Uint32 endTime = 0;
@@ -175,14 +172,12 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
 			}
      	   	startTime = endTime;
        		endTime = SDL_GetTicks();
-			
-			
 			draw_background(surface);
-			all_get_distance(map, p);
+			all_get_distance(wolf);
 			pseudo_3d(wolf, p, surface);
         	render_fps(fps, surface, wolf->bon);
 			render_shot(wolf, surface);
-			draw_minimap(surface, map, p);
+			draw_minimap(wolf, surface, map, p);
 			SDL_UpdateWindowSurface(window);
 		}
         SDL_DestroyWindow(window);

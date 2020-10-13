@@ -2,29 +2,30 @@
 
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 {
-	int dx = abs(end.x-start.x), sx = start.x<end.x ? 1 : -1;
-	int dy = abs(end.y-start.y), sy = start.y<end.y ? 1 : -1; 
-	int err = (dx>dy ? dx : -dy)/2, e2;
-
+	t_point d;
+	t_point s;
+	int err;
+	int e2;
+	
+	d.x = abs(end.x-start.x);
+	d.y = abs(end.y-start.y);
+	s.x = start.x<end.x ? 1 : -1;
+	s.y = start.y<end.y ? 1 : -1;
+	err = (d.x > d.y ? d.x : -d.y) / 2;
 	while (1)
 	{
 		if (start.x > W || start.x < 0 || start.y > H || start.y < 0)
 			break ;
 		set_pixel(surface, start.x, start.y, color);
-		if (start.x==end.x && start.y==end.y)
-			break;
+		if (start.x == end.x && start.y == end.y)
+			break ;
 		e2 = err;
-		if (e2 >-dx)
-		{
-			err -= dy; start.x += sx;
-		}
-		if (e2 < dy)
-		{
-			err += dx; start.y += sy;
-		}
+		err = e2 > -d.x ? err - d.y : err;
+		start.x = e2 > -d.x ? start.x + s.x : start.x;
+		err = e2 < d.y ? err + d.x : err;
+		start.y = e2 < d.y ? start.y + s.y : start.y;
 	}
 }
-
 
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color)
 {
@@ -45,27 +46,28 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
-void draw_ray(SDL_Surface *surface, float dir, int x, int y)
+void draw_ray(t_wolf *wolf, float dir, int x, int y)
 {
-	int dx0 = cos(dir - RAD_60 / 2) * CUBE;
-	int dy0 = sin(dir - RAD_60 / 2) * CUBE;
-	int dx1 = cos(dir + RAD_60 / 2) * CUBE;
-	int dy1 = sin(dir + RAD_60 / 2) * CUBE;
-	
+	int dx0;
+	int dy0;
+	int dx1;
+	int dy1;
+
+	dx0 = cos(dir - wolf->player->fov / 2) * CUBE;
+	dy0 = sin(dir - wolf->player->fov / 2) * CUBE;
+	dx1 = cos(dir + wolf->player->fov / 2) * CUBE;
+	dy1 = sin(dir + wolf->player->fov / 2) * CUBE;
 	draw_line(
-		surface,
+		wolf->surface,
 		dot(x, y),
 		dot(x + dx0, y - dy0),
 		COLOR_WHITE);
-		
 	draw_line(
-		surface,
+		wolf->surface,
 		dot(x, y),
 		dot(x + dx1, y - dy1),
 		COLOR_WHITE);
 }
-
-
 
 void draw_background(SDL_Surface *surface)
 {
@@ -83,7 +85,7 @@ void draw_background(SDL_Surface *surface)
 	}
 }
 
-void	draw_minimap(SDL_Surface *surface, t_map *map, t_player *p)
+void	draw_minimap(t_wolf *wolf, SDL_Surface *surface, t_map *map, t_player *p)
 {
 	int	xx;
 	int	yy;
@@ -109,5 +111,5 @@ void	draw_minimap(SDL_Surface *surface, t_map *map, t_player *p)
 		dot(p->x * map->mm_cube_coef + (map->mm_start.x - map->mm_p_size), p->y * map->mm_cube_coef + (map->mm_start.y - map->mm_p_size)),
 		dot(map->mm_p_size * 2, map->mm_p_size * 2), 
 		0xFFFFFF);
-	draw_ray(surface, p->dir, p->x * map->mm_cube_coef + map->mm_start.x, p->y * map->mm_cube_coef + map->mm_start.y);
+	draw_ray(wolf, p->dir, p->x * map->mm_cube_coef + map->mm_start.x, p->y * map->mm_cube_coef + map->mm_start.y);
 }

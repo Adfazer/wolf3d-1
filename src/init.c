@@ -12,7 +12,6 @@ void	player_init(t_player *p, t_map *map)
 	p->size = 10;
 	p->dist_to_canvas = (W / 2) / tan(p->fov / 2);
 	p->step = p->fov / W;
-	p->sides = 1;
 }
 
 void	bonus_init(t_bonus *bon)
@@ -35,4 +34,20 @@ void	bonus_init(t_bonus *bon)
 
 	bon->flag_guns = 0;
 	bon->start_guns = 0;
+}
+
+void	init_mm(t_map *map)
+{
+	int	map_max_side;
+
+	map_max_side = max(map->w, map->h);
+	map->mm_cube = (W / 3) / map_max_side;
+	map->mm_start.x = 16;
+	map->mm_start.y = 16;
+	map->mm_w = map->mm_cube * map->w;
+	map->mm_h = map->mm_cube * map->h;
+	map->mm_p_size = map->mm_cube / 4;
+	map->mm_cube_coef = (float)map->mm_cube / CUBE;
+	map->mm_map_coef = (float)map->mm_w / W;
+	map->mm_show = 1;
 }

@@ -27,7 +27,9 @@ ALL_C = main.c \
 		draw.c \
 		music.c \
 		render_fps.c \
-		guns_shot.c
+		guns_shot.c \
+		distance_horiz.c \
+		distance_vert.c
 
 SRCDIR = ./src
 OBJDIR = ./objs
@@ -36,7 +38,10 @@ OBJS = $(addprefix $(OBJDIR)/, $(ALL_OBJ))
 
 NAME = wolf3d
 
-INCLUDES = ./includes/wolf3d.h ./includes/const.h
+INCLUDES = ./includes/wolf3d.h \
+			./includes/const.h \
+			./includes/colors.h \
+			./includes/errors.h
 
 
 LIBFT_DIR = ./libft
