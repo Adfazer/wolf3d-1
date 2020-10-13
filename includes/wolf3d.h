@@ -93,6 +93,7 @@ typedef struct		s_sdl
 	unsigned char	*bytes_texture;
 	int				pitch;
 	int				skybox_offset;
+	int				run;
 }					t_sdl;
 
 typedef struct	s_wolf
@@ -148,6 +149,7 @@ void	music(t_bonus *bon);
 void    render_fps(int fps, SDL_Surface *screen, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	bonus_init(t_bonus *bon);
+void	render_shot(t_wolf *wolf, SDL_Surface *surface, int *flag_guns, int start_guns);
 
 #endif
 

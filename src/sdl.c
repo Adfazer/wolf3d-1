@@ -43,6 +43,63 @@ void	calc_move(t_map *map, t_player *p, float dy, float dx)
 	}
 }
 
+void handle_keys(t_wolf *wolf, SDL_Event event, t_map *map, t_player *p)
+{
+	if (event.type == SDL_KEYDOWN)
+	{
+		if (event.key.keysym.sym == SDLK_ESCAPE)
+			wolf->sdl->run = false;
+		if (event.key.keysym.sym == SDLK_d)
+			calc_move(wolf->map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
+		if (event.key.keysym.sym == SDLK_a)
+			calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
+		if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+			calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
+		if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+			calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
+		if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
+		{
+			if (event.key.keysym.sym == SDLK_RIGHT)
+			{
+				add_arc(&p->dir, -RAD_1);
+				add_skybox_offset(wolf->sdl, 2);
+			}
+			if (event.key.keysym.sym == SDLK_LEFT)
+			{
+				add_arc(&p->dir, RAD_1);
+				add_skybox_offset(wolf->sdl, -2);
+			}
+		}
+		if (event.key.keysym.sym == SDLK_p)
+			p->sides = p->sides == 1 ? 0 : 1;
+		if (event.key.keysym.sym == SDLK_m)
+			map->mm_show = map->mm_show == 1 ? 0 : 1;
+		if (event.key.keysym.sym == SDLK_o)
+		{
+			if (wolf->bon->music_flag == 0)
+			{
+				Mix_PlayMusic(wolf->bon->music, -1);
+				wolf->bon->music_flag = 1;
+			}
+			else
+			{
+				wolf->bon->music_flag = 0;
+				Mix_HaltMusic();
+			}
+		}
+		if (event.key.keysym.sym == SDLK_i)
+		{
+			if (wolf->bon->fps == 0)
+				wolf->bon->fps = 1;
+			else
+				wolf->bon->fps = 0;
+		}
+		if (event.key.keysym.sym == SDLK_SPACE)
+		{
+			wolf->bon->guns_fire = 1;
+		}
+	}
+}
 
 void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
 {
@@ -76,21 +133,17 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
     surface = SDL_GetWindowSurface(window);
 	wolf->sdl->skybox_offset = 0;
 	wolf->surface = surface;
-	draw_minimap(surface, map, p);
-	//set_pixel(surface, dot(0,0), 0xff0000);
-	//wolf->sdl->bytes = (unsigned char *)wolf->surface->pixels;
-	//printf("%c\n", wolf->sdl->bytes[0]);
         SDL_UpdateWindowSurface(window);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
-        bool isquit = false;
 		SDL_Event event;
 		int x = -0x7ffff;
-		while (!isquit)
+		wolf->sdl->run = 1;
+		while (wolf->sdl->run)
 		{
 			if (SDL_PollEvent( & event))
 			{
 				if (event.type == SDL_QUIT)
-					isquit = true;
+					wolf->sdl->run = false;
 				if (event.type == SDL_MOUSEMOTION)
 				{
 					rotate(wolf, &event, &x);
@@ -106,83 +159,8 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
         		// 	if( event.button.button == SDL_BUTTON_LEFT )
 				// 		p->guns_fire = 0;
 				// }
-				if (event.type == SDL_KEYDOWN)
-				{
-					isquit = event.key.keysym.sym == SDLK_ESCAPE ? true : isquit;
-					
-					if (event.key.keysym.sym == SDLK_d)
-					{
-						calc_move(map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
-						//p->y += p->speed * sinf(p->dir + RAD_90);
-						//p->x -= p->speed * cosf(p->dir + RAD_90);
-						// p->x = p->x > CUBE * map->w - 1? CUBE * map->w - 1 : p->x;
-						//debug_player(player);
-					}
-					if (event.key.keysym.sym == SDLK_a)
-					{
-						calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
-						//p->y += p->speed * sinf(p->dir - RAD_90);
-						//p->x -= p->speed * cosf(p->dir - RAD_90);
-						// p->x = p->x < 0 ? 0 : p->x;
-						//debug_player(player);
-					}
-					if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
-					{
-						calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
-						//p->y += p->speed * sinf(p->dir);
-						//p->x -= p->speed * cosf(p->dir);
-						// p->y = p->y > CUBE * map->h - 1 ? CUBE * map->h - 1 : p->y;
-					}
-					if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
-					{
-						calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
-						//p->y -= p->speed * sinf(p->dir);
-						//p->x += p->speed * cosf(p->dir);
-						// p->y = p->y < 0 ? 0 : p->y;
-					}
-					if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
-					{
-						if (event.key.keysym.sym == SDLK_RIGHT)
-						{
-							add_arc(&p->dir, -RAD_1);
-							add_skybox_offset(wolf->sdl, 2);
-						}
-						if (event.key.keysym.sym == SDLK_LEFT)
-						{
-							add_arc(&p->dir, RAD_1);
-							add_skybox_offset(wolf->sdl, -2);
-						}
-					}
-					if (event.key.keysym.sym == SDLK_p)
-						p->sides = p->sides == 1 ? 0 : 1;
-					if (event.key.keysym.sym == SDLK_m)
-						map->mm_show = map->mm_show == 1 ? 0 : 1;
-					if (event.key.keysym.sym == SDLK_o)
-					{
-						if (wolf->bon->music_flag == 0)
-						{
-							Mix_PlayMusic(wolf->bon->music, -1);
-							wolf->bon->music_flag = 1;
-						}
-						else
-						{
-							wolf->bon->music_flag = 0;
-							Mix_HaltMusic();
-						}
-					}
-					if (event.key.keysym.sym == SDLK_i)
-					{
-						if (wolf->bon->fps == 0)
-							wolf->bon->fps = 1;
-						else
-							wolf->bon->fps = 0;
-					}
-					if (event.key.keysym.sym == SDLK_SPACE)
-					{
-						wolf->bon->guns_fire = 1;
-					}
-				}
-    		}
+				handle_keys(wolf, event, wolf->map, wolf->player);
+			}
 			// music(p);
 
 			if (!startTime) {
@@ -202,42 +180,13 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
      	   	startTime = endTime;
        		endTime = SDL_GetTicks();
 			
+        	render_fps(fps, surface, wolf->bon);
+			render_shot(wolf, surface, &flag_guns, start_guns);
+			
 			draw_background(surface);
 			all_get_distance(map, p);
 			pseudo_3d(wolf, p, surface);
-			if (wolf->bon->fps)
-        		render_fps(fps, surface, wolf->bon);
-			if (wolf->bon->guns_fire || flag_guns != 0)
-			{
-				wolf->bon->guns_fire = 0;
-				if (!start_guns)
-				{
-					flag_guns++;
-					start_guns = SDL_GetTicks();
-				}
-				if (start_guns + 200 < SDL_GetTicks())
-				{
-					flag_guns++;
-					start_guns = SDL_GetTicks();
-				}
-				guns_shot(surface, flag_guns, wolf->bon);
-				// flag_guns == 5 ? Mix_HaltMusic(): 0;
-				flag_guns == 5 ? flag_guns = 0: 0;
-			}
-			else
-				guns_shot(surface, 1, wolf->bon);
 			draw_minimap(surface, map, p);
-			/*
-			for (int o = 0; o < CUBE; o++)
-			{
-				for (int p = 0; p < CUBE; p++)
-				{
-					set_pixel(surface, dot(p,o), getpixel(wolf->sdl->textures, p, o));
-				}
-			}
-			*/
-		//debug_player(p);
-			set_pixel(surface, 200, 200, COLOR_WHITE);
 			SDL_UpdateWindowSurface(window);
 		}
         SDL_DestroyWindow(window);

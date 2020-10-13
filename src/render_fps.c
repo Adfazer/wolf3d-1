@@ -2,13 +2,15 @@
 
 void    render_fps(int fps, SDL_Surface *screen, t_bonus *bon)
 {
+	if (!bon->fps)
+		return ;
 	if (bon->my_font == NULL)
 	{
 		printf("error\n");
 		exit(1);
 	}
-	SDL_Color fore_color = { RED_COLOR };
-	SDL_Color back_color = { BLUE_COLOR };
+	SDL_Color fore_color = { COLOR_RED };
+	SDL_Color back_color = { COLOR_BLUE };
 	SDL_Surface* textSurface = NULL;
 	char *str;
 	str = ft_itoa(fps);
