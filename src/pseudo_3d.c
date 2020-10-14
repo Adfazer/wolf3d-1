@@ -48,11 +48,12 @@ void	draw_sky(t_wolf *wolf, int xtex, int x, int y)
 	}
 }
 
-void	floorcast(t_wolf *wolf, SDL_Surface *surface, int y)
+void	floorcast(t_wolf *wolf, t_distance *dist, int y)
 {
-	while (y < W)
+	for (int y = H / 2; y < H; y++)
 	{
-		
+		float dist = H / (2 * y - H);
+		float weight = dist;
 	}
 }
 

@@ -106,13 +106,12 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
                                 SDL_WINDOW_SHOWN);
 
 	SDL_Surface* icon;
-	if (!(icon = SDL_LoadBMP(ICON_PATH)))
-		printf("%s\n", SDL_GetError());
+	!(icon = SDL_LoadBMP(ICON_PATH)) ? error(wolf, SDL_GetError()) : 0;
 	if (!(wolf->sdl->sky = SDL_LoadBMP(SKY_PATH)))
-		printf("%s\n", SDL_GetError());	
+		error(wolf, SDL_GetError());
 	SDL_SetWindowIcon(window, icon);
     if (!window)
-        printf("window error\n");
+        error(wolf, SDL_GetError());
     
 	wolf->sdl->sides_mode = 1;
 
@@ -120,7 +119,6 @@ void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
     surface = SDL_GetWindowSurface(window);
 	wolf->sdl->skybox_offset = 0;
 	wolf->surface = surface;
-        SDL_UpdateWindowSurface(window);
 		SDL_SetRelativeMouseMode(SDL_TRUE);
 		SDL_Event event;
 		int x = -0x7ffff;

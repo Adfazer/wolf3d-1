@@ -6,7 +6,7 @@
 
 # define INTBUF_INIT_SIZE 64
 # define INTBUF_RESIZE_COEF 4
-# define MAP_MAX_SIZE 2048
+# define MAP_MAX_SIZE 204800
 # define MAP_MIN_SIZE 16
 # define MAP_MIN_ROW_NUM 3
 # define MAP_MIN_COL_NUM 4
