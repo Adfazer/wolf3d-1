@@ -144,10 +144,10 @@ void		map_init(t_wolf *wolf, char *b);
 /*
 ** error.c
 */
-int			error_free_s(char *s);
-int			error(char *s);
-int			error_inv_c(char *s, char inv_char);
-int			error_inv_n(char *s, int inv_num);
+int			error_free_s(t_wolf *wolf, char *s);
+int			error(t_wolf *wolf, char *s);
+int			error_inv_c(t_wolf *wolf, char *s, char inv_char);
+int			error_inv_n(t_wolf *wolf, char *s, int inv_num);
 
 /*
 ** init.c

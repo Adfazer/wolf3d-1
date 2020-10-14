@@ -23,8 +23,8 @@
 # define TEX_START 'S' 
 
 
-# define W 384
-# define H 384
+# define W 800
+# define H 600
 # define CUBE 64
 
 # define PLAYER_MM_SIZE 4

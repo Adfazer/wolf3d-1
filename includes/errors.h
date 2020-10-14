@@ -15,6 +15,8 @@
 # define ERR_FILE_OPEN "Can't open file %s"
 # define ERR_FILE_READ "Can't read file %s"
 
+# define ERR_INV_H "Screen height must be less or equal to width"
+
 
 
 #endif

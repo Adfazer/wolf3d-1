@@ -29,9 +29,18 @@ t_wolf		*t_wolf_new(void)
 	return new;
 }
 
-int	main(int a, char **b)
+void		validate_const(t_wolf *wolf)
 {
-	t_wolf *wolf;
+	if (H > W)
+		error(wolf, ERR_INV_H);
+}
+
+int			main(int a, char **b)
+{
+	t_wolf	*wolf;
+
+	wolf = NULL;
+	validate_const(wolf);
 
 	if (a != 2)
 	{

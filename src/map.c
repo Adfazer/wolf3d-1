@@ -15,34 +15,34 @@ static void	validate_map(t_wolf *wolf, char *map, int map_size)
 		while (map[i] && map[i] != '\n')
 		{
 			if (!ft_strchr(CHARSET, map[i]))
-				error_inv_c(ERR_MAP_CHAR, map[i]);
+				error_inv_c(wolf, ERR_MAP_CHAR, map[i]);
 			i++;
 		}
 		i - curr_start < MAP_MIN_COL_NUM ? \
-			error_inv_n(ERR_MAP_COL_NUM, wolf->map->h + 1) : 0;
+			error_inv_n(wolf, ERR_MAP_COL_NUM, wolf->map->h + 1) : 0;
 		len_first = len_first == -1 ? i - curr_start : len_first;
-		len_first != i - curr_start ? error(ERR_MAP_NOT_RECT) : 0;
+		len_first != i - curr_start ? error(wolf, ERR_MAP_NOT_RECT) : 0;
 		i++;
 		wolf->map->h++;
 	}
-	wolf->map->h < MAP_MIN_ROW_NUM ? error(ERR_MAP_ROW_NUM) : 0;
+	wolf->map->h < MAP_MIN_ROW_NUM ? error(wolf, ERR_MAP_ROW_NUM) : 0;
 	wolf->map->w = len_first;
 }
 
-static char	*get_map(int *was_read, char *map_name)
+static char	*get_map(t_wolf *wolf, int *was_read, char *map_name)
 {
 	char	*s;
 	int		fd;
 	
 	s = ft_strnew(MAP_MAX_SIZE + 1);
 	fd = open(map_name, O_RDONLY);
-	fd < 0 ? error(ERR_FILE_OPEN) : 0;
-	read(fd, s, 0) < 0 ? error(ERR_FILE_READ) : 0;
+	fd < 0 ? error(wolf, ERR_FILE_OPEN) : 0;
+	read(fd, s, 0) < 0 ? error(wolf, ERR_FILE_READ) : 0;
 	*was_read = read(fd, s, MAP_MAX_SIZE + 1);
 	if (*was_read > MAP_MAX_SIZE)
-		error(ERR_MAP_BIG);
+		error(wolf, ERR_MAP_BIG);
 	if (*was_read < MAP_MIN_SIZE)
-		error(ERR_MAP_SMALL);
+		error(wolf, ERR_MAP_SMALL);
 	return s;
 }
 
@@ -68,7 +68,7 @@ static void	check_logic(t_wolf *wolf)
 		!ft_strchr(WALLSET, map->map[i * map->w + (map->w - 1)]))
 			ft_asprintf(&s, ERR_MAP_BORDER_ROW, i + 1);
 	}
-	s ? error_free_s(s) : 0;
+	s ? error_free_s(wolf, s) : 0;
 }
 
 static void	check_start(t_wolf *wolf)
@@ -95,8 +95,8 @@ static void	check_start(t_wolf *wolf)
 			start_counter++;
 		}
 	}
-	!start_counter ? error(ERR_MAP_NO_START) : 0;
-	start_counter > 1 ? error(ERR_MAP_MULT_START) : 0;
+	!start_counter ? error(wolf, ERR_MAP_NO_START) : 0;
+	start_counter > 1 ? error(wolf, ERR_MAP_MULT_START) : 0;
 }
 
 
@@ -108,10 +108,10 @@ void		map_init(t_wolf *wolf, char *map_name)
 	int		i;
 	int		j;
 
-	str_map = get_map(&map_size, map_name);
+	str_map = get_map(wolf, &map_size, map_name);
 	validate_map(wolf, str_map, map_size);
 	wolf->map->map =ft_strnew(wolf->map->h * wolf->map->w);
-	!wolf->map->map ? error(ERR_MALLOC) : 1;
+	!wolf->map->map ? error(wolf, ERR_MALLOC) : 1;
 	i = -1;
 	j = 0;
 	while (++i < map_size)
