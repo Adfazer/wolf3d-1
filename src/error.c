@@ -1,6 +1,6 @@
 #include "wolf3d.h"
 
-int		error(t_wolf *wolf, char *s)
+int		error(t_wolf *wolf, const char *s)
 {
     ft_printf("%s%s%s\n", C_RED, s, C_NRM);
     exit(EXIT_FAILURE);

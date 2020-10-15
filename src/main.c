@@ -13,19 +13,16 @@ t_wolf		*t_wolf_new(void)
 {
 	t_wolf	*new;
 
-	if (!(new = (t_wolf *)malloc(sizeof(t_wolf))))
-		exit(1);
-	if (!(new->map = (t_map *)malloc(sizeof(t_map))))
-		exit(1);
+	!(new = (t_wolf *)malloc(sizeof(t_wolf))) ? error(new, ERR_MALLOC) : 0;
+	!(new->map = (t_map *)malloc(sizeof(t_map))) ? error(new, ERR_MALLOC) : 0;
 	if (!(new->player = (t_player *)malloc(sizeof(t_player))))
-		exit(1);
+		error(new, ERR_MALLOC);
 	if (!(new->surface = (SDL_Surface *)malloc(sizeof(SDL_Surface))))
-		exit(1);
+		error(new, ERR_MALLOC);
 	if (!(new->sdl = (t_sdl *)malloc(sizeof(t_sdl))))
-		exit(1);
+		error(new, ERR_MALLOC);
 	if (!(new->bon = (t_bonus *)malloc(sizeof(t_bonus))))
-		exit(1);
-	
+		error(new, ERR_MALLOC);
 	return new;
 }
 
@@ -41,22 +38,9 @@ int			main(int a, char **b)
 
 	wolf = NULL;
 	validate_const(wolf);
-
-	if (a != 2)
-	{
-		printf("usage : ./wolf3d [map]\n");
-        exit(1);
-	}
-	if( SDL_Init( SDL_INIT_EVERYTHING ) != 0 )
-    {
-        printf("error\n");
-        exit(1);
-    }
-	if (TTF_Init() != 0)
-	{
-        printf("error\n");
-        exit(1);
-	}
+	a != 2 ? error(wolf, ERR_USAGE) : 0;
+	SDL_Init(SDL_INIT_EVERYTHING) != 0 ? error(wolf, SDL_GetError()) : 0;
+	TTF_Init() != 0 ? error(wolf, SDL_GetError()) : 0;
 	wolf = t_wolf_new();
 	map_init(wolf, b[1]);
 	load_textures(wolf, wolf->sdl);

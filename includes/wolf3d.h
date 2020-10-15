@@ -60,8 +60,8 @@ typedef struct	s_player
 	float		step;
 	float		xmm;
 	float		ymm;
-	t_distance	*distance[W]; // измеренное расстояние до стены
 	int			floor_offset;
+	t_distance	*distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
 	t_float2	start;
 	
@@ -96,6 +96,7 @@ typedef struct		s_sdl
 	SDL_Surface		*scrs;
 	SDL_Surface		*textures;
 	SDL_Surface		*sky;
+	SDL_Surface		*icon;
 	SDL_Renderer	*rend;
 	SDL_Window		*win;
 	SDL_Texture		*win_texture;
@@ -150,7 +151,7 @@ void		map_init(t_wolf *wolf, char *b);
 ** error.c
 */
 int			error_free_s(t_wolf *wolf, char *s);
-int			error(t_wolf *wolf, char *s);
+int			error(t_wolf *wolf, const char *s);
 int			error_inv_c(t_wolf *wolf, char *s, char inv_char);
 int			error_inv_n(t_wolf *wolf, char *s, int inv_num);
 

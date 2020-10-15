@@ -53,12 +53,12 @@ void handle_keys(t_wolf *wolf, SDL_Event event, t_map *map, t_player *p)
 		if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
 		{
 			calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
-			add_floor_offset(&(wolf->player->floor_offset), -2);
+			//add_floor_offset(&(wolf->player->floor_offset), -50);
 		}
 		if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
 		{
 			calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
-			add_floor_offset(&(wolf->player->floor_offset), 2);
+			//add_floor_offset(&(wolf->player->floor_offset), 50);
 		}
 		if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 		{
@@ -104,64 +104,61 @@ void handle_keys(t_wolf *wolf, SDL_Event event, t_map *map, t_player *p)
 	}
 }
 
-void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
+void init_sdl(t_wolf *wolf)
 {
-	SDL_Window* window = NULL;
-    window = SDL_CreateWindow("Wolf3d", 100, 
-                                100, W, H, 
-                                SDL_WINDOW_SHOWN);
-
-	SDL_Surface* icon;
-	!(icon = SDL_LoadBMP(ICON_PATH)) ? error(wolf, SDL_GetError()) : 0;
+	wolf->sdl->win = SDL_CreateWindow("Wolf3d", 100,
+        100, W, H, SDL_WINDOW_SHOWN);
+	!wolf->sdl->win ? error(wolf, SDL_GetError()) : 0;
+	if (!(wolf->sdl->icon = SDL_LoadBMP(ICON_PATH)))
+		error(wolf, SDL_GetError());
 	if (!(wolf->sdl->sky = SDL_LoadBMP(SKY_PATH)))
 		error(wolf, SDL_GetError());
-	SDL_SetWindowIcon(window, icon);
-    if (!window)
-        error(wolf, SDL_GetError());
-    
+	SDL_SetWindowIcon(wolf->sdl->win, wolf->sdl->icon);
 	wolf->sdl->sides_mode = 1;
-
-    SDL_Surface *surface;
-    surface = SDL_GetWindowSurface(window);
+    wolf->surface = SDL_GetWindowSurface(wolf->sdl->win);
 	wolf->sdl->skybox_offset = 0;
-	wolf->surface = surface;
-		SDL_SetRelativeMouseMode(SDL_TRUE);
-		SDL_Event event;
-		int x = -0x7ffff;
-		wolf->sdl->run = 1;
-		while (wolf->sdl->run)
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+	wolf->sdl->run = 1;
+}
+
+void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
+{
+	
+	SDL_Event event;
+	int x;
+	
+	init_sdl(wolf);
+	x = INT32_MIN;
+	while (wolf->sdl->run)
+	{
+		if (SDL_PollEvent( & event))
 		{
-			if (SDL_PollEvent( & event))
+			if (event.type == SDL_QUIT)
+				wolf->sdl->run = false;
+			if (event.type == SDL_MOUSEMOTION)
+				rotate(wolf, &event, &x);
+			if (event.type == SDL_MOUSEBUTTONDOWN)
 			{
-				if (event.type == SDL_QUIT)
-					wolf->sdl->run = false;
-				if (event.type == SDL_MOUSEMOTION)
-				{
-					rotate(wolf, &event, &x);
-					//debug_player(player);
-				}
-				// if( event.type == SDL_MOUSEBUTTONDOWN )
-				// {
-        		// 	if( event.button.button == SDL_BUTTON_LEFT )
-				// 		p->guns_fire = 1;
-				// }
-				// if( event.type == SDL_MOUSEBUTTONUP )
-				// {
-        		// 	if( event.button.button == SDL_BUTTON_LEFT )
-				// 		p->guns_fire = 0;
-				// }
-				handle_keys(wolf, event, wolf->map, wolf->player);
+				if(event.button.button == SDL_BUTTON_LEFT)
+					wolf->bon->guns_fire = 1;
 			}
-			draw_background(surface);
-			all_get_distance(wolf);
-			pseudo_3d(wolf, p, surface);
-			render_coin(wolf, surface);
-        	render_fps(surface, wolf->bon);
-			render_shot(wolf, surface);
-			draw_minimap(wolf, surface, map, p);
-			SDL_UpdateWindowSurface(window);
+			if (event.type == SDL_MOUSEBUTTONUP)
+			{
+				if( event.button.button == SDL_BUTTON_LEFT )
+					wolf->bon->guns_fire = 0;
+			}
+			handle_keys(wolf, event, wolf->map, wolf->player);
 		}
-        SDL_DestroyWindow(window);
-		TTF_Quit();
-        SDL_Quit();
+		draw_background(wolf->surface);
+		all_get_distance(wolf);
+		pseudo_3d(wolf, p, wolf->surface);
+		render_coin(wolf, wolf->surface);
+		render_fps(wolf->surface, wolf->bon);
+		render_shot(wolf, wolf->surface);
+		draw_minimap(wolf, wolf->surface, map, p);
+		SDL_UpdateWindowSurface(wolf->sdl->win);
+	}
+	SDL_DestroyWindow(wolf->sdl->win);
+	TTF_Quit();
+	SDL_Quit();
 }
