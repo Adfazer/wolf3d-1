@@ -34,11 +34,18 @@ typedef struct	s_map
 	int			player_start;
 }				t_map;
 
+typedef struct	s_float2
+{
+	float		x;
+	float		y;
+}				t_float2;
+
 typedef struct		s_distance
 {
 	float			dist;
 	char			tex;
 	int				offsetx;
+	t_float2		coords;
 }					t_distance;
 
 typedef struct	s_player
@@ -53,16 +60,12 @@ typedef struct	s_player
 	float		step;
 	float		xmm;
 	float		ymm;
-	t_distance	distance[W]; // измеренное расстояние до стены
+	t_distance	*distance[W]; // измеренное расстояние до стены
 	t_point		*ray_coord[W];
 	
 }				t_player;
 
-typedef struct	s_float2
-{
-	float		x;
-	float		y;
-}				t_float2;
+
 
 typedef struct	s_bonus
 {
@@ -159,11 +162,12 @@ int load_textures(t_wolf *wolf, t_sdl *sdl);
 /*
 ** distance.c
 */
-t_distance find_vertical_intersection(t_wolf *wolf, float angle, char texture);
-t_distance find_horizontal_intersection(t_wolf *wolf, float angle);
-t_distance dist_to_wall(t_wolf *wolf, float angle);
-t_distance dist_to_floor(t_wolf *wolf, float angle);
-t_distance dist_to_texture(t_wolf *wolf, float angle, char texture);
+t_distance *find_vertical_intersection(t_wolf *wolf, float angle, char texture);
+t_distance *find_horizontal_intersection(t_wolf *wolf, float angle);
+t_distance *dist_to_wall(t_wolf *wolf, float angle);
+t_distance *dist_to_floor(t_wolf *wolf, float angle);
+t_distance *dist_to_texture(t_wolf *wolf, float angle, char texture);
+t_distance *t_distance_new(t_wolf *wolf);
 
 //skaren
 void    all_get_distance(t_wolf *wolf);

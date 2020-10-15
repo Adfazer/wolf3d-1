@@ -35,7 +35,7 @@ static int	calc_horiz(t_wolf *wolf, t_float2 *a, t_distance *dist, float angle)
 		* wolf->map->w + ((int)a->x / CUBE)]))
 	{
 		dist->dist = fabsf((wolf->player->y - a->y) / sinf(angle));
-		dist->offsetx = (int)a->x % 64;
+		dist->offsetx = (int)a->x % CUBE;
 		dist->tex = wolf->sdl->sides_mode ? 'S' : \
 			wolf->map->map[((int)(a->y - 1) / CUBE) * wolf->map->w \
 			+ ((int)a->x / CUBE)];
@@ -45,7 +45,7 @@ static int	calc_horiz(t_wolf *wolf, t_float2 *a, t_distance *dist, float angle)
 		* wolf->map->w + ((int)a->x / CUBE)]))
 	{
 		dist->dist = fabsf((wolf->player->y - a->y) / sinf(angle));
-		dist->offsetx = (int)a->x % 64;
+		dist->offsetx = (int)a->x % CUBE;
 		dist->tex = wolf->sdl->sides_mode ? 'N' : \
 			wolf->map->map[((int)a->y / CUBE) * wolf->map->w \
 			+ ((int)a->x / CUBE)];
@@ -54,21 +54,23 @@ static int	calc_horiz(t_wolf *wolf, t_float2 *a, t_distance *dist, float angle)
 	return (0);
 }
 
-t_distance find_horizontal_intersection(t_wolf *wolf,
+t_distance *find_horizontal_intersection(t_wolf *wolf,
 	float angle)
 {
 	t_float2	a;
 	t_float2	diff;
-	t_distance 	dist;
+	t_distance 	*dist;
 
+	dist = t_distance_new(wolf);
 	init_horiz(wolf->player, &a, &diff, angle);
 	while (a.y > -1 && a.y < wolf->map->h_pix &&
 		a.x > -1 && a.x < wolf->map->w_pix)
 	{
-		if (calc_horiz(wolf, &a, &dist, angle))
+		if (calc_horiz(wolf, &a, dist, angle))
 			break ;
 		a.x += diff.x;
 		a.y += diff.y;
 	}
+	dist->coords = a;
 	return (dist);
 }

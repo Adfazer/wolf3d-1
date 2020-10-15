@@ -35,7 +35,7 @@ static int	calc_vert(t_wolf *wolf, t_float2 *b, t_distance *dist, float angle)
 		* wolf->map->w + ((int)(b->x - 1) / CUBE)]))
 	{
 		dist->dist = fabsf((wolf->player->x - b->x) / cosf(angle));
-		dist->offsetx = (int)b->y % 64;
+		dist->offsetx = (int)b->y % CUBE;
 		dist->tex = wolf->sdl->sides_mode ? 'W' : \
 			wolf->map->map[((int)b->y / CUBE) \
 			* wolf->map->w + ((int)(b->x - 1) / CUBE)];
@@ -45,7 +45,7 @@ static int	calc_vert(t_wolf *wolf, t_float2 *b, t_distance *dist, float angle)
 		* wolf->map->w + ((int)b->x / CUBE)]))
 	{
 		dist->dist = fabsf((wolf->player->x - b->x) / cosf(angle));
-		dist->offsetx = (int)b->y % 64;
+		dist->offsetx = (int)b->y % CUBE;
 		dist->tex = wolf->sdl->sides_mode ? 'E' : \
 			wolf->map->map[((int)b->y / CUBE) \
 			 * wolf->map->w + ((int)b->x / CUBE)];
@@ -54,20 +54,23 @@ static int	calc_vert(t_wolf *wolf, t_float2 *b, t_distance *dist, float angle)
 	return (0);
 }
 
-t_distance find_vertical_intersection(t_wolf *wolf, float angle, char texture)
+t_distance *find_vertical_intersection(t_wolf *wolf,
+float angle, char texture)
 {
 	t_float2	b;
 	t_float2	diff;
-	t_distance 	dist;
+	t_distance 	*dist;
 
+	dist = t_distance_new(wolf);
 	init_vert(wolf->player, &b, &diff, angle);
 	while (b.y >-1  && b.y < wolf->map->h_pix &&
 		b.x > -1 && b.x < wolf->map->w_pix)
 	{
-		if (calc_vert(wolf, &b, &dist, angle))
+		if (calc_vert(wolf, &b, dist, angle))
 			break ;
 		b.x += diff.x;
 		b.y += diff.y;
 	}
+	dist->coords = b;
 	return dist;
 }
