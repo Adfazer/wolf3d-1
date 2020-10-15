@@ -51,9 +51,15 @@ void handle_keys(t_wolf *wolf, SDL_Event event, t_map *map, t_player *p)
 		if (event.key.keysym.sym == SDLK_a)
 			calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
 		if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+		{
 			calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
+			add_floor_offset(&(wolf->player->floor_offset), -2);
+		}
 		if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+		{
 			calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
+			add_floor_offset(&(wolf->player->floor_offset), 2);
+		}
 		if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 		{
 			if (event.key.keysym.sym == SDLK_RIGHT)

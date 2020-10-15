@@ -16,6 +16,16 @@ int	add_arc(float *arc, float to_add)
 	return 0;
 }
 
+int	add_floor_offset(int *offset, int to_add)
+{
+	*offset += to_add;
+	if (*offset < 0)
+		*offset += CUBE;
+	else if (*offset >= CUBE)
+		*offset -= CUBE;
+	return 0;
+}
+
 int	max(int a, int b)
 {
 	return (a > b ? a : b);

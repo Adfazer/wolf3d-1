@@ -62,8 +62,8 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y)
 	{
 		curr_dist = (float)H / (float)(2 * y - H);
 		weight = curr_dist / (dist->dist);
-		currFloorX = weight * dist->coords.x + (1.f - weight) * wolf->player->x;
-		currFloorY = weight * dist->coords.y + (1.f - weight) * wolf->player->y;
+		currFloorX = weight * dist->coords.x + (1.f - weight) * wolf->player->start.x;
+		currFloorY = weight * dist->coords.y + (1.f - weight) * wolf->player->start.y;
 		textx = (int)(currFloorX * CUBE) % CUBE;
 		texty = (int)(currFloorY * CUBE) % CUBE;
 		if (textx < 0)

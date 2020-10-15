@@ -12,6 +12,9 @@ void	player_init(t_player *p, t_map *map)
 	p->size = 10;
 	p->dist_to_canvas = (W / 2) / tan(p->fov / 2);
 	p->step = p->fov / W;
+	p->floor_offset = 0;
+	p->start.x = p->x;
+	p->start.y = p->y;
 }
 
 void	bonus_init(t_bonus *bon)

@@ -61,7 +61,9 @@ typedef struct	s_player
 	float		xmm;
 	float		ymm;
 	t_distance	*distance[W]; // измеренное расстояние до стены
+	int			floor_offset;
 	t_point		*ray_coord[W];
+	t_float2	start;
 	
 }				t_player;
 
@@ -185,6 +187,8 @@ void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	bonus_init(t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);
 void	render_coin(t_wolf *wolf, SDL_Surface *surface);
+
+int	add_floor_offset(int *offset, int to_add);
 
 #endif
 
