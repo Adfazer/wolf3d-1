@@ -4,6 +4,7 @@
 # define ERR_MALLOC "Can't allocate memory"
 # define ERR_MAP_NO_START "No player start position"
 # define ERR_MAP_MULT_START "Multiple player start positions"
+# define ERR_MAP_MULT_COIN "Multiple coin positions"
 # define ERR_MAP_BORDER_COL "There must be a border texture at column %d"
 # define ERR_MAP_BORDER_ROW "There must be a border texture at row %d"
 # define ERR_MAP_BIG "Map is too big"

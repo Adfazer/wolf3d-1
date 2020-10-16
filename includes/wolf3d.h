@@ -101,7 +101,6 @@ typedef struct	s_bonus
 	SDL_Rect	imgLocation;
 	int 		flag_guns;
 	Uint32		start_guns;
-	Uint32		coin_animation;
 	TTF_Font*	my_font;
 }				t_bonus;
 

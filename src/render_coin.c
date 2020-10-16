@@ -2,8 +2,6 @@
 
 void	search_angle(t_wolf *wolf, t_coin *coin)
 {
-	if (wolf->bon->coint_pos.y == 0 && wolf->bon->coint_pos.x == 0)
-		return ;
 	coin->dist = sqrtf(powf((wolf->bon->coint_pos.x - wolf->player->x), 2) + powf((wolf->bon->coint_pos.y - wolf->player->y), 2));
 	if (wolf->bon->coint_pos.x - wolf->player->x > 0 && wolf->bon->coint_pos.y - wolf->player->y < 0)
 		coin->angle = asin((wolf->player->y - wolf->bon->coint_pos.y) / coin->dist);
@@ -78,6 +76,8 @@ void	render_coin(t_wolf *wolf, SDL_Surface *surface)
 {
 	t_coin	coin;
 
+	if (wolf->bon->coint_pos.y == 0 && wolf->bon->coint_pos.x == 0)
+		return ;
 	ft_bzero(&coin, sizeof(t_coin));
 	search_angle(wolf, &coin);
 	through_zero(wolf, &coin);
