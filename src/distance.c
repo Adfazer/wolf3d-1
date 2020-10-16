@@ -25,7 +25,7 @@ void    all_get_distance(t_wolf *wolf)
 	i = wolf->player->dir - (wolf->player->fov / 2);
 	count_distance = 0;
 	cos_agle = wolf->player->fov / 2;
-	while (i <= wolf->player->dir + (wolf->player->fov / 2))
+	while (i < wolf->player->dir + (wolf->player->fov / 2))
 	{
 		temp_i = i;
 		if (temp_i > RAD_360)
@@ -38,6 +38,7 @@ void    all_get_distance(t_wolf *wolf)
 		i += wolf->player->step;
 		count_distance++;
 	}
+
 }
 
 t_distance	*dist_to_wall(t_wolf *wolf, float angle)

@@ -113,6 +113,8 @@ void init_sdl(t_wolf *wolf)
 		error(wolf, SDL_GetError());
 	if (!(wolf->sdl->sky = SDL_LoadBMP(SKY_PATH)))
 		error(wolf, SDL_GetError());
+	if (!(wolf->sdl->textures = SDL_LoadBMP(TEXTURE_PATH)))
+		error(wolf, SDL_GetError());
 	SDL_SetWindowIcon(wolf->sdl->win, wolf->sdl->icon);
 	wolf->sdl->sides_mode = 1;
     wolf->surface = SDL_GetWindowSurface(wolf->sdl->win);

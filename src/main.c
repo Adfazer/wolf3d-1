@@ -43,7 +43,6 @@ int			main(int a, char **b)
 	TTF_Init() != 0 ? error(wolf, SDL_GetError()) : 0;
 	wolf = t_wolf_new();
 	map_init(wolf, b[1]);
-	load_textures(wolf, wolf->sdl);
 	player_init(wolf->player, wolf->map);
 	bonus_init(wolf->bon);
 	music(wolf->bon);

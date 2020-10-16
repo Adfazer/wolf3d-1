@@ -48,7 +48,7 @@ void	draw_sky(t_wolf *wolf, int xtex, int x, int y)
 	}
 }
 
-void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y)
+void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 {
 	float curr_dist;
 	float weight;
@@ -57,10 +57,33 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y)
 	int textx;
 	int texty;
 	int color;
-
+	float ratio;
+	float distance;
+	float xend;
+	float yend;
 
 	while (y < H)
 	{
+		
+		ratio = ((float)H / (float)(2 * y - H));
+		distance = floorf(wolf->player->dist_to_canvas * ratio / cosf(dir)); 
+		xend = floorf(distance * cosf(dir)) + wolf->player->x;
+		yend = floorf(distance * sinf(dir)) + wolf->player->y;
+		int cellx = (int)(xend / CUBE);
+		int celly = (int)(yend / CUBE);
+
+		int tilex = (int)(xend * CUBE) % CUBE;
+		int tiley = (int)(yend * CUBE) % CUBE;
+		if (tilex < 0)
+			tilex = 0;
+		if (tiley < 0)
+			tiley = 0;
+		//printf("%d %d\n", tilex, tiley);
+		color = getpixel(wolf->sdl->textures, tilex, tiley);
+		set_pixel(wolf->surface, x, y, color);
+		y++;
+		
+		/*
 		curr_dist = (float)H / (float)(2 * y - H);
 		weight = curr_dist / (dist->dist);
 		currFloorX = weight * dist->coords.x + (1.f - weight) * wolf->player->x;
@@ -71,11 +94,12 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y)
 			textx = 0;
 		if (texty < 0)
 			texty = 0;
-		color = getpixel(wolf->sdl->textures, textx, texty);
+		
 		set_pixel(wolf->surface, x, y, color);
 		color = getpixel(wolf->sdl->textures, textx + CUBE * 5, texty);
 		set_pixel(wolf->surface, x, H - y, color);
 		y++;
+		*/
 	}
 }
 
@@ -90,8 +114,8 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 	count_distance = W - 1; //номер луча с конца
 	int color = 255;
 	float dir = player->dir;
-	add_arc(&dir, -RAD_30);
-	float step = RAD_60 / W;
+	add_arc(&dir, player->fov / 2);
+	float step = player->fov / W;
 
 	while (point.x < W)
 	{
@@ -106,11 +130,11 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 			draw_column(wolf, surface, point, player->distance[count_distance], H - point.y, height);
 			// draw_sky(wolf, (int)((dir / RAD_360) * wolf->sdl->sky->w),point.x, point.y);
 			
-			floorcast(wolf, player->distance[count_distance], point.x, H - point.y + 1);
+			floorcast(wolf, player->distance[count_distance], point.x, H - point.y, dir);
 			// draw_floor(wolf, surface, point.x, H - point.y + 1);
 		}
 		count_distance--; // следующий луч
 		point.x++;
-		add_arc(&dir, step);
+		add_arc(&dir, -step);
 	}
 }

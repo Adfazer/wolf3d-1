@@ -61,10 +61,7 @@ typedef struct	s_player
 	float		xmm;
 	float		ymm;
 	int			floor_offset;
-	t_distance	*distance[W]; // измеренное расстояние до стены
-	t_point		*ray_coord[W];
-	t_float2	start;
-	
+	t_distance	*distance[W];
 }				t_player;
 
 
@@ -99,14 +96,10 @@ typedef struct		s_sdl
 	SDL_Surface		*icon;
 	SDL_Renderer	*rend;
 	SDL_Window		*win;
-	SDL_Texture		*win_texture;
 	SDL_Event		e;
-	unsigned char	*bytes;
-	unsigned char	*bytes_texture;
-	int				pitch;
 	int				skybox_offset;
 	int				run;
-	int				sides_mode; //режим сторон света, будет в t_wolf
+	int				sides_mode;
 }					t_sdl;
 
 typedef struct	s_wolf
