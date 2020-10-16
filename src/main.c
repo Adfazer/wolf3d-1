@@ -46,6 +46,6 @@ int			main(int a, char **b)
 	player_init(wolf->player, wolf->map);
 	bonus_init(wolf->bon);
 	music(wolf->bon);
-	sdl_init(wolf, wolf->map, wolf->player);
+	wolf_loop(wolf);
 	return (0);
 }

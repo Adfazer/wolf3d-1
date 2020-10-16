@@ -40,67 +40,89 @@ void	calc_move(t_map *map, t_player *p, float dy, float dx)
 	}
 }
 
-void handle_keys(t_wolf *wolf, SDL_Event event, t_map *map, t_player *p)
+
+
+void handle_keys(t_wolf *wolf, SDL_Event *event, t_map *map, t_player *p)
 {
-	if (event.type == SDL_KEYDOWN)
+	if (event->key.keysym.sym == SDLK_ESCAPE)
+		wolf->sdl->run = false;
+	if (event->key.keysym.sym == SDLK_d)
+		calc_move(wolf->map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
+	if (event->key.keysym.sym == SDLK_a)
+		calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
+	if (event->key.keysym.sym == SDLK_DOWN || event->key.keysym.sym == SDLK_s)
 	{
-		if (event.key.keysym.sym == SDLK_ESCAPE)
+		calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
+		//add_floor_offset(&(wolf->player->floor_offset), -50);
+	}
+	if (event->key.keysym.sym == SDLK_UP || event->key.keysym.sym == SDLK_w)
+	{
+		calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
+		//add_floor_offset(&(wolf->player->floor_offset), 50);
+	}
+	if (event->key.keysym.sym == SDLK_RIGHT || event->key.keysym.sym == SDLK_LEFT)
+	{
+		if (event->key.keysym.sym == SDLK_RIGHT)
+		{
+			add_arc(&p->dir, -RAD_30);
+			add_skybox_offset(wolf->sdl, 52);
+		}
+		if (event->key.keysym.sym == SDLK_LEFT)
+		{
+			add_arc(&p->dir, RAD_30);
+			add_skybox_offset(wolf->sdl, -52);
+		}
+	}
+	if (event->key.keysym.sym == SDLK_p)
+		wolf->sdl->sides_mode = wolf->sdl->sides_mode == 1 ? 0 : 1;
+	if (event->key.keysym.sym == SDLK_m)
+		map->mm_show = map->mm_show == 1 ? 0 : 1;
+	if (event->key.keysym.sym == SDLK_o)
+	{
+		if (wolf->bon->music_flag == 0)
+		{
+			Mix_PlayMusic(wolf->bon->music, -1);
+			wolf->bon->music_flag = 1;
+		}
+		else
+		{
+			wolf->bon->music_flag = 0;
+			Mix_HaltMusic();
+		}
+	}
+	if (event->key.keysym.sym == SDLK_i)
+	{
+		if (wolf->bon->fps == 0)
+			wolf->bon->fps = 1;
+		else
+			wolf->bon->fps = 0;
+	}
+	if (event->key.keysym.sym == SDLK_SPACE)
+	{
+		wolf->bon->guns_fire = 1;
+	}
+}
+
+void	handle_event(t_wolf *wolf, SDL_Event *event, int *x)
+{
+	if (SDL_PollEvent(event))
+	{
+		if (event->type == SDL_QUIT)
 			wolf->sdl->run = false;
-		if (event.key.keysym.sym == SDLK_d)
-			calc_move(wolf->map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
-		if (event.key.keysym.sym == SDLK_a)
-			calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
-		if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+		if (event->type == SDL_MOUSEMOTION)
+			rotate(wolf, event, x);
+		if (event->type == SDL_MOUSEBUTTONDOWN)
 		{
-			calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
-			//add_floor_offset(&(wolf->player->floor_offset), -50);
+			if(event->button.button == SDL_BUTTON_LEFT)
+				wolf->bon->guns_fire = 1;
 		}
-		if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+		if (event->type == SDL_MOUSEBUTTONUP)
 		{
-			calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
-			//add_floor_offset(&(wolf->player->floor_offset), 50);
+			if( event->button.button == SDL_BUTTON_LEFT )
+				wolf->bon->guns_fire = 0;
 		}
-		if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
-		{
-			if (event.key.keysym.sym == SDLK_RIGHT)
-			{
-				add_arc(&p->dir, -RAD_30);
-				add_skybox_offset(wolf->sdl, 52);
-			}
-			if (event.key.keysym.sym == SDLK_LEFT)
-			{
-				add_arc(&p->dir, RAD_30);
-				add_skybox_offset(wolf->sdl, -52);
-			}
-		}
-		if (event.key.keysym.sym == SDLK_p)
-			wolf->sdl->sides_mode = wolf->sdl->sides_mode == 1 ? 0 : 1;
-		if (event.key.keysym.sym == SDLK_m)
-			map->mm_show = map->mm_show == 1 ? 0 : 1;
-		if (event.key.keysym.sym == SDLK_o)
-		{
-			if (wolf->bon->music_flag == 0)
-			{
-				Mix_PlayMusic(wolf->bon->music, -1);
-				wolf->bon->music_flag = 1;
-			}
-			else
-			{
-				wolf->bon->music_flag = 0;
-				Mix_HaltMusic();
-			}
-		}
-		if (event.key.keysym.sym == SDLK_i)
-		{
-			if (wolf->bon->fps == 0)
-				wolf->bon->fps = 1;
-			else
-				wolf->bon->fps = 0;
-		}
-		if (event.key.keysym.sym == SDLK_SPACE)
-		{
-			wolf->bon->guns_fire = 1;
-		}
+		if (event->type == SDL_KEYDOWN)
+			handle_keys(wolf, event, wolf->map, wolf->player);
 	}
 }
 
@@ -123,41 +145,23 @@ void init_sdl(t_wolf *wolf)
 	wolf->sdl->run = 1;
 }
 
-void sdl_init(t_wolf *wolf, t_map *map, t_player *p)
-{
-	
+void wolf_loop(t_wolf *wolf)
+{	
 	SDL_Event event;
 	int x;
 	
 	init_sdl(wolf);
-	x = INT32_MIN;
+	x = -0x7fffff;
 	while (wolf->sdl->run)
 	{
-		if (SDL_PollEvent( & event))
-		{
-			if (event.type == SDL_QUIT)
-				wolf->sdl->run = false;
-			if (event.type == SDL_MOUSEMOTION)
-				rotate(wolf, &event, &x);
-			if (event.type == SDL_MOUSEBUTTONDOWN)
-			{
-				if(event.button.button == SDL_BUTTON_LEFT)
-					wolf->bon->guns_fire = 1;
-			}
-			if (event.type == SDL_MOUSEBUTTONUP)
-			{
-				if( event.button.button == SDL_BUTTON_LEFT )
-					wolf->bon->guns_fire = 0;
-			}
-			handle_keys(wolf, event, wolf->map, wolf->player);
-		}
+		handle_event(wolf, &event, &x);	
 		draw_background(wolf->surface);
 		all_get_distance(wolf);
-		pseudo_3d(wolf, p, wolf->surface);
+		pseudo_3d(wolf, wolf->player, wolf->surface);
 		render_coin(wolf, wolf->surface);
-		render_fps(wolf->surface, wolf->bon);
+		render_fps(wolf, wolf->bon);
 		render_shot(wolf, wolf->surface);
-		draw_minimap(wolf, wolf->surface, map, p);
+		draw_minimap(wolf, wolf->map, wolf->player);
 		SDL_UpdateWindowSurface(wolf->sdl->win);
 	}
 	SDL_DestroyWindow(wolf->sdl->win);

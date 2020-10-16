@@ -85,31 +85,29 @@ void draw_background(SDL_Surface *surface)
 	}
 }
 
-void	draw_minimap(t_wolf *wolf, SDL_Surface *surface, t_map *map, t_player *p)
+void	draw_minimap(t_wolf *wolf, t_map *map, t_player *p)
 {
-	int	xx;
-	int	yy;
 	int	i;
 
 	if (!map->mm_show)
 		return ;
-	draw_rectangle(surface, map->mm_start,
-	dot(map->mm_w, map->mm_h), 
-	COLOR_GREY_LIGHT);
+	draw_rectangle(wolf->surface, map->mm_start, dot(map->mm_w, map->mm_h),
+		COLOR_GREY_LIGHT);
 	i = -1;
 	while (++i < map->h * map->w)
 	{
 		if (ft_strchr(WALLSET, map->map[i]))
 		{
-			xx = (i % map->w) * map->mm_cube + map->mm_start.x;
-			yy = (i / map->w) * map->mm_cube + map->mm_start.y;
-			draw_rectangle(surface, dot(xx, yy),
+			draw_rectangle(wolf->surface, dot(
+				((i % map->w) * map->mm_cube + map->mm_start.x),
+				((i / map->w) * map->mm_cube + map->mm_start.y)),
 			dot(map->mm_cube, map->mm_cube), 0xbbbb00);
 		}
 	}
-	draw_rectangle(surface, 
-		dot(p->x * map->mm_cube_coef + (map->mm_start.x - map->mm_p_size), p->y * map->mm_cube_coef + (map->mm_start.y - map->mm_p_size)),
-		dot(map->mm_p_size * 2, map->mm_p_size * 2), 
-		0xFFFFFF);
-	draw_ray(wolf, p->dir, p->x * map->mm_cube_coef + map->mm_start.x, p->y * map->mm_cube_coef + map->mm_start.y);
+	draw_rectangle(wolf->surface, 
+		dot(p->x * map->mm_cube_coef + (map->mm_start.x - map->mm_p_size),
+			p->y * map->mm_cube_coef + (map->mm_start.y - map->mm_p_size)),
+		dot(map->mm_p_size * 2, map->mm_p_size * 2), 0xFFFFFF);
+	draw_ray(wolf, p->dir, p->x * map->mm_cube_coef + map->mm_start.x,
+		p->y * map->mm_cube_coef + map->mm_start.y);
 }

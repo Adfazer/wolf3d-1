@@ -1,6 +1,6 @@
 #include "../includes/wolf3d.h"
 
-void    render_fps(SDL_Surface *screen, t_bonus *bon)
+void    render_fps(t_wolf *wolf, t_bonus *bon)
 {
 	if (!bon->startTime)
 	{
@@ -33,6 +33,6 @@ void    render_fps(SDL_Surface *screen, t_bonus *bon)
 		exit(1);
 	}
 	SDL_Rect textLocation = { W - 32, 2, 0, 0 };
-	SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
+	SDL_BlitSurface(textSurface, NULL, wolf->surface, &textLocation);
 	// TTF_CloseFont(my_font); // вот думаю можно и не закрывать а потом ехит все равно 
 }

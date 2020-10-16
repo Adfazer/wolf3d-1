@@ -116,11 +116,10 @@ typedef struct	s_wolf
 void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
 void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
-int		color_to_hex(int r, int g, int b);
-void sdl_init(t_wolf *wolf, t_map *map, t_player *player);
+void wolf_loop(t_wolf *wolf);
 t_point	dot(int x, int y);
 int raycast(void);
-void draw_minimap(t_wolf *wolf, SDL_Surface *surface, t_map *map, t_player *p);
+void draw_minimap(t_wolf *wolf, t_map *map, t_player *p);
 void debug_map(t_map *map);
 void debug_player(t_player *p);
 void draw_ray(t_wolf *wolf, float player, int x, int y);
@@ -141,7 +140,7 @@ void		init_mm(t_map *map);
 void		map_init(t_wolf *wolf, char *b);
 
 /*
-** error.c
+** error.q
 */
 int			error_free_s(t_wolf *wolf, char *s);
 int			error(t_wolf *wolf, const char *s);
@@ -176,7 +175,7 @@ int		is_texture(t_map *map, int x, int y, char texture);
 t_distance	t_distance_dummy(float angle);
 t_distance other_dummy(float angle);
 void	music(t_bonus *bon);
-void    render_fps(SDL_Surface *screen, t_bonus *bon);
+void    render_fps(t_wolf *wolf, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	bonus_init(t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);

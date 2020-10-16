@@ -7,10 +7,6 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance *
 	int i = 0;      
 	while (point.y < size)
 	{
-		/*
-		if (point.x == W / 2)
-			printf("%d\n", height);
-			*/
 		if (dist->tex == 'W')
 			color = getpixel(wolf->sdl->textures, dist->offsetx + CUBE * 0, i * CUBE / height);
 		else if (dist->tex == 'S')
@@ -25,8 +21,6 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance *
 		i++;
 	}
 }
-
-
 
 void	draw_floor(t_wolf *wolf, SDL_Surface *surface, int x, int y)
 {
@@ -66,14 +60,14 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 	{
 		
 		ratio = ((float)H / (float)(2 * y - H));
-		distance = floorf(wolf->player->dist_to_canvas * ratio / cosf(dir)); 
+		distance = floorf((wolf->player->dist_to_canvas * ratio) / cosf(dir)); 
 		xend = floorf(distance * cosf(dir)) + wolf->player->x;
 		yend = floorf(distance * sinf(dir)) + wolf->player->y;
 		int cellx = (int)(xend / CUBE);
 		int celly = (int)(yend / CUBE);
 
-		int tilex = (int)(xend * CUBE) % CUBE;
-		int tiley = (int)(yend * CUBE) % CUBE;
+		int tilex = (int)(yend) % CUBE;
+		int tiley = (int)(xend) % CUBE;
 		if (tilex < 0)
 			tilex = 0;
 		if (tiley < 0)
@@ -108,15 +102,15 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 {
     t_point point;
     int     count_distance;
+	float dir;
+	float step;
 
 	point.x = 0;
     point.y = 0;
 	count_distance = W - 1; //номер луча с конца
-	int color = 255;
-	float dir = player->dir;
+	dir = player->dir;
 	add_arc(&dir, player->fov / 2);
-	float step = player->fov / W;
-
+	step = player->fov / W;
 	while (point.x < W)
 	{
 		if (player->distance[count_distance]->dist != 0) // проверка сталкивается ли луч с чем либо 

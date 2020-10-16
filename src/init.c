@@ -23,6 +23,9 @@ void	bonus_init(t_bonus *bon)
 	bon->fps_count = 0;
 	bon->guns_fire = 0;
 	bon->music = NULL;
+	/*
+	на каждое открытие должна быть проверка с error() в случае неудачи
+	*/
 	bon->image_1 = IMG_Load("textures/guns-1.bmp");
 	bon->image_2 = IMG_Load("textures/guns-2.bmp");
 	bon->image_3 = IMG_Load("textures/guns-3.bmp");
