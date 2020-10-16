@@ -55,10 +55,65 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 	float distance;
 	float xend;
 	float yend;
-
-	while (y < H)
+	float rowDistance;
+	float x0, x1, y0, y1;
+	float a0, a1;
+	float floorStepX;
+	float floorStepY;
+	float floorX;
+	float floorY;
+	a0 = dir;
+	a1 = dir;
+	add_arc(&a0, RAD_30);
+	add_arc(&a1, -RAD_30);
+	y = 0;
+	distance = sqrtf(powf(wolf->player->dist_to_canvas, 2.) + W / 2 * W / 2);
+	while (y < H / 2)
 	{
-		/*	
+		/*
+		def Translate(X,Y,angle,distance):                #defines function
+    dX = distance*math.cos(math.radians(angle))   #change in x 
+    dY = distance*math.sin(math.radians(angle))   #change in y 
+    Xfinal = X + dX                               
+    Yfinal = Y + dY
+    return Xfinal, Yfinal
+	*/
+		
+		
+		rowDistance = (float)H / (float)(2 * y - H);
+		x0 = wolf->player->distance[W - 1]->coords.x;
+		y0 = wolf->player->distance[W - 1]->coords.y;
+		x1 = wolf->player->distance[0]->coords.x;
+		y1 = wolf->player->distance[0]->coords.y;
+		
+
+		floorStepX = rowDistance * (x1 - x0) / W;
+		floorStepY = rowDistance * (y1 - y0) / W;
+
+		floorX = wolf->player->x + x0 * rowDistance;
+		floorY = wolf->player->y + y0 * rowDistance;
+
+		
+
+		x = 0;
+		while (x < W)
+		{
+			int cellX = (int)floorX;
+			int cellY = (int)floorY;
+
+			int tx = (int)(CUBE * (floorX - cellX)) & (CUBE - 1);
+			int ty = (int)(CUBE * (floorY - cellY)) & (CUBE - 1);
+
+			floorX += floorStepX;
+			floorY += floorStepY;
+
+			color = getpixel(wolf->sdl->textures, tx, ty);
+			set_pixel(wolf->surface, x, y, color);
+			x++;
+		}
+		y++;
+
+		/*
 		ratio = (float)H / (float)(2 * y - H);
 		distance = floorf((wolf->player->dist_to_canvas * ratio) / cosf(dir)); 
 		xend = floorf(distance * cosf(dir)) + wolf->player->x;
@@ -78,6 +133,29 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 		y++;
 		*/
 		
+		/*
+		if (dir < RAD_90 || dir > RAD_270)
+		{
+			dist->coords.x = floorf(wolf->player->x);
+			dist->coords.y = floorf(wolf->player->y) + dist->coords.x;
+		}
+		else if(dir > RAD_90 && dir < RAD_270)
+		{
+			dist->coords.x = floorf(wolf->player->x) + 1.0f;
+			dist->coords.y = floorf(wolf->player->y) + dist->coords.x;
+		}
+		else if(dir > 0 && dir < RAD_180)
+		{
+			dist->coords.x = floorf(wolf->player->x) + dist->coords.x;
+			dist->coords.y = floorf(wolf->player->y);
+		}
+		else
+		{
+			dist->coords.x = floorf(wolf->player->x) + dist->coords.x;
+			dist->coords.y = floorf(wolf->player->y) + 1.0f;
+		}
+		*/
+		/*
 		curr_dist = (float)H / (float)(2 * y - H);
 		weight = curr_dist / (dist->dist);
 		currFloorX = weight * dist->coords.x + (1.f - weight) * wolf->player->x;
@@ -94,6 +172,7 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 		color = getpixel(wolf->sdl->textures, textx + CUBE * 5, texty);
 		set_pixel(wolf->surface, x, H - y, color);
 		y++;
+		*/
 		
 	}
 }
@@ -122,7 +201,7 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 			int temp = point.y;
 			draw_column(wolf, surface, point, player->distance[count_distance], H - point.y, height);
 			// draw_sky(wolf, (int)((dir / RAD_360) * wolf->sdl->sky->w),point.x, point.y);
-			floorcast(wolf, player->distance[count_distance], point.x, H - point.y, dir);
+			//floorcast(wolf, player->distance[count_distance], point.x, H - point.y, dir);
 			// draw_floor(wolf, surface, point.x, H - point.y + 1);
 		}
 		count_distance--; // следующий луч
