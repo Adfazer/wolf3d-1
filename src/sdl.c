@@ -143,7 +143,7 @@ void wolf_loop(t_wolf *wolf)
 		render_shot(wolf, wolf->surface);
 		draw_minimap(wolf, wolf->map, wolf->player);
 		SDL_UpdateWindowSurface(wolf->sdl->win);
-		printf("%f %f\n", wolf->player->x, wolf->player->y);
+		// printf("%f %f\n", wolf->player->x, wolf->player->y);
 	}
 	SDL_DestroyWindow(wolf->sdl->win);
 	TTF_Quit();
