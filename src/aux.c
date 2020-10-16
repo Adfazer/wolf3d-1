@@ -8,7 +8,7 @@ int	add_arc(float *arc, float to_add)
 		*arc += RAD_360;
 	else if (*arc >= RAD_360)
 		*arc -= RAD_360;
-	return 0;
+	return (1);
 }
 
 int	add_floor_offset(int *offset, int to_add)
@@ -18,7 +18,7 @@ int	add_floor_offset(int *offset, int to_add)
 		*offset += CUBE;
 	else if (*offset >= CUBE)
 		*offset -= CUBE;
-	return 0;
+	return (1);
 }
 
 int	max(int a, int b)
