@@ -46,6 +46,8 @@ typedef struct		s_distance
 	char			tex;
 	int				offsetx;
 	t_float2		coords;
+	int				side;
+	int				y;
 }					t_distance;
 
 typedef struct	s_player

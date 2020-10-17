@@ -61,11 +61,13 @@ t_distance *dist_to_texture(t_wolf *wolf, float angle, char texture)
 	if (v->dist > h->dist)
 	{
 		free(v);
+		h->side = 0;
 		return (h);		
 	}
 	else
 	{
 		free(h);
+		v->side = 1;
 		return (v);
 	}
 }

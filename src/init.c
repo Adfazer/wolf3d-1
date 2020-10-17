@@ -8,7 +8,7 @@ void	player_init(t_player *p, t_map *map)
 	p->y = CUBE * (map->player_start / map->w) + p->size;
 	p->speed = 7.0;
 	p->fov = RAD_60;
-	p->dir = RAD_180;
+	p->dir = RAD_0;
 	p->size = 10;
 	p->dist_to_canvas = (W / 2) / tan(p->fov / 2);
 	p->step = p->fov / W;

@@ -66,10 +66,74 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 	a1 = dir;
 	add_arc(&a0, RAD_30);
 	add_arc(&a1, -RAD_30);
-	y = 0;
+	y = dist->y;
+	float floorXWall, floorYWall; //x, y position of the floor texel at the bottom of the wall
+	float mapX = floorf(wolf->player->x);
+	float mapY =  floorf(wolf->player->y);
+	float wallX;
+
+	if (dist->side == 0)
+	{
+		wallX = dist->coords.x;
+	}
+	else
+		wallX = dist->coords.y;
+	wallX -= floorf(wallX);
+	
+	 /*
+      //4 different wall directions possible
+      if(dist->side == 0 && (wolf->player->dir < RAD_90 || wolf->player->dir > RAD_270))
+      {
+        floorXWall = mapX;
+        floorYWall = mapY + wallX;
+      }
+      else if(dist->side == 0 && (wolf->player->dir > RAD_90 || wolf->player->dir < RAD_360))
+      {
+        floorXWall = mapX + 1.0;
+        floorYWall = mapY + wallX;
+      }
+      else if(dist->side == 1 && wolf->player->dir < RAD_180)
+      {
+        floorXWall = mapX + wallX;
+        floorYWall = mapY;
+      }
+      else
+      {
+        floorXWall = mapX + wallX;
+        floorYWall = mapY + 1.0;
+      }
+*/
+/*
+      double distWall, distPlayer, currentDist;
+	  if (y < 0)
+	  	y = H;
+		  
+	while (y < H)
+	{
+		
+      curr_dist = (float)H / (float)(2 * y - H);
+		weight = curr_dist / (dist->dist);
+		currFloorX = weight * floorXWall + (1.f - weight) * wolf->player->x;
+		currFloorY = weight * floorYWall + (1.f - weight) * wolf->player->y;
+		//printf("%d %d\n", tilex, tiley);
+		textx = (int)(currFloorX * CUBE) % CUBE;
+		texty = (int)(currFloorY * CUBE) % CUBE;
+		if (textx < 0)
+			textx = 0;
+		if (texty < 0)
+			texty = 0;
+		color = getpixel(wolf->sdl->textures, textx + CUBE * 5, texty);
+		set_pixel(wolf->surface, x, y, color);
+		color = getpixel(wolf->sdl->textures, textx + CUBE * 5, texty);
+		set_pixel(wolf->surface, x, H - y, color);
+		y++;
+	}
+*/	
+	/*
 	distance = sqrtf(powf(wolf->player->dist_to_canvas, 2.) + W / 2 * W / 2);
 	while (y < H / 2)
 	{
+		*/
 		/*
 		def Translate(X,Y,angle,distance):                #defines function
     dX = distance*math.cos(math.radians(angle))   #change in x 
@@ -79,7 +143,7 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
     return Xfinal, Yfinal
 	*/
 		
-		
+		/*
 		rowDistance = (float)H / (float)(2 * y - H);
 		x0 = wolf->player->distance[W - 1]->coords.x;
 		y0 = wolf->player->distance[W - 1]->coords.y;
@@ -112,17 +176,20 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 			x++;
 		}
 		y++;
-
+*/
 		/*
-		ratio = (float)H / (float)(2 * y - H);
-		distance = floorf((wolf->player->dist_to_canvas * ratio) / cosf(dir)); 
-		xend = floorf(distance * cosf(dir)) + wolf->player->x;
-		yend = floorf(distance * sinf(dir)) + wolf->player->y;
+		while (y < H)
+		{	
+		
+		ratio = (float)(H / 2) / (float)(y - H / 2);
+		distance = floorf((wolf->player->dist_to_canvas * ratio))  * dist->dist ; 
+		xend = floorf(distance * sinf(dir)) + wolf->player->x;
+		yend = floorf(distance * cosf(dir)) + wolf->player->y;
 		//int cellx = (int)(xend / CUBE);
 		//int celly = (int)(yend / CUBE);
 
-		int tilex = (int)(yend / 8) % CUBE;
-		int tiley = (int)(xend / 8) % CUBE;
+		int tilex = (int)(yend) % CUBE;
+		int tiley = (int)(xend) % CUBE;
 		if (tilex < 0)
 			tilex = 0;
 		if (tiley < 0)
@@ -131,38 +198,48 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 		color = getpixel(wolf->sdl->textures, tilex, tiley);
 		set_pixel(wolf->surface, x, y, color);
 		y++;
+		}		
 		*/
-		
-		/*
+
+	/*
 		if (dir < RAD_90 || dir > RAD_270)
 		{
 			dist->coords.x = floorf(wolf->player->x);
-			dist->coords.y = floorf(wolf->player->y) + dist->coords.x;
+			dist->coords.y = floorf(wolf->player->y) + wallX;
 		}
 		else if(dir > RAD_90 && dir < RAD_270)
 		{
 			dist->coords.x = floorf(wolf->player->x) + 1.0f;
-			dist->coords.y = floorf(wolf->player->y) + dist->coords.x;
+			dist->coords.y = floorf(wolf->player->y) + wallX;
 		}
 		else if(dir > 0 && dir < RAD_180)
 		{
-			dist->coords.x = floorf(wolf->player->x) + dist->coords.x;
+			dist->coords.x = floorf(wolf->player->x) + wallX;
 			dist->coords.y = floorf(wolf->player->y);
 		}
 		else
 		{
-			dist->coords.x = floorf(wolf->player->x) + dist->coords.x;
+			dist->coords.x = floorf(wolf->player->x) + wallX;
 			dist->coords.y = floorf(wolf->player->y) + 1.0f;
 		}
-		*/
-		/*
+	*/
+	
+	while (y < H)
+	{	
+		
 		curr_dist = (float)H / (float)(2 * y - H);
-		weight = curr_dist / (dist->dist);
-		currFloorX = weight * dist->coords.x + (1.f - weight) * wolf->player->x;
-		currFloorY = weight * dist->coords.y + (1.f - weight) * wolf->player->y;
+		
+		weight = (curr_dist) / (dist->dist);
+		if (x == 100 && y == 400)
+			printf("%f %f\n", dist->coords.x, dist->coords.y);
+		currFloorX = weight * dist->coords.x + (1.f - weight) * ((int)wolf->player->x);
+		currFloorY = weight * dist->coords.y + (1.f - weight) * ((int)wolf->player->y);
 		//printf("%d %d\n", tilex, tiley);
+		//if (x == 100 && y == 400)
+		//	printf("%f %f\n", currFloorX, currFloorY);	
 		textx = (int)(currFloorX * CUBE) % CUBE;
 		texty = (int)(currFloorY * CUBE) % CUBE;
+		
 		if (textx < 0)
 			textx = 0;
 		if (texty < 0)
@@ -172,9 +249,9 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 		color = getpixel(wolf->sdl->textures, textx + CUBE * 5, texty);
 		set_pixel(wolf->surface, x, H - y, color);
 		y++;
-		*/
-		
 	}
+	
+	
 }
 
 
@@ -199,9 +276,10 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 			point.y = (H - point.y) / 2;
 			int height = H - point.y * 2;
 			int temp = point.y;
+			player->distance[count_distance]->y = H - point.y;
 			draw_column(wolf, surface, point, player->distance[count_distance], H - point.y, height);
 			// draw_sky(wolf, (int)((dir / RAD_360) * wolf->sdl->sky->w),point.x, point.y);
-			//floorcast(wolf, player->distance[count_distance], point.x, H - point.y, dir);
+			floorcast(wolf, player->distance[count_distance], point.x, H - point.y, dir);
 			// draw_floor(wolf, surface, point.x, H - point.y + 1);
 		}
 		count_distance--; // следующий луч
