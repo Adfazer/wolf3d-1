@@ -66,12 +66,29 @@ typedef struct	s_player
 	t_distance	*distance[W];
 }				t_player;
 
-
+typedef	struct	s_coin
+{
+	float		angle;
+	float		dist;
+	float		temp_1;
+	float		temp_2;
+	float		temp_3;
+	float		temp_4;
+	float		temp_5;
+	int			i;
+	int			flag_1;
+	int			flag_2;
+	int			flag_i;
+	int			count;
+	SDL_Rect	cut_vertical_img;
+	SDL_Rect	img_location;
+}				t_coin;
 
 typedef struct	s_bonus
 {
 	int			music_flag; // включает музыку
 	Mix_Music	*music;
+	Mix_Chunk	*music_guns;
 	int			fps;
 	Uint32		startTime;
 	int			fps_count;
@@ -86,7 +103,6 @@ typedef struct	s_bonus
 	SDL_Rect	imgLocation;
 	int 		flag_guns;
 	Uint32		start_guns;
-
 	TTF_Font*	my_font;
 }				t_bonus;
 

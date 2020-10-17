@@ -31,8 +31,14 @@ void	bonus_init(t_bonus *bon)
 	bon->image_3 = IMG_Load("textures/guns-3.bmp");
 	bon->image_4 = IMG_Load("textures/guns-4.bmp");
 	bon->image_5 = IMG_Load("textures/guns-5.bmp");
-	bon->image_coin = IMG_Load("textures/coin.bmp");
+	bon->image_coin = IMG_Load("textures/coin.png");
 	bon->my_font = TTF_OpenFont("ttf/19888.ttf", 14);
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	bon->music_guns = Mix_LoadWAV("music/01664_q6IhiXXL.wav");
+	bon->music = Mix_LoadMUS("music/Oto Kapanadze - Mystic Mountain.mp3");
+	if (!bon->image_1 || !bon->image_2 || !bon->image_3 || !bon->image_4 || !bon->image_5 ||
+		!bon->image_coin || !bon->my_font || !bon->music_guns || !bon->music)
+		exit(0);
 	
 	bon->imgLocation.w = W / 3;
     bon->imgLocation.h = H / 3;
