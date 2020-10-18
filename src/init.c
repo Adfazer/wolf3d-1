@@ -1,6 +1,6 @@
 #include "../includes/wolf3d.h"
 
-void	player_init(t_player *p, t_map *map)
+void	init_player(t_player *p, t_map *map)
 {
 	ft_bzero(p, sizeof(t_player));
 	p->size = 10;
@@ -15,7 +15,7 @@ void	player_init(t_player *p, t_map *map)
 	p->floor_offset = 0;
 }
 
-void	bonus_init(t_bonus *bon)
+void	init_bonus(t_bonus *bon)
 {
 	bon->music_flag = 0;
 	bon->fps = 1;

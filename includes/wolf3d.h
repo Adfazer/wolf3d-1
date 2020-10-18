@@ -155,7 +155,7 @@ void	init_tex_arr(t_wolf *wolf);
 ** map.c
 */
 void		init_mm(t_map *map);
-void		map_init(t_wolf *wolf, char *b);
+void		init_map(t_wolf *wolf, char *b);
 
 /*
 ** error.q
@@ -169,7 +169,7 @@ int			error_inv_n(t_wolf *wolf, char *s, int inv_num);
 ** init.c
 */
 
-void	player_init(t_player *player, t_map *map);
+void	init_player(t_player *player, t_map *map);
 int load_textures(t_wolf *wolf, t_sdl *sdl);
 
 /*
@@ -195,7 +195,7 @@ t_distance other_dummy(float angle);
 void	music(t_bonus *bon);
 void    render_fps(t_wolf *wolf, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
-void	bonus_init(t_bonus *bon);
+void	init_bonus(t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);
 void	render_coin(t_wolf *wolf, SDL_Surface *surface);
 

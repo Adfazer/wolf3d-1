@@ -105,7 +105,7 @@ static void	check_start(t_wolf *wolf)
 
 
 
-void		map_init(t_wolf *wolf, char *map_name)
+void		init_map(t_wolf *wolf, char *map_name)
 {
 	int		map_size;
 	char	*str_map;

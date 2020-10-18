@@ -42,9 +42,9 @@ int			main(int a, char **b)
 	SDL_Init(SDL_INIT_EVERYTHING) != 0 ? error(wolf, SDL_GetError()) : 0;
 	TTF_Init() != 0 ? error(wolf, SDL_GetError()) : 0;
 	wolf = t_wolf_new();
-	map_init(wolf, b[1]);
-	player_init(wolf->player, wolf->map);
-	bonus_init(wolf->bon);
+	init_map(wolf, b[1]);
+	init_player(wolf->player, wolf->map);
+	init_bonus(wolf->bon);
 	music(wolf->bon);
 	init_tex_arr(wolf);
 	wolf_loop(wolf);
