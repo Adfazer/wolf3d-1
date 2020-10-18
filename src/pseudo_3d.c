@@ -226,8 +226,8 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 		weight = (curr_dist) / (dist->dist);
 		if (x == 100 && y == 400)
 			printf("%f %f\n", dist->coords.x, dist->coords.y);
-		currFloorX = weight * dist->coords.x + (1.f - weight) * ((int)wolf->player->x);
-		currFloorY = weight * dist->coords.y + (1.f - weight) * ((int)wolf->player->y);
+		currFloorX = weight * dist->coords.x + (1.f - weight) * (wolf->player->x);
+		currFloorY = weight * dist->coords.y + (1.f - weight) * (wolf->player->y);
 		//printf("%d %d\n", tilex, tiley);
 		//if (x == 100 && y == 400)
 		//	printf("%f %f\n", currFloorX, currFloorY);	

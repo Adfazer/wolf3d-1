@@ -1,11 +1,11 @@
 #ifndef WOLF3D_H
 #define WOLF3D_H
 
-#include "../frameworks/SDL2.framework/Headers/SDL.h"
+# include "../frameworks/SDL2.framework/Headers/SDL.h"
 // #include "../frameworks/SDL2_image.framework/Versions/A/Headers/SDL_image.h"
-#include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
-#include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
-#include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
+# include "../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
+# include "../frameworks/SDL2_image.framework/Headers/SDL_image.h"
+# include "../frameworks/SDL2_mixer.framework/Headers/SDL_mixer.h"
 # include <stdbool.h>
 # include <fcntl.h>
 # include "../libft/includes/ft_printf.h"
@@ -115,6 +115,7 @@ typedef struct		s_sdl
 	SDL_Renderer	*rend;
 	SDL_Window		*win;
 	int				tex_arr[0xff];
+	const Uint8		*state;
 	SDL_Event		e;
 	int				skybox_offset;
 	int				run;

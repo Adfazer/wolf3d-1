@@ -50,11 +50,13 @@ void handle_keys(t_wolf *wolf, SDL_Event *event, t_map *map, t_player *p)
 		wolf->sdl->run = false;
 	if (event->key.keysym.sym == SDLK_d)
 		calc_move(wolf->map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
-	if (event->key.keysym.sym == SDLK_a)
+	//if (event->key.keysym.sym == SDLK_a)
+	if (wolf->sdl->state[SDL_SCANCODE_A])
 		calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
 	if (event->key.keysym.sym == SDLK_DOWN || event->key.keysym.sym == SDLK_s)
 		calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
-	if (event->key.keysym.sym == SDLK_UP || event->key.keysym.sym == SDLK_w)
+	//if (event->key.keysym.sym == SDLK_UP || event->key.keysym.sym == SDLK_w)	
+	if (wolf->sdl->state[SDL_SCANCODE_W])
 		calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
 	if (event->key.keysym.sym == SDLK_RIGHT && add_arc(&p->dir, -RAD_30))
 		add_skybox_offset(wolf->sdl, 52);
@@ -123,6 +125,7 @@ void init_sdl(t_wolf *wolf)
 	wolf->sdl->skybox_offset = 0;
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	wolf->sdl->run = 1;
+	wolf->sdl->state = SDL_GetKeyboardState(NULL);
 }
 
 void wolf_loop(t_wolf *wolf)

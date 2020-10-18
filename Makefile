@@ -26,12 +26,11 @@ ALL_C = main.c \
 		pseudo_3d.c \
 		draw.c \
 		music.c \
-		render_fps.c \
+		render_text.c \
 		guns_shot.c \
 		distance_horiz.c \
 		distance_vert.c \
-		render_coin.c \
-		render_score_coin.c
+		render_coin.c
 
 SRCDIR = ./src
 OBJDIR = ./objs
@@ -52,10 +51,11 @@ COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
 FLAGS = -g #-ffast-math O3 #-Wall -Wextra -Werror -ffast-math -O3 
 
-SDL_INCS =	-I./frameworks/SDL2.framework/Versions/A/Headers \
-			-I./frameworks/SDL2_image.framework/Versions/A/Headers \
-			-I./frameworks/SDL2_mixer.framework/Versions/A/Headers \
-			-I./frameworks/SDL2_ttf.framework/Versions/A/Headers
+SDL_INCS =	-F./frameworks \
+			-I./frameworks/SDL2.framework/Headers \
+			-I./frameworks/SDL2_image.framework/Headers \
+			-I./frameworks/SDL2_mixer.framework/Headers \
+			-I./frameworks/SDL2_ttf.framework/Headers
 			 
 FRAMEWORKS  = -F./frameworks \
 				-rpath ./frameworks \
@@ -64,13 +64,14 @@ FRAMEWORKS  = -F./frameworks \
 				-framework SDL2_image \
 				-framework SDL2_mixer
 
+
 all: $(LIBFT) $(OBJDIR) $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) -L $(LIBFT_DIR) -lft -o $@ $(SDL_INCS) $(FRAMEWORKS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCLUDES) | $(OBJDIR)
-	$(CC) $(FLAGS) -I./includes -I.$(LIBFT_DIR)/includes -c $< -o $@ 
+	$(CC) $(FLAGS) -I./includes -I.$(LIBFT_DIR)/includes $(SDL_INCS)  -c $< -o $@ 
 
 $(OBJDIR):
 	/bin/mkdir -p $(OBJDIR)

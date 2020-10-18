@@ -33,8 +33,8 @@
 # define TEX_ISLE '5'
 
 
-# define W 384
-# define H 384
+# define W 400
+# define H 320
 # define CUBE 64
 
 # define PLAYER_MM_SIZE 4
