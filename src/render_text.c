@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:31:59 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:31:59 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/18 19:43:59 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,10 @@ void    render_fps(t_wolf *wolf, t_bonus *bon)
 	textSurface = TTF_RenderText_Shaded(bon->my_font, str, fore_color, back_color);
 	free(str);
 	if(textSurface == NULL)
-	{
-		printf("error\n");
-		exit(1);
-	}
+		error(wolf, SDL_GetError());
 	SDL_Rect textLocation = { W - (int)(H / 28) * 2, 2, 0, 0 };
 	SDL_BlitSurface(textSurface, NULL, wolf->surface, &textLocation);
+	SDL_FreeSurface(textSurface);
 	// TTF_CloseFont(my_font); // вот думаю можно и не закрывать а потом ехит все равно 
 }
 
@@ -57,11 +55,9 @@ void    render_score_coin(t_wolf *wolf)
 	textSurface = TTF_RenderText_Shaded(wolf->bon->my_font, str_tmp, fore_color, back_color);
 	free(str);
 	if(textSurface == NULL)
-	{
-		printf("error\n");
-		exit(1);
-	}
+		error(wolf, SDL_GetError());
 	SDL_Rect textLocation = { W - (int)(H / 28) * 9, H - (int)(H / 28), 0, 0 };
 	SDL_BlitSurface(textSurface, NULL, wolf->surface, &textLocation);
+	SDL_FreeSurface(textSurface);
 	// TTF_CloseFont(my_font); // вот думаю можно и не закрывать а потом ехит все равно 
 }

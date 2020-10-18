@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:29:09 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:48:33 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/18 19:48:07 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ t_wolf		*t_wolf_new(void)
 	!(new->map = (t_map *)malloc(sizeof(t_map))) ? error(new, ERR_MALLOC) : 0;
 	if (!(new->player = (t_player *)malloc(sizeof(t_player))))
 		error(new, ERR_MALLOC);
-	if (!(new->surface = (SDL_Surface *)malloc(sizeof(SDL_Surface))))
-		error(new, ERR_MALLOC);
 	if (!(new->sdl = (t_sdl *)malloc(sizeof(t_sdl))))
 		error(new, ERR_MALLOC);
 	if (!(new->bon = (t_bonus *)malloc(sizeof(t_bonus))))
@@ -51,7 +49,7 @@ int			main(int a, char **b)
 {
 	t_wolf	*wolf;
 
-	wolf = NULL;
+	wolf = NULL;	
 	validate_const(wolf);
 	a != 2 ? error(wolf, ERR_USAGE) : 0;
 	SDL_Init(SDL_INIT_EVERYTHING) != 0 ? error(wolf, SDL_GetError()) : 0;

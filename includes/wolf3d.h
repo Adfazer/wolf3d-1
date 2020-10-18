@@ -152,7 +152,7 @@ Uint32 getpixel(SDL_Surface *surface, int x, int y);
 int	max(int a, int b);
 int	float_is_equal(float a, float b);
 void	init_tex_arr(t_wolf *wolf);
-
+void			free_dist_arr(t_wolf *wolf);
 
 /*
 ** map.c

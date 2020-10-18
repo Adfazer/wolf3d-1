@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:19:22 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:35:59 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/18 19:16:07 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ t_distance		*t_distance_new(t_wolf *wolf)
 	return (new);
 }
 
+void			free_dist_arr(t_wolf *wolf)
+{
+	int			i;
+
+	i = -1;
+	while (++i < W)
+	{
+		free(wolf->player->distance[i]);
+	}
+}
+
 void			all_get_distance(t_wolf *wolf)
 {
 	float		i;
@@ -37,7 +48,7 @@ void			all_get_distance(t_wolf *wolf)
 	i = wolf->player->dir - (wolf->player->fov / 2);
 	count_distance = 0;
 	cos_agle = wolf->player->fov / 2;
-	while (i < wolf->player->dir + (wolf->player->fov / 2))
+	while (count_distance < W)
 	{
 		temp_i = i;
 		if (temp_i > RAD_360)
