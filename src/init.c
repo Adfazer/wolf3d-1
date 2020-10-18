@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:26:06 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:26:22 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/wolf3d.h"
 
 void	init_player(t_player *p, t_map *map)
@@ -40,12 +52,10 @@ void	init_bonus(t_bonus *bon)
 	if (!bon->image_1 || !bon->image_2 || !bon->image_3 || !bon->image_4 || !bon->image_5 ||
 		!bon->image_coin || !bon->my_font || !bon->music_guns || !bon->music || !bon->music_coin)
 		exit(0);
-	
 	bon->imgLocation.w = W / 3;
     bon->imgLocation.h = H / 3;
     bon->imgLocation.x = (W / 2) - (W / 6);
     bon->imgLocation.y = H - H / 3;
-
 	bon->flag_guns = 0;
 	bon->start_guns = 0;
 	bon->score_coin = 0;

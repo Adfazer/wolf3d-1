@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   distance_vert.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:18:12 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:19:04 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/wolf3d.h"
 
-static void	init_vert(t_player *p, t_float2 *b, t_float2 *diff, float angle)
+static void		init_vert(t_player *p, t_float2 *b, t_float2 *diff, float angle)
 {
 	b->x = floorf((float)p->x / CUBE) * CUBE;
 	b->x = angle > RAD_270 || angle < RAD_90 ? b->x + CUBE : b->x;
@@ -24,11 +36,12 @@ static void	init_vert(t_player *p, t_float2 *b, t_float2 *diff, float angle)
 	else
 	{
 		diff->y = diff->y;
-		diff->x = -CUBE;		
+		diff->x = -CUBE;
 	}
 }
 
-static int	calc_vert(t_wolf *wolf, t_float2 *b, t_distance *dist, float angle)
+static int		calc_vert(t_wolf *wolf, t_float2 *b,
+t_distance *dist, float angle)
 {
 	if (angle < RAD_270 && angle > RAD_90 &&
 		ft_strchr(WALLSET, wolf->map->map[((int)b->y / CUBE) \
@@ -48,22 +61,22 @@ static int	calc_vert(t_wolf *wolf, t_float2 *b, t_distance *dist, float angle)
 		dist->offsetx = (int)b->y % CUBE;
 		dist->tex = wolf->sdl->sides_mode ? 'e' : \
 			wolf->map->map[((int)b->y / CUBE) \
-			 * wolf->map->w + ((int)b->x / CUBE)];
+			* wolf->map->w + ((int)b->x / CUBE)];
 		return (1);
 	}
 	return (0);
 }
 
-t_distance *find_vertical_intersection(t_wolf *wolf,
+t_distance		*find_vertical_intersection(t_wolf *wolf,
 float angle, char texture)
 {
 	t_float2	b;
 	t_float2	diff;
-	t_distance 	*dist;
+	t_distance	*dist;
 
 	dist = t_distance_new(wolf);
 	init_vert(wolf->player, &b, &diff, angle);
-	while (b.y >-1  && b.y < wolf->map->h_pix &&
+	while (b.y > -1 && b.y < wolf->map->h_pix &&
 		b.x > -1 && b.x < wolf->map->w_pix)
 	{
 		if (calc_vert(wolf, &b, dist, angle))
@@ -72,5 +85,5 @@ float angle, char texture)
 		b.y += diff.y;
 	}
 	dist->coords = b;
-	return dist;
+	return (dist);
 }

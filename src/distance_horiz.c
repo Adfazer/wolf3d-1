@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   distance_horiz.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:17:24 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:17:48 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/wolf3d.h"
 
-static void	init_horiz(t_player *p, t_float2 *a, t_float2 *diff, float angle)
+static void		init_horiz(t_player *p, t_float2 *a,
+t_float2 *diff, float angle)
 {
 	a->y = floorf((float)p->y / CUBE) * CUBE;
 	a->y = angle > RAD_0 && angle < RAD_180 ? a->y : a->y + CUBE;
@@ -28,7 +41,8 @@ static void	init_horiz(t_player *p, t_float2 *a, t_float2 *diff, float angle)
 	}
 }
 
-static int	calc_horiz(t_wolf *wolf, t_float2 *a, t_distance *dist, float angle)
+static int		calc_horiz(t_wolf *wolf, t_float2 *a,
+t_distance *dist, float angle)
 {
 	if (angle > RAD_0 && angle < RAD_180 &&
 	ft_strchr(WALLSET, wolf->map->map[((int)(a->y - 1) / CUBE) \
@@ -54,12 +68,12 @@ static int	calc_horiz(t_wolf *wolf, t_float2 *a, t_distance *dist, float angle)
 	return (0);
 }
 
-t_distance *find_horizontal_intersection(t_wolf *wolf,
+t_distance		*find_horizontal_intersection(t_wolf *wolf,
 	float angle)
 {
 	t_float2	a;
 	t_float2	diff;
-	t_distance 	*dist;
+	t_distance	*dist;
 
 	dist = t_distance_new(wolf);
 	init_horiz(wolf->player, &a, &diff, angle);

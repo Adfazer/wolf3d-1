@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:29:09 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:29:32 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/wolf3d.h"
 
-t_point	dot(int x, int y)
+t_point		dot(int x, int y)
 {
 	t_point	new;
 
@@ -23,7 +35,7 @@ t_wolf		*t_wolf_new(void)
 		error(new, ERR_MALLOC);
 	if (!(new->bon = (t_bonus *)malloc(sizeof(t_bonus))))
 		error(new, ERR_MALLOC);
-	return new;
+	return (new);
 }
 
 void		validate_const(t_wolf *wolf)

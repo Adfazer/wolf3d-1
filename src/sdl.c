@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sdl.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:32:04 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:32:04 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "wolf3d.h"
 
 static void	add_skybox_offset(t_sdl *sdl, int to_add)
@@ -42,35 +54,31 @@ void	calc_move(t_map *map, t_player *p, float dy, float dx)
 	}
 }
 
-
-
 void handle_keys(t_wolf *wolf, SDL_Event *event, t_map *map, t_player *p)
 {
 	if (event->key.keysym.sym == SDLK_ESCAPE)
 		wolf->sdl->run = false;
-	if (event->key.keysym.sym == SDLK_d)
+	if (wolf->sdl->state[SDL_SCANCODE_D])
 		calc_move(wolf->map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
-	//if (event->key.keysym.sym == SDLK_a)
 	if (wolf->sdl->state[SDL_SCANCODE_A])
 		calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
-	if (event->key.keysym.sym == SDLK_DOWN || event->key.keysym.sym == SDLK_s)
-		calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
-	//if (event->key.keysym.sym == SDLK_UP || event->key.keysym.sym == SDLK_w)	
-	if (wolf->sdl->state[SDL_SCANCODE_W])
+	if (wolf->sdl->state[SDL_SCANCODE_DOWN] || wolf->sdl->state[SDL_SCANCODE_S])
+		calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));	
+	if (wolf->sdl->state[SDL_SCANCODE_W] || wolf->sdl->state[SDL_SCANCODE_UP])
 		calc_move(map, p, -(p->speed * sinf(p->dir)), p->speed * cosf(p->dir));
-	if (event->key.keysym.sym == SDLK_RIGHT && add_arc(&p->dir, -RAD_30))
+	if (wolf->sdl->state[SDL_SCANCODE_RIGHT] && add_arc(&p->dir, -RAD_30))
 		add_skybox_offset(wolf->sdl, 52);
-	if (event->key.keysym.sym == SDLK_LEFT && add_arc(&p->dir, RAD_30))
+	if (wolf->sdl->state[SDL_SCANCODE_LEFT] && add_arc(&p->dir, RAD_30))
 		add_skybox_offset(wolf->sdl, -52);
-	if (event->key.keysym.sym == SDLK_p)
+	if (wolf->sdl->state[SDL_SCANCODE_P])
 		wolf->sdl->sides_mode = wolf->sdl->sides_mode == 1 ? 0 : 1;
-	if (event->key.keysym.sym == SDLK_m)
+	if (wolf->sdl->state[SDL_SCANCODE_M])
 		map->mm_show = map->mm_show == 1 ? 0 : 1;
-	if (event->key.keysym.sym == SDLK_i)
+	if (wolf->sdl->state[SDL_SCANCODE_I])
 		wolf->bon->fps = wolf->bon->fps == 0 ? 1 : 0;
-	if (event->key.keysym.sym == SDLK_SPACE)
+	if (wolf->sdl->state[SDL_SCANCODE_SPACE])
 		wolf->bon->guns_fire = 1;
-	if (event->key.keysym.sym == SDLK_o)
+	if (wolf->sdl->state[SDL_SCANCODE_O])
 	{
 		if (wolf->bon->music_flag == 0)
 		{
@@ -152,4 +160,5 @@ void wolf_loop(t_wolf *wolf)
 	SDL_DestroyWindow(wolf->sdl->win);
 	TTF_Quit();
 	SDL_Quit();
+	exit(0);
 }

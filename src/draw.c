@@ -1,16 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:21:35 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:23:36 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "wolf3d.h"
 
-void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
+void		draw_line(SDL_Surface *surface,
+t_point start, t_point end, int color)
 {
-	t_point d;
-	t_point s;
-	int err;
-	int e2;
-	
-	d.x = abs(end.x-start.x);
-	d.y = abs(end.y-start.y);
-	s.x = start.x<end.x ? 1 : -1;
-	s.y = start.y<end.y ? 1 : -1;
+	t_point	d;
+	t_point	s;
+	int		err;
+	int		e2;
+
+	d.x = abs(end.x - start.x);
+	d.y = abs(end.y - start.y);
+	s.x = start.x < end.x ? 1 : -1;
+	s.y = start.y < end.y ? 1 : -1;
 	err = (d.x > d.y ? d.x : -d.y) / 2;
 	while (1)
 	{
@@ -27,10 +40,11 @@ void draw_line(SDL_Surface *surface, t_point start, t_point end, int color)
 	}
 }
 
-void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color)
+void		draw_rectangle(SDL_Surface *surface, t_point start,
+t_point width_height, int color)
 {
-	int	i;
-	int j;
+	int		i;
+	int		j;
 	t_point	temp;
 
 	i = -1;
@@ -46,12 +60,12 @@ void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,in
 	}
 }
 
-void draw_ray(t_wolf *wolf, float dir, int x, int y)
+void		draw_ray(t_wolf *wolf, float dir, int x, int y)
 {
-	int dx0;
-	int dy0;
-	int dx1;
-	int dy1;
+	int		dx0;
+	int		dy0;
+	int		dx1;
+	int		dy1;
 
 	dx0 = cos(dir - wolf->player->fov / 2) * wolf->map->mm_cube * 4;
 	dy0 = sin(dir - wolf->player->fov / 2) * wolf->map->mm_cube * 4;
@@ -69,7 +83,7 @@ void draw_ray(t_wolf *wolf, float dir, int x, int y)
 		COLOR_WHITE);
 }
 
-void draw_background(SDL_Surface *surface)
+void		draw_background(SDL_Surface *surface)
 {
 	int		i;
 	int		j;
@@ -85,9 +99,9 @@ void draw_background(SDL_Surface *surface)
 	}
 }
 
-void	draw_minimap(t_wolf *wolf, t_map *map, t_player *p)
+void		draw_minimap(t_wolf *wolf, t_map *map, t_player *p)
 {
-	int	i;
+	int		i;
 
 	if (!map->mm_show)
 		return ;
@@ -104,7 +118,7 @@ void	draw_minimap(t_wolf *wolf, t_map *map, t_player *p)
 			dot(map->mm_cube, map->mm_cube), 0xbbbb00);
 		}
 	}
-	draw_rectangle(wolf->surface, 
+	draw_rectangle(wolf->surface,
 		dot(p->x * map->mm_cube_coef + (map->mm_start.x - map->mm_p_size),
 			p->y * map->mm_cube_coef + (map->mm_start.y - map->mm_p_size)),
 		dot(map->mm_p_size * 2, map->mm_p_size * 2), 0xFFFFFF);

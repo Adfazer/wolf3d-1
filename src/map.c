@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:29:42 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:31:03 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/wolf3d.h"
 
 static void	validate_map(t_wolf *wolf, char *map, int map_size)
@@ -33,7 +45,7 @@ static char	*get_map(t_wolf *wolf, int *was_read, char *map_name)
 {
 	char	*s;
 	int		fd;
-	
+
 	s = ft_strnew(MAP_MAX_SIZE + 1);
 	fd = open(map_name, O_RDONLY);
 	fd < 0 ? error(wolf, ERR_FILE_OPEN) : 0;
@@ -43,7 +55,7 @@ static char	*get_map(t_wolf *wolf, int *was_read, char *map_name)
 		error(wolf, ERR_MAP_BIG);
 	if (*was_read < MAP_MIN_SIZE)
 		error(wolf, ERR_MAP_SMALL);
-	return s;
+	return (s);
 }
 
 static void	check_logic(t_wolf *wolf)
@@ -103,8 +115,6 @@ static void	check_start(t_wolf *wolf)
 	coin_counter > 1 ? error(wolf, ERR_MAP_MULT_COIN) : 0;
 }
 
-
-
 void		init_map(t_wolf *wolf, char *map_name)
 {
 	int		map_size;
@@ -114,7 +124,7 @@ void		init_map(t_wolf *wolf, char *map_name)
 
 	str_map = get_map(wolf, &map_size, map_name);
 	validate_map(wolf, str_map, map_size);
-	wolf->map->map =ft_strnew(wolf->map->h * wolf->map->w);
+	wolf->map->map = ft_strnew(wolf->map->h * wolf->map->w);
 	!wolf->map->map ? error(wolf, ERR_MALLOC) : 1;
 	i = -1;
 	j = 0;
