@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:18:12 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:19:04 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/18 18:35:13 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_distance *dist, float angle)
 }
 
 t_distance		*find_vertical_intersection(t_wolf *wolf,
-float angle, char texture)
+float angle)
 {
 	t_float2	b;
 	t_float2	diff;

@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:29:09 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:29:32 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/18 18:48:33 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void		validate_const(t_wolf *wolf)
 {
 	if (H > W)
 		error(wolf, ERR_INV_H);
+	if (H < 300 || W < 384)
+		error(wolf, ERR_INV_RES);
+	
 }
 
 int			main(int a, char **b)

@@ -178,11 +178,9 @@ int load_textures(t_wolf *wolf, t_sdl *sdl);
 /*
 ** distance.c
 */
-t_distance *find_vertical_intersection(t_wolf *wolf, float angle, char texture);
+t_distance *find_vertical_intersection(t_wolf *wolf, float angle);
 t_distance *find_horizontal_intersection(t_wolf *wolf, float angle);
 t_distance *dist_to_wall(t_wolf *wolf, float angle);
-t_distance *dist_to_floor(t_wolf *wolf, float angle);
-t_distance *dist_to_texture(t_wolf *wolf, float angle, char texture);
 t_distance *t_distance_new(t_wolf *wolf);
 
 //skaren

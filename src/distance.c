@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:19:22 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:21:20 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/18 18:35:59 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,10 @@ void			all_get_distance(t_wolf *wolf)
 
 t_distance		*dist_to_wall(t_wolf *wolf, float angle)
 {
-	return (dist_to_texture(wolf, angle, TEX_BORDER));
-}
-
-t_distance		*dist_to_floor(t_wolf *wolf, float angle)
-{
-	return (dist_to_texture(wolf, angle, TEX_FLOOR));
-}
-
-t_distance		*dist_to_texture(t_wolf *wolf, float angle, char texture)
-{
 	t_distance	*h;
 	t_distance	*v;
 
-	v = find_vertical_intersection(wolf, angle, TEX_BORDER);
+	v = find_vertical_intersection(wolf, angle);
 	h = find_horizontal_intersection(wolf, angle);
 	if (v->dist > h->dist)
 	{
