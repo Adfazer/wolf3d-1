@@ -12,15 +12,25 @@
 # define MAP_MIN_COL_NUM 4
 # define MAP_FILEPATH "maps/map.txt"
 
-# define CHARSET " *#012S$"
-# define WALLSET "*#"
+# define CHARSET " *#012345S$"
+# define WALLSET "*#012345"
 # define FLOORSET " S"
 # define TEX_BORDER '*'
 # define TEX_FLOOR ' '
 # define TEX_COIN '$'
 # define TEX_WALL '#'
-# define TEX_INF '8'  //возвращается с бесконечностью, не является текстурой
-# define TEX_START 'S' 
+# define TEX_INF '8'
+# define TEX_START 'S'
+# define TEX_SOUTH 's'
+# define TEX_NORTH 'n'
+# define TEX_WEST 'w'
+# define TEX_EAST 'e'
+# define TEX_BLOOD '0'
+# define TEX_PANEL '1'
+# define TEX_BOULD '2'
+# define TEX_CORALL '3'
+# define TEX_EYES '4'
+# define TEX_ISLE '5'
 
 
 # define W 384

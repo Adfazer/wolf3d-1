@@ -49,6 +49,27 @@ void	bonus_init(t_bonus *bon)
 	bon->start_guns = 0;
 }
 
+void	init_tex_arr(t_wolf *wolf)
+{
+	int	i;
+
+	i = -1;
+	wolf->sdl->tex_arr[TEX_BORDER] = CUBE * 6;
+	while (++i < 1 << 8)
+		wolf->sdl->tex_arr[i] = wolf->sdl->tex_arr[TEX_BORDER];
+	wolf->sdl->tex_arr[TEX_WALL] = CUBE * 7;
+	wolf->sdl->tex_arr[TEX_EAST] = CUBE * 2;
+	wolf->sdl->tex_arr[TEX_SOUTH] = CUBE * 3;
+	wolf->sdl->tex_arr[TEX_NORTH] = CUBE * 4;
+	wolf->sdl->tex_arr[TEX_WEST] = CUBE * 5;
+	wolf->sdl->tex_arr[TEX_BLOOD] = CUBE * 0;
+	wolf->sdl->tex_arr[TEX_PANEL] = CUBE * 1;
+	wolf->sdl->tex_arr[TEX_BOULD] = CUBE * 2;
+	wolf->sdl->tex_arr[TEX_CORALL] = CUBE * 3;
+	wolf->sdl->tex_arr[TEX_EYES] = CUBE * 4;
+	wolf->sdl->tex_arr[TEX_ISLE] = CUBE * 5;
+}
+
 void	init_mm(t_map *map)
 {
 	int	map_max_side;

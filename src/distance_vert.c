@@ -36,7 +36,7 @@ static int	calc_vert(t_wolf *wolf, t_float2 *b, t_distance *dist, float angle)
 	{
 		dist->dist = fabsf((wolf->player->x - b->x) / cosf(angle));
 		dist->offsetx = (int)b->y % CUBE;
-		dist->tex = wolf->sdl->sides_mode ? 'W' : \
+		dist->tex = wolf->sdl->sides_mode ? 'w' : \
 			wolf->map->map[((int)b->y / CUBE) \
 			* wolf->map->w + ((int)(b->x - 1) / CUBE)];
 		return (1);
@@ -46,7 +46,7 @@ static int	calc_vert(t_wolf *wolf, t_float2 *b, t_distance *dist, float angle)
 	{
 		dist->dist = fabsf((wolf->player->x - b->x) / cosf(angle));
 		dist->offsetx = (int)b->y % CUBE;
-		dist->tex = wolf->sdl->sides_mode ? 'E' : \
+		dist->tex = wolf->sdl->sides_mode ? 'e' : \
 			wolf->map->map[((int)b->y / CUBE) \
 			 * wolf->map->w + ((int)b->x / CUBE)];
 		return (1);

@@ -8,7 +8,7 @@ t_distance *t_distance_new(t_wolf *wolf)
 		error(wolf, ERR_MALLOC);
 	new->dist = 99999.f;
 	new->offsetx = 0;
-	new->tex = '8';
+	new->tex = TEX_INF;
 	new->coords.x = -1;
 	new->coords.y = -1;
 	return (new);

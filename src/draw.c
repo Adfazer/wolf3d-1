@@ -53,10 +53,10 @@ void draw_ray(t_wolf *wolf, float dir, int x, int y)
 	int dx1;
 	int dy1;
 
-	dx0 = cos(dir - wolf->player->fov / 2) * CUBE;
-	dy0 = sin(dir - wolf->player->fov / 2) * CUBE;
-	dx1 = cos(dir + wolf->player->fov / 2) * CUBE;
-	dy1 = sin(dir + wolf->player->fov / 2) * CUBE;
+	dx0 = cos(dir - wolf->player->fov / 2) * wolf->map->mm_cube * 4;
+	dy0 = sin(dir - wolf->player->fov / 2) * wolf->map->mm_cube * 4;
+	dx1 = cos(dir + wolf->player->fov / 2) * wolf->map->mm_cube * 4;
+	dy1 = sin(dir + wolf->player->fov / 2) * wolf->map->mm_cube * 4;
 	draw_line(
 		wolf->surface,
 		dot(x, y),

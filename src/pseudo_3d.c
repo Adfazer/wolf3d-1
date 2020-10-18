@@ -7,14 +7,8 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance *
 	int i = 0;      
 	while (point.y < size)
 	{
-		if (dist->tex == 'W')
-			color = getpixel(wolf->sdl->textures, dist->offsetx + CUBE * 0, i * CUBE / height);
-		else if (dist->tex == 'S')
-			color = getpixel(wolf->sdl->textures, dist->offsetx + CUBE * 1, i * CUBE / height);
-		else if (dist->tex == 'N')
-			color = getpixel(wolf->sdl->textures, dist->offsetx + CUBE * 2, i * CUBE / height);
-		else if (dist->tex == 'E')
-			color = getpixel(wolf->sdl->textures, dist->offsetx + CUBE * 6, i * CUBE / height);
+		color = getpixel(wolf->sdl->textures, dist->offsetx + \
+		wolf->sdl->tex_arr[dist->tex], i * CUBE / height);
 		if (point.y > 0 && point.y < H)
 			set_pixel(surface, point.x, point.y, color);
 		point.y++;
@@ -26,7 +20,7 @@ void	draw_floor(t_wolf *wolf, SDL_Surface *surface, int x, int y)
 {
 	while (y < W)
 	{
-		set_pixel(surface, x, y, COLOR_BROWN);
+		set_pixel(surface, x, y, COLOR_GREY_LIGHT);
 		y++;
 	}	
 }
@@ -278,9 +272,9 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 			int temp = point.y;
 			player->distance[count_distance]->y = H - point.y;
 			draw_column(wolf, surface, point, player->distance[count_distance], H - point.y, height);
-			// draw_sky(wolf, (int)((dir / RAD_360) * wolf->sdl->sky->w),point.x, point.y);
-			floorcast(wolf, player->distance[count_distance], point.x, H - point.y, dir);
-			// draw_floor(wolf, surface, point.x, H - point.y + 1);
+			draw_sky(wolf, (int)((dir / RAD_360) * wolf->sdl->sky->w),point.x, point.y);
+			//floorcast(wolf, player->distance[count_distance], point.x, H - point.y, dir);
+			draw_floor(wolf, surface, point.x, H - point.y);
 		}
 		count_distance--; // следующий луч
 		point.x++;

@@ -46,6 +46,7 @@ int			main(int a, char **b)
 	player_init(wolf->player, wolf->map);
 	bonus_init(wolf->bon);
 	music(wolf->bon);
+	init_tex_arr(wolf);
 	wolf_loop(wolf);
 	return (0);
 }

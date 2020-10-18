@@ -57,11 +57,9 @@ typedef struct	s_player
 	float		speed;
 	int			size;
 	float		fov;
-	float		dir; //direction - куда смотрит, в радианах
+	float		dir;
 	float		dist_to_canvas;
 	float		step;
-	float		xmm;
-	float		ymm;
 	int			floor_offset;
 	t_distance	*distance[W];
 }				t_player;
@@ -114,6 +112,7 @@ typedef struct		s_sdl
 	SDL_Surface		*icon;
 	SDL_Renderer	*rend;
 	SDL_Window		*win;
+	int				tex_arr[0xff];
 	SDL_Event		e;
 	int				skybox_offset;
 	int				run;
@@ -149,6 +148,7 @@ Uint32 getpixel(SDL_Surface *surface, int x, int y);
 
 int	max(int a, int b);
 int	float_is_equal(float a, float b);
+void	init_tex_arr(t_wolf *wolf);
 
 
 /*

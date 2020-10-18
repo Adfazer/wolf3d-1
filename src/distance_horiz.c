@@ -36,7 +36,7 @@ static int	calc_horiz(t_wolf *wolf, t_float2 *a, t_distance *dist, float angle)
 	{
 		dist->dist = fabsf((wolf->player->y - a->y) / sinf(angle));
 		dist->offsetx = (int)a->x % CUBE;
-		dist->tex = wolf->sdl->sides_mode ? 'S' : \
+		dist->tex = wolf->sdl->sides_mode ? 's' : \
 			wolf->map->map[((int)(a->y - 1) / CUBE) * wolf->map->w \
 			+ ((int)a->x / CUBE)];
 		return (1);
@@ -46,7 +46,7 @@ static int	calc_horiz(t_wolf *wolf, t_float2 *a, t_distance *dist, float angle)
 	{
 		dist->dist = fabsf((wolf->player->y - a->y) / sinf(angle));
 		dist->offsetx = (int)a->x % CUBE;
-		dist->tex = wolf->sdl->sides_mode ? 'N' : \
+		dist->tex = wolf->sdl->sides_mode ? 'n' : \
 			wolf->map->map[((int)a->y / CUBE) * wolf->map->w \
 			+ ((int)a->x / CUBE)];
 		return (1);
