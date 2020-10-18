@@ -1,8 +1,38 @@
 #include "../includes/wolf3d.h"
 
-void	search_angle(t_wolf *wolf, t_coin *coin)
+int		score_coin(t_wolf *wolf, t_coin *coin)
+{
+	float	x;
+	float	y;
+	int		flag;
+
+	flag = 0;
+	if (coin->dist < 20)
+	{
+		Mix_Volume(0, 32);
+		Mix_PlayChannel(2, wolf->bon->music_coin, 0);
+		Mix_VolumeMusic(5);
+		wolf->bon->score_coin++;
+		while (flag != 1)
+		{
+			y = rand() % wolf->map->h;
+			x = rand() % wolf->map->w;
+			if (wolf->map->map[(int)(y * wolf->map->w + x)] == TEX_FLOOR)
+			{
+				wolf->bon->coint_pos.x = (x + 0.5) * CUBE;
+				wolf->bon->coint_pos.y = (y + 0.5) * CUBE;
+				flag = 1;
+			}
+		}
+	}
+	return (0);
+}
+
+int		search_angle(t_wolf *wolf, t_coin *coin)
 {
 	coin->dist = sqrtf(powf((wolf->bon->coint_pos.x - wolf->player->x), 2) + powf((wolf->bon->coint_pos.y - wolf->player->y), 2));
+	if (score_coin(wolf, coin))
+		return (1);
 	if (wolf->bon->coint_pos.x - wolf->player->x > 0 && wolf->bon->coint_pos.y - wolf->player->y < 0)
 		coin->angle = asin((wolf->player->y - wolf->bon->coint_pos.y) / coin->dist);
 	else if (wolf->bon->coint_pos.x - wolf->player->x < 0 && wolf->bon->coint_pos.y - wolf->player->y < 0)
@@ -11,6 +41,7 @@ void	search_angle(t_wolf *wolf, t_coin *coin)
 		coin->angle = asin((wolf->bon->coint_pos.y - wolf->player->y) / coin->dist) + RAD_180;
 	else if (wolf->bon->coint_pos.x - wolf->player->x > 0 && wolf->bon->coint_pos.y - wolf->player->y > 0)
 		coin->angle = asin((wolf->player->y - wolf->bon->coint_pos.y) / coin->dist) + RAD_360;
+	return (0);
 }
 
 void	through_zero(t_wolf *wolf, t_coin *coin)
@@ -79,7 +110,8 @@ void	render_coin(t_wolf *wolf, SDL_Surface *surface)
 	if (wolf->bon->coint_pos.y == 0 && wolf->bon->coint_pos.x == 0)
 		return ;
 	ft_bzero(&coin, sizeof(t_coin));
-	search_angle(wolf, &coin);
+	if (search_angle(wolf, &coin))
+		return ;
 	through_zero(wolf, &coin);
 	wall_check_coin(wolf, &coin);
 	

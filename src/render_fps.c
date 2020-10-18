@@ -15,11 +15,6 @@ void    render_fps(t_wolf *wolf, t_bonus *bon)
 	bon->fps_count++;
 	if (!bon->fps)
 		return ;
-	if (bon->my_font == NULL)
-	{
-		printf("error\n");
-		exit(1);
-	}
 	SDL_Color fore_color = { COLOR_RED };
 	SDL_Color back_color = { COLOR_BLUE };
 	SDL_Surface* textSurface = NULL;
@@ -32,7 +27,7 @@ void    render_fps(t_wolf *wolf, t_bonus *bon)
 		printf("error\n");
 		exit(1);
 	}
-	SDL_Rect textLocation = { W - 32, 2, 0, 0 };
+	SDL_Rect textLocation = { W - (int)(H / 28) * 2, 2, 0, 0 };
 	SDL_BlitSurface(textSurface, NULL, wolf->surface, &textLocation);
 	// TTF_CloseFont(my_font); // вот думаю можно и не закрывать а потом ехит все равно 
 }

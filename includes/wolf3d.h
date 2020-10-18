@@ -87,6 +87,7 @@ typedef struct	s_bonus
 	int			music_flag; // включает музыку
 	Mix_Music	*music;
 	Mix_Chunk	*music_guns;
+	Mix_Chunk	*music_coin;
 	int			fps;
 	Uint32		startTime;
 	int			fps_count;
@@ -98,6 +99,7 @@ typedef struct	s_bonus
 	SDL_Surface *image_5;
 	SDL_Surface *image_coin;
 	t_float2	coint_pos;
+	int			score_coin;
 	SDL_Rect	imgLocation;
 	int 		flag_guns;
 	Uint32		start_guns;
@@ -198,6 +200,7 @@ void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	init_bonus(t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);
 void	render_coin(t_wolf *wolf, SDL_Surface *surface);
+void    render_score_coin(t_wolf *wolf);
 
 int	add_floor_offset(int *offset, int to_add);
 
