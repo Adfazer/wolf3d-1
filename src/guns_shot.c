@@ -21,15 +21,15 @@ void	guns_shot(SDL_Surface *screen, int flag, t_bonus *bon)
 		Mix_VolumeMusic(5);
 	}
 	flag == 1 ? SDL_BlitScaled(bon->image_1, NULL, screen,
-		&bon->imgLocation) : 0;
+		&bon->img_location) : 0;
 	flag == 2 ? SDL_BlitScaled(bon->image_2, NULL, screen,
-		&bon->imgLocation) : 0;
+		&bon->img_location) : 0;
 	flag == 3 ? SDL_BlitScaled(bon->image_3, NULL, screen,
-		&bon->imgLocation) : 0;
+		&bon->img_location) : 0;
 	flag == 4 ? SDL_BlitScaled(bon->image_4, NULL, screen,
-		&bon->imgLocation) : 0;
+		&bon->img_location) : 0;
 	flag == 5 ? SDL_BlitScaled(bon->image_5, NULL, screen,
-		&bon->imgLocation) : 0;
+		&bon->img_location) : 0;
 }
 
 void	render_shot(t_wolf *wolf, SDL_Surface *surface)

@@ -102,7 +102,7 @@ typedef struct	s_bonus
 	SDL_Surface *image_coin;
 	t_float2	coint_pos;
 	int			score_coin;
-	SDL_Rect	imgLocation;
+	SDL_Rect	img_location;
 	int 		flag_guns;
 	Uint32		start_guns;
 	TTF_Font*	my_font;

@@ -45,17 +45,17 @@ void    render_score_coin(t_wolf *wolf)
 {
 	SDL_Color fore_color = { COLOR_RED };
 	SDL_Color back_color = { COLOR_BLUE };
-	SDL_Surface* textSurface = NULL;
+	SDL_Surface* text_surface = NULL;
+	SDL_Rect text_location = { W - (int)(H / 28) * 9, H - (int)(H / 28), 0, 0 };
 	char *str;
 	char str_tmp[50];
 	ft_strcpy(str_tmp, "score coin: ");
 	str = ft_itoa(wolf->bon->score_coin);
 	ft_strcat(str_tmp, str);
-	textSurface = TTF_RenderText_Shaded(wolf->bon->my_font, str_tmp, fore_color, back_color);
+	text_surface = TTF_RenderText_Shaded(wolf->bon->my_font, str_tmp, fore_color, back_color);
 	free(str);
-	if(textSurface == NULL)
+	if(text_surface == NULL)
 		error(wolf, SDL_GetError());
-	SDL_Rect textLocation = { W - (int)(H / 28) * 9, H - (int)(H / 28), 0, 0 };
-	SDL_BlitSurface(textSurface, NULL, wolf->surface, &textLocation);
-	SDL_FreeSurface(textSurface);
+	SDL_BlitSurface(text_surface, NULL, wolf->surface, &text_location);
+	SDL_FreeSurface(text_surface);
 }
