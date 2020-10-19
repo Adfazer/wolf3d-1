@@ -69,13 +69,11 @@ t_distance *dist, float angle)
 }
 
 t_distance		*find_horizontal_intersection(t_wolf *wolf,
-	float angle)
+	float angle, t_distance	*dist)
 {
 	t_float2	a;
 	t_float2	diff;
-	t_distance	*dist;
 
-	dist = t_distance_new(wolf);
 	init_horiz(wolf->player, &a, &diff, angle);
 	while (a.y > -1 && a.y < wolf->map->h_pix &&
 		a.x > -1 && a.x < wolf->map->w_pix)

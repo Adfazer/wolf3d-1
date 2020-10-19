@@ -62,6 +62,8 @@ typedef struct	s_player
 	float		step;
 	int			floor_offset;
 	t_distance	*distance[W];
+	t_distance	*distance_horiz[W];
+	t_distance	*distance_vert[W];
 }				t_player;
 
 typedef	struct	s_coin
@@ -172,16 +174,19 @@ int			error_inv_n(t_wolf *wolf, char *s, int inv_num);
 ** init.c
 */
 
-void	init_player(t_player *player, t_map *map);
+void	init_player(t_wolf *wolf, t_player *player, t_map *map);
 int load_textures(t_wolf *wolf, t_sdl *sdl);
 
 /*
 ** distance.c
 */
-t_distance *find_vertical_intersection(t_wolf *wolf, float angle);
-t_distance *find_horizontal_intersection(t_wolf *wolf, float angle);
-t_distance *dist_to_wall(t_wolf *wolf, float angle);
+t_distance *find_vertical_intersection(t_wolf *wolf,
+float angle, t_distance *dist);
+t_distance *find_horizontal_intersection(t_wolf *wolf,
+float angle, t_distance *dist);
+t_distance *dist_to_wall(t_wolf *wolf, float angle, int count_distance);
 t_distance *t_distance_new(t_wolf *wolf);
+void			t_distance_clear(t_distance *dist);
 
 //skaren
 void    all_get_distance(t_wolf *wolf);

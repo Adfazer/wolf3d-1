@@ -12,13 +12,20 @@
 
 #include "../includes/wolf3d.h"
 
-void	init_player(t_player *p, t_map *map)
+void	init_player(t_wolf *wolf, t_player *p, t_map *map)
 {
-	ft_bzero(p, sizeof(t_player));
+	int	i;
+
+	i = -1;
+	while (++i < W)
+	{
+		p->distance_horiz[i] = t_distance_new(wolf);
+		p->distance_vert[i] = t_distance_new(wolf);
+	}
 	p->size = 10;
 	p->x = CUBE * (map->player_start % map->w) + p->size;
 	p->y = CUBE * (map->player_start / map->w) + p->size;
-	p->speed = 25.0;
+	p->speed = 1.0;
 	p->fov = RAD_60;
 	p->dir = RAD_0;
 	p->size = 10;

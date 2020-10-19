@@ -56,7 +56,7 @@ int			main(int a, char **b)
 	TTF_Init() != 0 ? error(wolf, SDL_GetError()) : 0;
 	wolf = t_wolf_new();
 	init_map(wolf, b[1]);
-	init_player(wolf->player, wolf->map);
+	init_player(wolf, wolf->player, wolf->map);
 	init_bonus(wolf->bon);
 	music(wolf->bon);
 	init_tex_arr(wolf);

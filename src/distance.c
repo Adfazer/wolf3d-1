@@ -18,11 +18,6 @@ t_distance		*t_distance_new(t_wolf *wolf)
 
 	if (!(new = (t_distance *)malloc(sizeof(t_distance))))
 		error(wolf, ERR_MALLOC);
-	new->dist = 99999.f;
-	new->offsetx = 0;
-	new->tex = TEX_INF;
-	new->coords.x = -1;
-	new->coords.y = -1;
 	return (new);
 }
 
@@ -35,6 +30,17 @@ void			free_dist_arr(t_wolf *wolf)
 	{
 		free(wolf->player->distance[i]);
 	}
+}
+
+void			t_distance_clear(t_distance *dist)
+{
+	dist->dist = 99999.f;
+	dist->offsetx = 0;
+	dist->tex = TEX_INF;
+	dist->coords.x = -1;
+	dist->coords.y = -1;
+	dist->y = -1;
+	dist->side = -1;
 }
 
 void			all_get_distance(t_wolf *wolf)
@@ -55,7 +61,7 @@ void			all_get_distance(t_wolf *wolf)
 			temp_i -= RAD_360;
 		if (temp_i < RAD_0)
 			temp_i += RAD_360;
-		wolf->player->distance[count_distance] = dist_to_wall(wolf, temp_i);
+		wolf->player->distance[count_distance] = dist_to_wall(wolf, temp_i, count_distance);
 		wolf->player->distance[count_distance]->dist *= cosf(cos_agle);
 		cos_agle -= wolf->player->step;
 		i += wolf->player->step;
@@ -63,22 +69,25 @@ void			all_get_distance(t_wolf *wolf)
 	}
 }
 
-t_distance		*dist_to_wall(t_wolf *wolf, float angle)
+t_distance		*dist_to_wall(t_wolf *wolf,
+float angle, int count_distance)
 {
 	t_distance	*h;
 	t_distance	*v;
 
-	v = find_vertical_intersection(wolf, angle);
-	h = find_horizontal_intersection(wolf, angle);
+	v = wolf->player->distance_vert[count_distance];
+	h = wolf->player->distance_horiz[count_distance];
+	t_distance_clear(v);
+	t_distance_clear(h);
+	find_vertical_intersection(wolf, angle, v);
+	find_horizontal_intersection(wolf, angle, h);
 	if (v->dist > h->dist)
 	{
-		free(v);
 		h->side = 0;
 		return (h);
 	}
 	else
 	{
-		free(h);
 		v->side = 1;
 		return (v);
 	}

@@ -164,7 +164,6 @@ void wolf_loop(t_wolf *wolf)
 		render_shot(wolf, wolf->surface);
 		draw_minimap(wolf, wolf->map, wolf->player);
 		SDL_UpdateWindowSurface(wolf->sdl->win);
-		free_dist_arr(wolf);
 	}
 	SDL_DestroyWindow(wolf->sdl->win);
 	TTF_Quit();

@@ -68,13 +68,11 @@ t_distance *dist, float angle)
 }
 
 t_distance		*find_vertical_intersection(t_wolf *wolf,
-float angle)
+float angle, t_distance	*dist)
 {
 	t_float2	b;
 	t_float2	diff;
-	t_distance	*dist;
 
-	dist = t_distance_new(wolf);
 	init_vert(wolf->player, &b, &diff, angle);
 	while (b.y > -1 && b.y < wolf->map->h_pix &&
 		b.x > -1 && b.x < wolf->map->w_pix)
