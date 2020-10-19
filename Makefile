@@ -30,7 +30,8 @@ ALL_C = main.c \
 		guns_shot.c \
 		distance_horiz.c \
 		distance_vert.c \
-		render_coin.c
+		render_coin.c \
+		move.c
 
 SRCDIR = ./src
 OBJDIR = ./objs

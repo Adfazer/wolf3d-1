@@ -135,31 +135,59 @@ typedef struct	s_wolf
 
 
 
-void set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
-void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
+
+
 void	draw_rectangle(SDL_Surface *surface, t_point start, t_point width_height,int color);
-void wolf_loop(t_wolf *wolf);
-t_point	dot(int x, int y);
+
 int raycast(void);
-void draw_minimap(t_wolf *wolf, t_map *map, t_player *p);
-void debug_map(t_map *map);
-void debug_player(t_player *p);
-void draw_ray(t_wolf *wolf, float player, int x, int y);
+
 int	add_arc(float *arc, float to_add);
 void drawCanvas(SDL_Surface *surface);
 int is_angle(float angle, float rad);
 void draw_background(SDL_Surface *surface);
-Uint32 getpixel(SDL_Surface *surface, int x, int y);
 
 int	max(int a, int b);
 int	float_is_equal(float a, float b);
-void	init_tex_arr(t_wolf *wolf);
+
 void			free_dist_arr(t_wolf *wolf);
+
+void draw_minimap(t_wolf *wolf, t_map *map, t_player *p);
+void draw_ray(t_wolf *wolf, float player, int x, int y);
+void draw_line(SDL_Surface *surface, t_point start, t_point end, int color);
+
+/*
+** sdl.c
+*/
+void wolf_loop(t_wolf *wolf);
+
+/*
+** main.c
+*/
+t_point		dot(int x, int y);
+
+/*
+** move.c
+*/
+void	calc_move(t_map *map, t_player *p, float dy, float dx);
+void	rotate(t_wolf *wolf, SDL_Event *event, int *x);
+void	add_skybox_offset(t_sdl *sdl, int to_add);
+
+/*
+** load_textures.c
+*/
+void	set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel);
+Uint32	get_pixel(SDL_Surface *surface, int x, int y);
+int		is_texture(t_map *map, int x, int y, char texture);
+
+/*
+** debug_print.c
+*/
+void debug_map(t_map *map);
+void debug_player(t_player *p);
 
 /*
 ** map.c
 */
-void		init_mm(t_map *map);
 void		init_map(t_wolf *wolf, char *b);
 
 /*
@@ -173,9 +201,11 @@ int			error_inv_n(t_wolf *wolf, char *s, int inv_num);
 /*
 ** init.c
 */
-
-void	init_player(t_wolf *wolf, t_player *player, t_map *map);
-int load_textures(t_wolf *wolf, t_sdl *sdl);
+void		init_player(t_wolf *wolf, t_player *player, t_map *map);
+int			load_textures(t_wolf *wolf, t_sdl *sdl);
+void		init_sdl(t_wolf *wolf);
+void		init_mm(t_map *map);
+void		init_tex_arr(t_wolf *wolf);
 
 /*
 ** distance.c
@@ -187,17 +217,12 @@ float angle, t_distance *dist);
 t_distance *dist_to_wall(t_wolf *wolf, float angle, int count_distance);
 t_distance *t_distance_new(t_wolf *wolf);
 void			t_distance_clear(t_distance *dist);
+void    all_get_distance(t_wolf *wolf);
 
 //skaren
-void    all_get_distance(t_wolf *wolf);
+
 // void    get_distance(t_map *map, t_player *player, float y1, float x1, float cos_angle, int count_distance);
 void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface);
-
-
-int fps(void);
-int		is_texture(t_map *map, int x, int y, char texture);
-t_distance	t_distance_dummy(float angle);
-t_distance other_dummy(float angle);
 void	music(t_bonus *bon);
 void    render_fps(t_wolf *wolf, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);

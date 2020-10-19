@@ -21,11 +21,16 @@ void		set_pixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 	*target_pixel = pixel;
 }
 
-Uint32		getpixel(SDL_Surface *surface, int x, int y)
+Uint32		get_pixel(SDL_Surface *surface, int x, int y)
 {
 	Uint8	*p;
 
 	p = (Uint8 *)surface->pixels + y * surface->pitch + x \
 	* surface->format->BytesPerPixel;
 	return (*(Uint32 *)p);
+}
+
+int		is_texture(t_map *map, int x, int y, char texture)
+{
+	return (map->map[(y / CUBE) * map->w + (x / CUBE)] == texture);
 }

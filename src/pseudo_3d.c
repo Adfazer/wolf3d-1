@@ -19,7 +19,7 @@ void	draw_column(t_wolf *wolf, SDL_Surface *surface, t_point point, t_distance *
 	int i = 0;      
 	while (point.y < size)
 	{
-		color = getpixel(wolf->sdl->textures, dist->offsetx + \
+		color = get_pixel(wolf->sdl->textures, dist->offsetx + \
 		wolf->sdl->tex_arr[dist->tex], i * CUBE / height);
 		if (point.y > 0 && point.y < H)
 			set_pixel(surface, point.x, point.y, color);
@@ -44,7 +44,7 @@ void	draw_sky(t_wolf *wolf, int xtex, int x, int y)
 	
 	while (++i < y)
 	{
-		set_pixel(wolf->surface, x, i, getpixel(wolf->sdl->sky, x + wolf->sdl->skybox_offset, i));
+		set_pixel(wolf->surface, x, i, get_pixel(wolf->sdl->sky, x + wolf->sdl->skybox_offset, i));
 	}
 }
 
@@ -128,9 +128,9 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 			textx = 0;
 		if (texty < 0)
 			texty = 0;
-		color = getpixel(wolf->sdl->textures, textx + CUBE * 5, texty);
+		color = get_pixel(wolf->sdl->textures, textx + CUBE * 5, texty);
 		set_pixel(wolf->surface, x, y, color);
-		color = getpixel(wolf->sdl->textures, textx + CUBE * 5, texty);
+		color = get_pixel(wolf->sdl->textures, textx + CUBE * 5, texty);
 		set_pixel(wolf->surface, x, H - y, color);
 		y++;
 	}
@@ -177,7 +177,7 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 			floorX += floorStepX;
 			floorY += floorStepY;
 
-			color = getpixel(wolf->sdl->textures, tx, ty);
+			color = get_pixel(wolf->sdl->textures, tx, ty);
 			set_pixel(wolf->surface, x, y, color);
 			x++;
 		}
@@ -201,7 +201,7 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 		if (tiley < 0)
 			tiley = 0;
 		//printf("%d %d\n", tilex, tiley);
-		color = getpixel(wolf->sdl->textures, tilex, tiley);
+		color = get_pixel(wolf->sdl->textures, tilex, tiley);
 		set_pixel(wolf->surface, x, y, color);
 		y++;
 		}		
@@ -248,9 +248,9 @@ void	floorcast(t_wolf *wolf, t_distance *dist, int x, int y, float dir)
 			textx = 0;
 		if (texty < 0)
 			texty = 0;
-		color = getpixel(wolf->sdl->textures, textx + CUBE * 1, texty);
+		color = get_pixel(wolf->sdl->textures, textx + CUBE * 1, texty);
 		set_pixel(wolf->surface, x, y, color);
-		color = getpixel(wolf->sdl->textures, textx + CUBE * 1, texty);
+		color = get_pixel(wolf->sdl->textures, textx + CUBE * 1, texty);
 		set_pixel(wolf->surface, x, H - y, color);
 		y++;
 	}

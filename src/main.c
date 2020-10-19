@@ -21,9 +21,9 @@ t_point		dot(int x, int y)
 	return (new);
 }
 
-t_wolf		*t_wolf_new(void)
+static t_wolf	*t_wolf_new(void)
 {
-	t_wolf	*new;
+	t_wolf		*new;
 
 	!(new = (t_wolf *)malloc(sizeof(t_wolf))) ? error(new, ERR_MALLOC) : 0;
 	!(new->map = (t_map *)malloc(sizeof(t_map))) ? error(new, ERR_MALLOC) : 0;
@@ -36,7 +36,7 @@ t_wolf		*t_wolf_new(void)
 	return (new);
 }
 
-void		validate_const(t_wolf *wolf)
+static void		validate_const(t_wolf *wolf)
 {
 	if (H > W)
 		error(wolf, ERR_INV_H);
@@ -45,9 +45,9 @@ void		validate_const(t_wolf *wolf)
 	
 }
 
-int			main(int a, char **b)
+int				main(int a, char **b)
 {
-	t_wolf	*wolf;
+	t_wolf		*wolf;
 
 	wolf = NULL;	
 	validate_const(wolf);
