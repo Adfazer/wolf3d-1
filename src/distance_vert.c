@@ -68,7 +68,7 @@ t_distance *dist, float angle)
 }
 
 t_distance		*find_vertical_intersection(t_wolf *wolf,
-float angle, t_distance	*dist)
+float angle, t_distance *dist)
 {
 	t_float2	b;
 	t_float2	diff;

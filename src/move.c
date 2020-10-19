@@ -21,7 +21,7 @@ void	add_skybox_offset(t_sdl *sdl, int to_add)
 		sdl->skybox_offset += sdl->sky->w;
 }
 
-void rotate(t_wolf *wolf, SDL_Event *event, int *x)
+void	rotate(t_wolf *wolf, SDL_Event *event, int *x)
 {
 	if (event->motion.xrel >= 0)
 	{

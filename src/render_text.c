@@ -39,7 +39,6 @@ void    render_fps(t_wolf *wolf, t_bonus *bon)
 	SDL_Rect textLocation = { W - (int)(H / 28) * 2, 2, 0, 0 };
 	SDL_BlitSurface(textSurface, NULL, wolf->surface, &textLocation);
 	SDL_FreeSurface(textSurface);
-	// TTF_CloseFont(my_font); // вот думаю можно и не закрывать а потом ехит все равно 
 }
 
 void    render_score_coin(t_wolf *wolf)
@@ -59,5 +58,4 @@ void    render_score_coin(t_wolf *wolf)
 	SDL_Rect textLocation = { W - (int)(H / 28) * 9, H - (int)(H / 28), 0, 0 };
 	SDL_BlitSurface(textSurface, NULL, wolf->surface, &textLocation);
 	SDL_FreeSurface(textSurface);
-	// TTF_CloseFont(my_font); // вот думаю можно и не закрывать а потом ехит все равно 
 }

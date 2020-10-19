@@ -34,40 +34,6 @@ void	init_player(t_wolf *wolf, t_player *p, t_map *map)
 	p->floor_offset = 0;
 }
 
-void	init_bonus(t_bonus *bon)
-{
-	bon->music_flag = 0;
-	bon->fps = 1;
-	bon->startTime = 0;
-	bon->fps_count = 0;
-	bon->guns_fire = 0;
-	bon->music = NULL;
-	/*
-	на каждое открытие должна быть проверка с error() в случае неудачи
-	*/
-	bon->image_1 = IMG_Load("textures/guns-1.bmp");
-	bon->image_2 = IMG_Load("textures/guns-2.bmp");
-	bon->image_3 = IMG_Load("textures/guns-3.bmp");
-	bon->image_4 = IMG_Load("textures/guns-4.bmp");
-	bon->image_5 = IMG_Load("textures/guns-5.bmp");
-	bon->image_coin = IMG_Load("textures/coin.png");
-	bon->my_font = TTF_OpenFont("ttf/19888.ttf", (int)(H / 28));
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	bon->music_guns = Mix_LoadWAV("music/01664_q6IhiXXL.wav");
-	bon->music_coin = Mix_LoadWAV("music/coin_m.wav");
-	bon->music = Mix_LoadMUS("music/Oto Kapanadze - Mystic Mountain.mp3");
-	if (!bon->image_1 || !bon->image_2 || !bon->image_3 || !bon->image_4 || !bon->image_5 ||
-		!bon->image_coin || !bon->my_font || !bon->music_guns || !bon->music || !bon->music_coin)
-		exit(0);
-	bon->imgLocation.w = W / 3;
-    bon->imgLocation.h = H / 3;
-    bon->imgLocation.x = (W / 2) - (W / 6);
-    bon->imgLocation.y = H - H / 3;
-	bon->flag_guns = 0;
-	bon->start_guns = 0;
-	bon->score_coin = 0;
-}
-
 void	init_tex_arr(t_wolf *wolf)
 {
 	int	i;
@@ -108,7 +74,7 @@ void	init_mm(t_map *map)
 void	init_sdl(t_wolf *wolf)
 {
 	wolf->sdl->win = SDL_CreateWindow("Wolf3d", 100,
-        100, W, H, SDL_WINDOW_SHOWN);
+		100, W, H, SDL_WINDOW_SHOWN);
 	!wolf->sdl->win ? error(wolf, SDL_GetError()) : 0;
 	if (!(wolf->sdl->icon = SDL_LoadBMP(ICON_PATH)))
 		error(wolf, SDL_GetError());
@@ -118,7 +84,7 @@ void	init_sdl(t_wolf *wolf)
 		error(wolf, SDL_GetError());
 	SDL_SetWindowIcon(wolf->sdl->win, wolf->sdl->icon);
 	wolf->sdl->sides_mode = 1;
-    wolf->surface = SDL_GetWindowSurface(wolf->sdl->win);
+	wolf->surface = SDL_GetWindowSurface(wolf->sdl->win);
 	wolf->sdl->skybox_offset = 0;
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	wolf->sdl->run = 1;

@@ -12,7 +12,7 @@
 
 #include "../includes/wolf3d.h"
 
-void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon)
+void	guns_shot(SDL_Surface *screen, int flag, t_bonus *bon)
 {
 	if (flag == 2)
 	{
@@ -20,11 +20,16 @@ void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon)
 		Mix_PlayChannel(1, bon->music_guns, 0);
 		Mix_VolumeMusic(5);
 	}
-	flag == 1 ? SDL_BlitScaled(bon->image_1, NULL, screen, &bon->imgLocation): 0;
-	flag == 2 ? SDL_BlitScaled(bon->image_2, NULL, screen, &bon->imgLocation): 0;
-	flag == 3 ? SDL_BlitScaled(bon->image_3, NULL, screen, &bon->imgLocation): 0;
-	flag == 4 ? SDL_BlitScaled(bon->image_4, NULL, screen, &bon->imgLocation): 0;
-	flag == 5 ? SDL_BlitScaled(bon->image_5, NULL, screen, &bon->imgLocation): 0;
+	flag == 1 ? SDL_BlitScaled(bon->image_1, NULL, screen,
+		&bon->imgLocation) : 0;
+	flag == 2 ? SDL_BlitScaled(bon->image_2, NULL, screen,
+		&bon->imgLocation) : 0;
+	flag == 3 ? SDL_BlitScaled(bon->image_3, NULL, screen,
+		&bon->imgLocation) : 0;
+	flag == 4 ? SDL_BlitScaled(bon->image_4, NULL, screen,
+		&bon->imgLocation) : 0;
+	flag == 5 ? SDL_BlitScaled(bon->image_5, NULL, screen,
+		&bon->imgLocation) : 0;
 }
 
 void	render_shot(t_wolf *wolf, SDL_Surface *surface)
@@ -43,8 +48,7 @@ void	render_shot(t_wolf *wolf, SDL_Surface *surface)
 			wolf->bon->start_guns = SDL_GetTicks();
 		}
 		guns_shot(surface, wolf->bon->flag_guns, wolf->bon);
-		// flag_guns == 5 ? Mix_HaltMusic(): 0;
-		wolf->bon->flag_guns == 5 ? wolf->bon->flag_guns = 0: 0;
+		wolf->bon->flag_guns == 5 ? wolf->bon->flag_guns = 0 : 0;
 	}
 	else
 		guns_shot(surface, 1, wolf->bon);

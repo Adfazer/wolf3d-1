@@ -30,7 +30,7 @@ Uint32		get_pixel(SDL_Surface *surface, int x, int y)
 	return (*(Uint32 *)p);
 }
 
-int		is_texture(t_map *map, int x, int y, char texture)
+int			is_texture(t_map *map, int x, int y, char texture)
 {
 	return (map->map[(y / CUBE) * map->w + (x / CUBE)] == texture);
 }

@@ -69,7 +69,7 @@ t_distance *dist, float angle)
 }
 
 t_distance		*find_horizontal_intersection(t_wolf *wolf,
-	float angle, t_distance	*dist)
+	float angle, t_distance *dist)
 {
 	t_float2	a;
 	t_float2	diff;

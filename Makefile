@@ -31,7 +31,8 @@ ALL_C = main.c \
 		distance_horiz.c \
 		distance_vert.c \
 		render_coin.c \
-		move.c
+		move.c \
+		init_bonus.c
 
 SRCDIR = ./src
 OBJDIR = ./objs

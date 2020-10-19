@@ -206,6 +206,8 @@ int			load_textures(t_wolf *wolf, t_sdl *sdl);
 void		init_sdl(t_wolf *wolf);
 void		init_mm(t_map *map);
 void		init_tex_arr(t_wolf *wolf);
+void		init_bonus(t_wolf *wolf);
+void    	init_bonus_load(t_wolf *wolf);
 
 /*
 ** distance.c
@@ -226,7 +228,6 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface);
 void	music(t_bonus *bon);
 void    render_fps(t_wolf *wolf, t_bonus *bon);
 void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
-void	init_bonus(t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);
 void	render_coin(t_wolf *wolf, SDL_Surface *surface);
 void    render_score_coin(t_wolf *wolf);

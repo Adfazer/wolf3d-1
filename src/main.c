@@ -12,7 +12,7 @@
 
 #include "../includes/wolf3d.h"
 
-t_point		dot(int x, int y)
+t_point			dot(int x, int y)
 {
 	t_point	new;
 
@@ -42,14 +42,13 @@ static void		validate_const(t_wolf *wolf)
 		error(wolf, ERR_INV_H);
 	if (H < 300 || W < 384)
 		error(wolf, ERR_INV_RES);
-	
 }
 
 int				main(int a, char **b)
 {
 	t_wolf		*wolf;
 
-	wolf = NULL;	
+	wolf = NULL;
 	validate_const(wolf);
 	a != 2 ? error(wolf, ERR_USAGE) : 0;
 	SDL_Init(SDL_INIT_EVERYTHING) != 0 ? error(wolf, SDL_GetError()) : 0;
@@ -57,7 +56,7 @@ int				main(int a, char **b)
 	wolf = t_wolf_new();
 	init_map(wolf, b[1]);
 	init_player(wolf, wolf->player, wolf->map);
-	init_bonus(wolf->bon);
+	init_bonus(wolf);
 	music(wolf->bon);
 	init_tex_arr(wolf);
 	wolf_loop(wolf);
