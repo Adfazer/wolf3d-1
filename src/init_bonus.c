@@ -41,7 +41,6 @@ void	init_bonus(t_wolf *wolf)
 	wolf->bon->startTime = 0;
 	wolf->bon->fps_count = 0;
 	wolf->bon->guns_fire = 0;
-	wolf->bon->music = NULL;
 	wolf->bon->img_location.w = W / 3;
 	wolf->bon->img_location.h = H / 3;
 	wolf->bon->img_location.x = (W / 2) - (W / 6);

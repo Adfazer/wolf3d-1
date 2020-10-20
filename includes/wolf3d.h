@@ -231,6 +231,9 @@ void    guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void	render_shot(t_wolf *wolf, SDL_Surface *surface);
 void	render_coin(t_wolf *wolf, SDL_Surface *surface);
 void    render_score_coin(t_wolf *wolf);
+SDL_Color	set_color_sdl(int a, int b, int c);
+SDL_Rect	set_rect_sdl(int x, int y, int w, int h);
+int			get_fps_time(t_bonus *bon);
 
 int	add_floor_offset(int *offset, int to_add);
 
