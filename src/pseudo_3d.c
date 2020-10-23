@@ -41,12 +41,14 @@ void	draw_floor(SDL_Surface *surface, int x, int y)
 void	draw_sky(t_wolf *wolf, int x, int y)
 {
 	int		i;
+	int		to_draw;
 
 	i = -1;
 	while (++i < y)
 	{
+		to_draw = i < wolf->sdl->sky->h - 1 ? i : wolf->sdl->sky->h / 2;
 		set_pixel(wolf->surface, x, i, get_pixel(wolf->sdl->sky,
-			x + wolf->sdl->skybox_offset, i));
+			x + wolf->sdl->skybox_offset, to_draw));
 	}
 }
 

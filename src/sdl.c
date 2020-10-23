@@ -16,6 +16,8 @@ static void		handle_other_keys(t_wolf *wolf)
 {
 	if (wolf->sdl->state[SDL_SCANCODE_SPACE])
 		wolf->bon->guns_fire = 1;
+	if (wolf->sdl->state[SDL_SCANCODE_H])
+		wolf->sdl->menu = wolf->sdl->menu ? 0 : 1;
 	if (wolf->sdl->state[SDL_SCANCODE_O])
 	{
 		if (wolf->bon->music_flag == 0)
@@ -101,7 +103,8 @@ void			wolf_loop(t_wolf *wolf)
 		render_score_coin(wolf);
 		render_fps(wolf, wolf->bon);
 		render_shot(wolf, wolf->surface);
-		draw_minimap(wolf, wolf->map, wolf->player);
+		wolf->map->mm_show ? draw_minimap(wolf, wolf->map, wolf->player) : 0;
+		wolf->sdl->menu ? draw_menu(wolf) : 0;
 		SDL_UpdateWindowSurface(wolf->sdl->win);
 	}
 	SDL_DestroyWindow(wolf->sdl->win);

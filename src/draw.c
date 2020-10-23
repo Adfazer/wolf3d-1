@@ -99,12 +99,10 @@ void		draw_background(SDL_Surface *surface)
 	}
 }
 
-void		draw_minimap(t_wolf *wolf, t_map *map, t_player *p)
+int			draw_minimap(t_wolf *wolf, t_map *map, t_player *p)
 {
 	int		i;
 
-	if (!map->mm_show)
-		return ;
 	draw_rectangle(wolf->surface, map->mm_start, dot(map->mm_w, map->mm_h),
 		COLOR_GREY_LIGHT);
 	i = -1;
@@ -124,4 +122,5 @@ void		draw_minimap(t_wolf *wolf, t_map *map, t_player *p)
 		dot(map->mm_p_size * 2, map->mm_p_size * 2), 0xFFFFFF);
 	draw_ray(wolf, p->dir, p->x * map->mm_cube_coef + map->mm_start.x,
 		p->y * map->mm_cube_coef + map->mm_start.y);
+	return (1);
 }

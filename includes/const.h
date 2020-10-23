@@ -44,8 +44,10 @@
 # define TEX_EYES '4'
 # define TEX_ISLE '5'
 
-# define W 384
-# define H 300
+# define W 800
+# define H 600
+# define W_MAX 1920
+# define H_MAX 1080
 # define CUBE 64
 
 # define PLAYER_MM_SIZE 4

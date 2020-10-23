@@ -130,6 +130,7 @@ typedef struct	s_sdl
 	int			skybox_offset;
 	int			run;
 	int			sides_mode;
+	int			menu;
 }				t_sdl;
 
 typedef struct	s_wolf
@@ -152,7 +153,7 @@ int				float_is_equal(float a, float b);
 
 void			free_dist_arr(t_wolf *wolf);
 
-void			draw_minimap(t_wolf *wolf, t_map *map, t_player *p);
+int				draw_minimap(t_wolf *wolf, t_map *map, t_player *p);
 void			draw_ray(t_wolf *wolf, float player, int x, int y);
 void			draw_line(SDL_Surface *surface, t_point start, t_point end,
 				int color);
@@ -212,6 +213,14 @@ void			init_mm(t_map *map);
 void			init_tex_arr(t_wolf *wolf);
 void			init_bonus(t_wolf *wolf);
 void			init_bonus_load(t_wolf *wolf);
+
+/*
+** aux.c
+*/
+int				draw_menu(t_wolf *wolf);
+
+void			render_text(t_wolf *wolf, char *text, SDL_Rect location,
+				SDL_Color f_b_color[2]);
 
 /*
 ** distance.c

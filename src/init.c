@@ -88,5 +88,6 @@ void	init_sdl(t_wolf *wolf)
 	wolf->sdl->skybox_offset = 0;
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	wolf->sdl->run = 1;
+	wolf->sdl->menu = 0;
 	wolf->sdl->state = SDL_GetKeyboardState(NULL);
 }

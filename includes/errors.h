@@ -31,5 +31,7 @@
 # define ERR_INV_H "Screen height must be less or equal to width"
 # define ERR_INV_RES "Screen resolution must be at least 384x384"
 # define ERR_USAGE "Usage : ./wolf3d [map]"
+# define ERR_H_MAX "Screen height cannot be more than "
+# define ERR_W_MAX "Screen width cannot be more than "
 
 #endif
