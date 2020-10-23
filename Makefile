@@ -29,7 +29,8 @@ ALL_C = main.c \
 		distance_vert.c \
 		render_coin.c \
 		move.c \
-		init_bonus.c
+		init_bonus.c \
+		set_sdl.c
 
 SRCDIR = ./src
 OBJDIR = ./objs

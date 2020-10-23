@@ -1,28 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.h                                           :+:      :+:    :+:   */
+/*   set_sdl.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/18 18:31:45 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:31:46 by clala            ###   ########.fr       */
+/*   Created: 2020/10/18 18:31:59 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 19:43:59 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLORS_H
-# define COLORS_H
+#include "../includes/wolf3d.h"
 
-# define COLOR_GREY_LIGHT 0x797979
-# define COLOR_WHITE 0xFFFFFF
-# define COLOR_BLACK 0x000000
-# define COLOR_RED 255,0,0
-# define COLOR_BLUE 0,0,255
-# define COLOR_SKY_BLUE 0x15DAEA
-# define COLOR_GREY 0xAAAAAA
-# define COLOR_BROWN 0xBE8641
+SDL_Color	set_color_sdl(int a, int b, int c)
+{
+	SDL_Color	color;
 
-# define TEXT_FOREGROUND_COLOR 0
-# define TEXT_BACKGROUND_COLOR 1
+	color.r = a;
+	color.g = b;
+	color.b = c;
+	color.a = 255;
+	return (color);
+}
 
-#endif
+SDL_Rect	set_rect_sdl(int x, int y, int w, int h)
+{
+	SDL_Rect	location;
+
+	location.w = w;
+	location.h = h;
+	location.x = x;
+	location.y = y;
+	return (location);
+}
