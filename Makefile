@@ -1,9 +1,6 @@
 
 #	gcc $(FLAGS) $(SRC_PATH) $(INCS) $(SDL_INCS) $(FRAMEWORKS) -o $(NAME)
 
-
-
-
 # WE RESPECT NORM! FFFFFF
 # 'ALL SOURCE FILES YOU NEED TO COMPILE YOUR PROJECT
 #  MUST BE EXPLICITLY NAMED IN YOUR MAKEFILE'
@@ -51,7 +48,7 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -ffast-math -O3 #-g #-ffast-math O3 # 
+FLAGS = -Wall -Wextra -Werror -ffast-math -O3#-g #-ffast-math O3 # 
 
 SDL_INCS =	-F./frameworks \
 			-I./frameworks/SDL2.framework/Headers \
