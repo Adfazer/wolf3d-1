@@ -49,28 +49,37 @@ int			get_fps_time(t_bonus *bon)
 	return (0);
 }
 
+void		render_text(t_wolf *wolf, char *text, SDL_Rect location, SDL_Color f_b_color[2])
+{
+	SDL_Surface		*txt_sur;
+
+	txt_sur = TTF_RenderText_Shaded(wolf->bon->my_font, text,
+	f_b_color[TEXT_FOREGROUND_COLOR], f_b_color[TEXT_BACKGROUND_COLOR]);
+	free(text);
+	if (txt_sur == NULL)
+		error(wolf, SDL_GetError());
+	SDL_BlitSurface(txt_sur, NULL, wolf->surface, &location);
+	SDL_FreeSurface(txt_sur);
+}
+
 void		render_fps(t_wolf *wolf, t_bonus *bon)
 {
-	SDL_Color		fore_color;
-	SDL_Color		back_color;
+	SDL_Color		f_b_color[2];
 	SDL_Surface		*txt_sur;
-	SDL_Rect		text_location;
-	char			*str;
+	char			*str1;
+	char			*str2;
 
 	if (get_fps_time(bon))
 		return ;
-	text_location = set_rect_sdl(W - (int)(H / 28) * 2, 2, 0, 0);
-	fore_color = set_color_sdl(COLOR_RED);
-	back_color = set_color_sdl(COLOR_BLUE);
+	f_b_color[TEXT_FOREGROUND_COLOR] = set_color_sdl(COLOR_RED);
+	f_b_color[TEXT_BACKGROUND_COLOR] = set_color_sdl(COLOR_BLUE);
 	txt_sur = NULL;
 	bon->fps_count++;
-	str = ft_itoa(bon->fps);
-	txt_sur = TTF_RenderText_Shaded(bon->my_font, str, fore_color, back_color);
-	free(str);
-	if (txt_sur == NULL)
-		error(wolf, SDL_GetError());
-	SDL_BlitSurface(txt_sur, NULL, wolf->surface, &text_location);
-	SDL_FreeSurface(txt_sur);
+	str1 = ft_itoa(bon->fps);
+	str2 = ft_strjoin("FPS: ", str1);
+	free(str1);
+	render_text(wolf, str2,
+		set_rect_sdl(W - (int)(H / 10) * 2, 2, 0, 0), f_b_color);
 }
 
 void		render_score_coin(t_wolf *wolf)
