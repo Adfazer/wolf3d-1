@@ -12,8 +12,7 @@
 
 #include "wolf3d.h"
 
-static void		handle_other_keys(t_wolf *wolf, SDL_Event *event, t_map *map,
-	t_player *p)
+static void		handle_other_keys(t_wolf *wolf)
 {
 	if (wolf->sdl->state[SDL_SCANCODE_SPACE])
 		wolf->bon->guns_fire = 1;
@@ -59,7 +58,7 @@ static void		handle_keys(t_wolf *wolf, SDL_Event *event, t_map *map,
 		map->mm_show = map->mm_show == 1 ? 0 : 1;
 	if (s[SDL_SCANCODE_I])
 		wolf->bon->fps = wolf->bon->fps == 0 ? 1 : 0;
-	handle_other_keys(wolf, event, map, p);
+	handle_other_keys(wolf);
 }
 
 static void		handle_event(t_wolf *wolf, SDL_Event *event, int *x)
