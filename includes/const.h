@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   const.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:31:45 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:31:46 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CONST_H
 # define CONST_H
 
@@ -32,7 +44,6 @@
 # define TEX_EYES '4'
 # define TEX_ISLE '5'
 
-
 # define W 384
 # define H 300
 # define CUBE 64
@@ -53,14 +64,9 @@
 # define ICON_PATH "textures/icon.bmp"
 # define SKY_PATH "textures/sky.bmp"
 
-
 # define RMASK 0x000000ff
 # define GMASK 0x0000ff00
 # define BMASK 0x00ff0000
 # define AMASK 0xff000000
-
-
-
-
 
 #endif

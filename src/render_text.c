@@ -38,11 +38,11 @@ int			get_fps_time(t_bonus *bon)
 {
 	if (!bon->fps)
 		return (1);
-	if (!bon->startTime)
-		bon->startTime = SDL_GetTicks();
-	if (bon->startTime + 1000 < SDL_GetTicks())
+	if (!bon->start_time)
+		bon->start_time = SDL_GetTicks();
+	if (bon->start_time + 1000 < SDL_GetTicks())
 	{
-		bon->startTime = SDL_GetTicks();
+		bon->start_time = SDL_GetTicks();
 		bon->fps = bon->fps_count;
 		bon->fps_count = 0;
 	}

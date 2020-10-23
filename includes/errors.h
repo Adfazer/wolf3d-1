@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/18 18:31:45 by clala             #+#    #+#             */
+/*   Updated: 2020/10/18 18:31:46 by clala            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ERRORS_H
 # define ERRORS_H
 
@@ -19,6 +31,5 @@
 # define ERR_INV_H "Screen height must be less or equal to width"
 # define ERR_INV_RES "Screen resolution must be at least 384x384"
 # define ERR_USAGE "Usage : ./wolf3d [map]"
-
 
 #endif
