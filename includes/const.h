@@ -66,9 +66,4 @@
 # define ICON_PATH "textures/icon.bmp"
 # define SKY_PATH "textures/sky.bmp"
 
-# define RMASK 0x000000ff
-# define GMASK 0x0000ff00
-# define BMASK 0x00ff0000
-# define AMASK 0xff000000
-
 #endif

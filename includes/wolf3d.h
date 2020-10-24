@@ -126,7 +126,6 @@ typedef struct	s_sdl
 	SDL_Window	*win;
 	int			tex_arr[0xff];
 	const Uint8	*state;
-	SDL_Event	e;
 	int			skybox_offset;
 	int			run;
 	int			sides_mode;
@@ -217,13 +216,30 @@ void			init_bonus_load(t_wolf *wolf);
 /*
 ** aux.c
 */
-int				draw_menu(t_wolf *wolf);
 
+/*
+** render_text.c
+*/
+int				draw_menu(t_wolf *wolf);
 void			render_text(t_wolf *wolf, char *text, SDL_Rect location,
 				SDL_Color f_b_color[2]);
 
 /*
 ** distance.c
+*/
+
+/*
+** render_coin.c
+*/
+
+/*
+** set_sdl.c
+*/
+SDL_Color		set_color_sdl(int a, int b, int c);
+SDL_Rect		set_rect_sdl(int x, int y, int w, int h);
+
+/*
+** set_sdl.c
 */
 t_distance		*find_vertical_intersection(t_wolf *wolf,
 float angle, t_distance *dist);
@@ -240,8 +256,7 @@ void			guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void			render_shot(t_wolf *wolf, SDL_Surface *surface);
 void			render_coin(t_wolf *wolf, SDL_Surface *surface);
 void			render_score_coin(t_wolf *wolf);
-SDL_Color		set_color_sdl(int a, int b, int c);
-SDL_Rect		set_rect_sdl(int x, int y, int w, int h);
+
 int				get_fps_time(t_bonus *bon);
 
 #endif
