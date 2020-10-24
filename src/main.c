@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:29:09 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 19:48:07 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/24 21:44:59 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ t_point			dot(int x, int y)
 	new.x = x;
 	new.y = y;
 	return (new);
+}
+
+int				max(int a, int b)
+{
+	return (a > b ? a : b);
 }
 
 static t_wolf	*t_wolf_new(void)

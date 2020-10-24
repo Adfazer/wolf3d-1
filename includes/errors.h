@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:31:45 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:31:46 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/24 21:01:34 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define ERR_MALLOC "Can't allocate memory"
 # define ERR_MAP_NO_START "No player start position"
+# define ERR_MAP_NOT_TXT "Map must be .txt file"
 # define ERR_MAP_MULT_START "Multiple player start positions"
 # define ERR_MAP_MULT_COIN "Multiple coin positions"
 # define ERR_MAP_BORDER_COL "There must be a border texture at column %d"

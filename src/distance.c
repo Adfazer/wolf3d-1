@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:19:22 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 19:16:07 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/24 21:54:06 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void			t_distance_clear(t_distance *dist)
 	dist->tex = TEX_INF;
 	dist->coords.x = -1;
 	dist->coords.y = -1;
-	dist->y = -1;
-	dist->side = -1;
 }
 
 void			all_get_distance(t_wolf *wolf)

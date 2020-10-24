@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:29:42 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:31:03 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/24 21:16:53 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ void		init_map(t_wolf *wolf, char *map_name)
 	int		i;
 	int		j;
 
+	if (ft_strcmp((char *)(map_name + ft_strlen(map_name) - 4), ".txt"))
+		error(wolf, ERR_MAP_NOT_TXT);
 	str_map = get_map(wolf, &map_size, map_name);
 	validate_map(wolf, str_map, map_size);
 	wolf->map->map = ft_strnew(wolf->map->h * wolf->map->w);

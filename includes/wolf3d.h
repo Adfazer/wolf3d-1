@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:31:45 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:31:46 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/24 22:09:35 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,18 @@ typedef struct	s_bonus
 	Uint32		start_time;
 	int			fps_count;
 	int			guns_fire;
-	SDL_Surface *image_1;
-	SDL_Surface *image_2;
-	SDL_Surface *image_3;
-	SDL_Surface *image_4;
-	SDL_Surface *image_5;
-	SDL_Surface *image_coin;
+	SDL_Surface	*image_1;
+	SDL_Surface	*image_2;
+	SDL_Surface	*image_3;
+	SDL_Surface	*image_4;
+	SDL_Surface	*image_5;
+	SDL_Surface	*image_coin;
 	t_float2	coint_pos;
 	int			score_coin;
 	SDL_Rect	img_location;
 	int			flag_guns;
 	Uint32		start_guns;
-	TTF_Font*	my_font;
+	TTF_Font	*my_font;
 }				t_bonus;
 
 typedef struct	s_sdl
@@ -141,17 +141,10 @@ typedef struct	s_wolf
 	t_bonus		*bon;
 }				t_wolf;
 
-int				raycast(void);
-
-int				add_arc(float *arc, float to_add);
-int				is_angle(float angle, float rad);
+/*
+** draw.c
+*/
 void			draw_background(SDL_Surface *surface);
-
-int				max(int a, int b);
-int				float_is_equal(float a, float b);
-
-void			free_dist_arr(t_wolf *wolf);
-
 int				draw_minimap(t_wolf *wolf, t_map *map, t_player *p);
 void			draw_ray(t_wolf *wolf, float player, int x, int y);
 void			draw_line(SDL_Surface *surface, t_point start, t_point end,
@@ -168,6 +161,7 @@ void			wolf_loop(t_wolf *wolf);
 ** main.c
 */
 t_point			dot(int x, int y);
+int				max(int a, int b);
 
 /*
 ** move.c
@@ -210,27 +204,43 @@ int				load_textures(t_wolf *wolf, t_sdl *sdl);
 void			init_sdl(t_wolf *wolf);
 void			init_mm(t_map *map);
 void			init_tex_arr(t_wolf *wolf);
+
+/*
+** init_bonus.c
+*/
 void			init_bonus(t_wolf *wolf);
 void			init_bonus_load(t_wolf *wolf);
 
 /*
 ** aux.c
 */
+int				draw_menu(t_wolf *wolf);
+int				add_arc(float *arc, float to_add);
+int				is_angle(float angle, float rad);
+int				float_is_equal(float a, float b);
 
 /*
 ** render_text.c
 */
-int				draw_menu(t_wolf *wolf);
 void			render_text(t_wolf *wolf, char *text, SDL_Rect location,
 				SDL_Color f_b_color[2]);
+void			render_score_coin(t_wolf *wolf);
+void			render_fps(t_wolf *wolf, t_bonus *bon);
+int				get_fps_time(t_bonus *bon);
 
 /*
 ** distance.c
 */
+t_distance		*dist_to_wall(t_wolf *wolf, float angle, int count_distance);
+t_distance		*t_distance_new(t_wolf *wolf);
+void			t_distance_clear(t_distance *dist);
+void			all_get_distance(t_wolf *wolf);
+void			free_dist_arr(t_wolf *wolf);
 
 /*
 ** render_coin.c
 */
+void			render_coin(t_wolf *wolf, SDL_Surface *surface);
 
 /*
 ** set_sdl.c
@@ -239,24 +249,31 @@ SDL_Color		set_color_sdl(int a, int b, int c);
 SDL_Rect		set_rect_sdl(int x, int y, int w, int h);
 
 /*
-** set_sdl.c
+** pseudo_3d.c
+*/
+void			pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface);
+
+/*
+** distance_horiz.c
+*/
+t_distance		*find_horizontal_intersection(t_wolf *wolf,
+float angle, t_distance *dist);
+
+/*
+** distance_vert.c
 */
 t_distance		*find_vertical_intersection(t_wolf *wolf,
 float angle, t_distance *dist);
-t_distance		*find_horizontal_intersection(t_wolf *wolf,
-float angle, t_distance *dist);
-t_distance		*dist_to_wall(t_wolf *wolf, float angle, int count_distance);
-t_distance		*t_distance_new(t_wolf *wolf);
-void			t_distance_clear(t_distance *dist);
-void			all_get_distance(t_wolf *wolf);
-void			pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface);
-void			music(t_bonus *bon);
-void			render_fps(t_wolf *wolf, t_bonus *bon);
+
+/*
+** guns_shot.c
+*/
 void			guns_shot(SDL_Surface *screen, int flag, t_bonus *bon);
 void			render_shot(t_wolf *wolf, SDL_Surface *surface);
-void			render_coin(t_wolf *wolf, SDL_Surface *surface);
-void			render_score_coin(t_wolf *wolf);
 
-int				get_fps_time(t_bonus *bon);
+/*
+** music.c
+*/
+void			music(t_bonus *bon);
 
 #endif

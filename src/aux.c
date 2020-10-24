@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:26:06 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 18:26:22 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/24 21:52:04 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,6 @@ int	add_arc(float *arc, float to_add)
 	return (1);
 }
 
-int	max(int a, int b)
-{
-	return (a > b ? a : b);
-}
-
 int	is_angle(float angle, float rad)
 {
 	return (fabsf(cosf(angle) - cosf(rad)) < KLUDGE);
@@ -37,14 +32,8 @@ int	float_is_equal(float a, float b)
 	return (fabsf(a - b) < KLUDGE);
 }
 
-int	draw_menu(t_wolf *wolf)
+int	draw_menu_text(t_wolf *wolf, SDL_Color f_b_color[2])
 {
-	SDL_Color	f_b_color[2];
-	
-	f_b_color[TEXT_FOREGROUND_COLOR] = set_color_sdl(COLOR_RED);
-	f_b_color[TEXT_BACKGROUND_COLOR] = set_color_sdl(COLOR_BLUE);
-	draw_rectangle(wolf->surface, dot(0, H / 3),
-		dot(W / 3, H / 2), COLOR_BLUE_INT);
 	render_text(wolf, ft_strdup(" show/hide menu:c  H"),
 	set_rect_sdl(0, H / 3, 0, 0), f_b_color);
 	render_text(wolf, ft_strdup(" show/hide map:    M"),
@@ -65,5 +54,17 @@ int	draw_menu(t_wolf *wolf)
 	set_rect_sdl(0, H / 3 + (H / 20) * 8, 0, 0), f_b_color);
 	render_text(wolf, ft_strdup(" fire:         SPACE"),
 	set_rect_sdl(0, H / 3 + (H / 20) * 9, 0, 0), f_b_color);
+	return (1);
+}
+
+int	draw_menu(t_wolf *wolf)
+{
+	SDL_Color	f_b_color[2];
+
+	f_b_color[TEXT_FOREGROUND_COLOR] = set_color_sdl(COLOR_RED);
+	f_b_color[TEXT_BACKGROUND_COLOR] = set_color_sdl(COLOR_BLUE);
+	draw_rectangle(wolf->surface, dot(0, H / 3),
+		dot(W / 3, H / 2), COLOR_BLUE_INT);
+	draw_menu_text(wolf, f_b_color);
 	return (1);
 }

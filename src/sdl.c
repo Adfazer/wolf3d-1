@@ -6,7 +6,7 @@
 /*   By: clala <clala@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/18 18:32:04 by clala             #+#    #+#             */
-/*   Updated: 2020/10/18 19:44:38 by clala            ###   ########.fr       */
+/*   Updated: 2020/10/24 21:38:14 by clala            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 static void		handle_other_keys(t_wolf *wolf)
 {
+	if (wolf->sdl->state[SDL_SCANCODE_I])
+		wolf->bon->fps = wolf->bon->fps == 0 ? 1 : 0;
 	if (wolf->sdl->state[SDL_SCANCODE_SPACE])
 		wolf->bon->guns_fire = 1;
 	if (wolf->sdl->state[SDL_SCANCODE_H])
@@ -42,9 +44,11 @@ static void		handle_keys(t_wolf *wolf, SDL_Event *event, t_map *map,
 	if (event->key.keysym.sym == SDLK_ESCAPE)
 		wolf->sdl->run = false;
 	if (s[SDL_SCANCODE_D])
-		calc_move(wolf->map, p, p->speed * sinf(p->dir + RAD_90), -(p->speed * cosf(p->dir + RAD_90)));
+		calc_move(wolf->map, p, p->speed * sinf(p->dir + RAD_90),
+		-(p->speed * cosf(p->dir + RAD_90)));
 	if (s[SDL_SCANCODE_A])
-		calc_move(map, p, p->speed * sinf(p->dir - RAD_90), -(p->speed * cosf(p->dir - RAD_90)));
+		calc_move(map, p, p->speed * sinf(p->dir - RAD_90),
+		-(p->speed * cosf(p->dir - RAD_90)));
 	if (s[SDL_SCANCODE_DOWN] || s[SDL_SCANCODE_S])
 		calc_move(map, p, p->speed * sinf(p->dir), -(p->speed * cosf(p->dir)));
 	if (s[SDL_SCANCODE_W] || s[SDL_SCANCODE_UP])
@@ -58,8 +62,6 @@ static void		handle_keys(t_wolf *wolf, SDL_Event *event, t_map *map,
 		wolf->sdl->sides_mode = wolf->sdl->sides_mode == 1 ? 0 : 1;
 	if (s[SDL_SCANCODE_M])
 		map->mm_show = map->mm_show == 1 ? 0 : 1;
-	if (s[SDL_SCANCODE_I])
-		wolf->bon->fps = wolf->bon->fps == 0 ? 1 : 0;
 	handle_other_keys(wolf);
 }
 
