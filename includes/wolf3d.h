@@ -200,7 +200,6 @@ int				error_inv_n(t_wolf *wolf, char *s, int inv_num);
 ** init.c
 */
 void			init_player(t_wolf *wolf, t_player *player, t_map *map);
-int				load_textures(t_wolf *wolf, t_sdl *sdl);
 void			init_sdl(t_wolf *wolf);
 void			init_mm(t_map *map);
 void			init_tex_arr(t_wolf *wolf);
@@ -215,6 +214,7 @@ void			init_bonus_load(t_wolf *wolf);
 ** aux.c
 */
 int				draw_menu(t_wolf *wolf);
+int				draw_menu_text(t_wolf *wolf, SDL_Color f_b_color[2]);
 int				add_arc(float *arc, float to_add);
 int				is_angle(float angle, float rad);
 int				float_is_equal(float a, float b);
@@ -241,6 +241,10 @@ void			free_dist_arr(t_wolf *wolf);
 ** render_coin.c
 */
 void			render_coin(t_wolf *wolf, SDL_Surface *surface);
+int				score_coin(t_wolf *wolf, t_coin *coin);
+int				search_angle(t_wolf *wolf, t_coin *coin);
+void			through_zero(t_wolf *wolf, t_coin *coin);
+void			wall_check_coin(t_wolf *wolf, t_coin *coin);
 
 /*
 ** set_sdl.c
@@ -252,6 +256,10 @@ SDL_Rect		set_rect_sdl(int x, int y, int w, int h);
 ** pseudo_3d.c
 */
 void			pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface);
+void			draw_sky(t_wolf *wolf, int x, int y);
+void			draw_floor(SDL_Surface *surface, int x, int y);
+void			draw_column(t_wolf *wolf, t_point point,
+t_distance *dist, int size);
 
 /*
 ** distance_horiz.c
