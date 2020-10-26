@@ -1,15 +1,14 @@
-
-#	gcc $(FLAGS) $(SRC_PATH) $(INCS) $(SDL_INCS) $(FRAMEWORKS) -o $(NAME)
-
-# WE RESPECT NORM! FFFFFF
-# 'ALL SOURCE FILES YOU NEED TO COMPILE YOUR PROJECT
-#  MUST BE EXPLICITLY NAMED IN YOUR MAKEFILE'
-#
-#ALL_C_ASM = $(wildcard $(SRCDIR_ASM)/*.c)
-#ALL_C_CW = $(wildcard $(SRCDIR_CW)/*.c)
-
-#printf '        %s \\\n' *.c
-
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: clala <clala@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/12/15 16:58:46 by clala             #+#    #+#              #
+#    Updated: 2020/02/15 21:53:21 by clala            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 ALL_C = main.c \
 		map.c \
@@ -49,7 +48,7 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -ffast-math -O3#-g #-ffast-math O3 # 
+FLAGS = -Wall -Wextra -Werror -ffast-math -O3
 
 SDL_INCS =	-F./frameworks \
 			-I./frameworks/SDL2.framework/Headers \
