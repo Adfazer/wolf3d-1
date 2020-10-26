@@ -29,14 +29,14 @@ int		error_free_s(t_wolf *wolf, char *s)
 
 int		error_inv_c(t_wolf *wolf, char *s, char inv_char)
 {
-	ft_dprintf(STDERR_FILENO, C_RED, s, inv_char, C_NRM);
+	ft_dprintf(STDERR_FILENO, "%s%s%c%s\n", C_RED, s, inv_char, C_NRM);
 	exit(EXIT_FAILURE);
 	return ((int)wolf);
 }
 
 int		error_inv_n(t_wolf *wolf, char *s, int inv_num)
 {
-	ft_dprintf(STDERR_FILENO, C_RED, s, inv_num, C_NRM);
+	ft_dprintf(STDERR_FILENO, "%s%s%c%s\n", C_RED, s, inv_num, C_NRM);
 	exit(EXIT_FAILURE);
 	return ((int)wolf);
 }
