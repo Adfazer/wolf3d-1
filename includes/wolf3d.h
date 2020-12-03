@@ -67,6 +67,7 @@ typedef struct	s_player
 	int			size;
 	float		fov;
 	float		dir;
+	int			dir_y;
 	float		dist_to_canvas;
 	float		step;
 	int			floor_offset;
@@ -95,6 +96,7 @@ typedef	struct	s_coin
 
 typedef struct	s_bonus
 {
+	int			penetration_flag;
 	int			music_flag;
 	Mix_Music	*music;
 	Mix_Chunk	*music_guns;
@@ -109,6 +111,7 @@ typedef struct	s_bonus
 	SDL_Surface	*image_4;
 	SDL_Surface	*image_5;
 	SDL_Surface	*image_coin;
+	SDL_Surface *image_aim;
 	t_float2	coint_pos;
 	int			score_coin;
 	SDL_Rect	img_location;
@@ -167,7 +170,7 @@ int				max(int a, int b);
 ** move.c
 */
 void			calc_move(t_map *map, t_player *p, float dy, float dx);
-void			rotate(t_wolf *wolf, SDL_Event *event, int *x);
+void			rotate(t_wolf *wolf, SDL_Event *event);
 void			add_skybox_offset(t_sdl *sdl, int to_add);
 
 /*
@@ -245,6 +248,12 @@ int				score_coin(t_wolf *wolf, t_coin *coin);
 int				search_angle(t_wolf *wolf, t_coin *coin);
 void			through_zero(t_wolf *wolf, t_coin *coin);
 void			wall_check_coin(t_wolf *wolf, t_coin *coin);
+
+/*
+** render_aim.c
+*/
+void			render_aim(t_wolf *wolf);
+void			penetration_check(t_wolf *wolf, SDL_Rect img_location);
 
 /*
 ** set_sdl.c

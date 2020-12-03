@@ -29,7 +29,8 @@ ALL_C = main.c \
 		render_coin.c \
 		move.c \
 		init_bonus.c \
-		set_sdl.c
+		set_sdl.c \
+		render_aim.c
 
 SRCDIR = ./src
 OBJDIR = ./objs
@@ -48,7 +49,8 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -ffast-math -O3
+FLAGS = -g -ffast-math -O3
+#-Wall -Wextra -Werror -ffast-math -O3
 
 SDL_INCS =	-F./frameworks \
 			-I./frameworks/SDL2.framework/Headers \

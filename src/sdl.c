@@ -65,14 +65,14 @@ static void		handle_keys(t_wolf *wolf, SDL_Event *event, t_map *map,
 	handle_other_keys(wolf);
 }
 
-static void		handle_event(t_wolf *wolf, SDL_Event *event, int *x)
+static void		handle_event(t_wolf *wolf, SDL_Event *event)
 {
 	if (SDL_PollEvent(event))
 	{
 		if (event->type == SDL_QUIT)
 			wolf->sdl->run = false;
 		if (event->type == SDL_MOUSEMOTION)
-			rotate(wolf, event, x);
+			rotate(wolf, event);
 		if (event->type == SDL_MOUSEBUTTONDOWN)
 		{
 			if (event->button.button == SDL_BUTTON_LEFT)
@@ -91,19 +91,18 @@ static void		handle_event(t_wolf *wolf, SDL_Event *event, int *x)
 void			wolf_loop(t_wolf *wolf)
 {
 	SDL_Event	event;
-	int			x;
 
 	init_sdl(wolf);
-	x = -0x7fffff;
 	while (wolf->sdl->run)
 	{
-		handle_event(wolf, &event, &x);
+		handle_event(wolf, &event);
 		draw_background(wolf->surface);
 		all_get_distance(wolf);
 		pseudo_3d(wolf, wolf->player, wolf->surface);
 		render_coin(wolf, wolf->surface);
 		render_score_coin(wolf);
 		render_fps(wolf, wolf->bon);
+		render_aim(wolf);
 		render_shot(wolf, wolf->surface);
 		wolf->map->mm_show ? draw_minimap(wolf, wolf->map, wolf->player) : 0;
 		wolf->sdl->menu ? draw_menu(wolf) : 0;

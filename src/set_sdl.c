@@ -27,9 +27,9 @@ SDL_Rect	set_rect_sdl(int x, int y, int w, int h)
 {
 	SDL_Rect	location;
 
-	location.w = w;
-	location.h = h;
 	location.x = x;
 	location.y = y;
+	location.w = w;
+	location.h = h;
 	return (location);
 }

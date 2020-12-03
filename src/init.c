@@ -28,6 +28,7 @@ void	init_player(t_wolf *wolf, t_player *p, t_map *map)
 	p->speed = 10.0;
 	p->fov = RAD_60;
 	p->dir = RAD_0;
+	p->dir_y = 0;
 	p->size = 10;
 	p->dist_to_canvas = (W / 2) / tan(p->fov / 2);
 	p->step = p->fov / W;

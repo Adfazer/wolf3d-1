@@ -19,12 +19,13 @@ int		score_coin(t_wolf *wolf, t_coin *coin)
 	int		flag;
 
 	flag = 0;
-	if (coin->dist < 20)
+	if (coin->dist < 20 || wolf->bon->penetration_flag == 1)
 	{
 		Mix_Volume(0, 32);
 		Mix_PlayChannel(2, wolf->bon->music_coin, 0);
 		Mix_VolumeMusic(5);
 		wolf->bon->score_coin++;
+		wolf->bon->penetration_flag = 0;
 		while (flag != 1)
 		{
 			y = rand() % wolf->map->h;
@@ -145,7 +146,8 @@ void	render_coin(t_wolf *wolf, SDL_Surface *surface)
 	coin.img_location.h = (W / 32) * (wolf->player->dist_to_canvas / coin.dist);
 	coin.img_location.x = coin.flag_i;
 	coin.img_location.y = (H / 2) - ((W / 32)
-		* (wolf->player->dist_to_canvas / coin.dist)) / 2;
+		* (wolf->player->dist_to_canvas / coin.dist)) / 2 - wolf->player->dir_y;
 	SDL_BlitScaled(wolf->bon->image_coin, &coin.cut_vertical_img,
 		surface, &coin.img_location);
+	penetration_check(wolf, coin.img_location);
 }

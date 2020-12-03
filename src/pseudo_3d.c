@@ -21,12 +21,15 @@ t_point point, t_distance *dist, int size)
 
 	i = 0;
 	height = H - point.y * 2;
+	// поинт y начало отрисовки стены сайз конец
+	// point.y -= wolf->player->dir_y;
+	// size -= wolf->player->dir_y;
 	while (point.y < size)
 	{
 		color = get_pixel(wolf->sdl->textures, dist->offsetx + \
 		wolf->sdl->tex_arr[(int)dist->tex], i * CUBE / height);
-		if (point.y > 0 && point.y < H)
-			set_pixel(wolf->surface, point.x, point.y, color);
+		if (point.y - wolf->player->dir_y > 0 && point.y - wolf->player->dir_y < H)
+			set_pixel(wolf->surface, point.x, point.y - wolf->player->dir_y, color);
 		point.y++;
 		i++;
 	}
@@ -34,6 +37,8 @@ t_point point, t_distance *dist, int size)
 
 void	draw_floor(SDL_Surface *surface, int x, int y)
 {
+	if (y < 0)
+		y = 0;
 	while (y < H)
 	{
 		set_pixel(surface, x, y, COLOR_GREY_LIGHT);
@@ -47,6 +52,10 @@ void	draw_sky(t_wolf *wolf, int x, int y)
 	int		to_draw;
 
 	i = -1;
+	if (y < 0)
+		y = 0;
+	if (y > H)
+		y = H;
 	while (++i < y)
 	{
 		to_draw = i < wolf->sdl->sky->h - 1 ? i : wolf->sdl->sky->h / 2;
@@ -72,11 +81,11 @@ void	pseudo_3d(t_wolf *wolf, t_player *player, SDL_Surface *surface)
 		{
 			point.y = ceilf((CUBE * player->dist_to_canvas)
 				/ player->distance[count_distance]->dist);
-			point.y = (H - point.y) / 2;
+			point.y = (H - point.y) / 2; // сколько отступ сверху и снизу
 			draw_column(wolf, point,
 				player->distance[count_distance], H - point.y);
-			draw_sky(wolf, point.x, point.y);
-			draw_floor(surface, point.x, H - point.y);
+			draw_sky(wolf, point.x, point.y - wolf->player->dir_y);
+			draw_floor(surface, point.x, H - (point.y + wolf->player->dir_y));
 		}
 		count_distance--;
 		point.x++;

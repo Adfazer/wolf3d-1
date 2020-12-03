@@ -21,19 +21,32 @@ void	add_skybox_offset(t_sdl *sdl, int to_add)
 		sdl->skybox_offset += sdl->sky->w;
 }
 
-void	rotate(t_wolf *wolf, SDL_Event *event, int *x)
+void	rotate(t_wolf *wolf, SDL_Event *event)
 {
-	if (event->motion.xrel >= 0)
+	if (-event->motion.xrel * 0.01 / 10 > 0.05 || -event->motion.xrel * 0.01 / 10 < -0.05)
 	{
-		add_arc(&(wolf->player->dir), -0.02);
-		add_skybox_offset(wolf->sdl, 2);
+		if (-event->motion.xrel > 0)
+		{
+			add_arc(&(wolf->player->dir), 0.05);
+			add_skybox_offset(wolf->sdl, -5);
+		}
+		else
+		{
+			add_arc(&(wolf->player->dir), -0.05);
+			add_skybox_offset(wolf->sdl, 5);
+		}
 	}
 	else
 	{
-		add_arc(&(wolf->player->dir), 0.02);
-		add_skybox_offset(wolf->sdl, -2);
+		add_arc(&(wolf->player->dir), -event->motion.xrel * 0.01 / 5);
+		add_skybox_offset(wolf->sdl, event->motion.xrel / 5);
 	}
-	*x = event->motion.x;
+	
+	wolf->player->dir_y += H / 200 * event->motion.yrel / 5;
+	if (wolf->player->dir_y > H / 4 * 3)
+		wolf->player->dir_y = H / 4 * 3;
+	if (wolf->player->dir_y	< -H / 4 * 3)
+		wolf->player->dir_y	= -H / 4 * 3;
 }
 
 void	calc_move(t_map *map, t_player *p, float dy, float dx)
