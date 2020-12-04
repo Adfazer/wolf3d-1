@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
 
 int	add_arc(float *arc, float to_add)
 {

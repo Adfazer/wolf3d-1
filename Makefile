@@ -49,7 +49,7 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 COMP_LIB = make -C $(LIBFT_DIR)
 CC = gcc
-FLAGS = -g -ffast-math -O3
+FLAGS = -Ofast -mprefer-vector-width=512
 #-Wall -Wextra -Werror -ffast-math -O3
 
 SDL_INCS =	-F./frameworks \

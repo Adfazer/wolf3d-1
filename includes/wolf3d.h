@@ -133,6 +133,7 @@ typedef struct	s_sdl
 	int			run;
 	int			sides_mode;
 	int			menu;
+	int			interlaced_rendering;
 }				t_sdl;
 
 typedef struct	s_wolf

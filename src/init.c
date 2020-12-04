@@ -91,4 +91,5 @@ void	init_sdl(t_wolf *wolf)
 	wolf->sdl->run = 1;
 	wolf->sdl->menu = 0;
 	wolf->sdl->state = SDL_GetKeyboardState(NULL);
+	wolf->sdl->interlaced_rendering = 0;
 }

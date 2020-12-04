@@ -96,7 +96,7 @@ void			wolf_loop(t_wolf *wolf)
 	while (wolf->sdl->run)
 	{
 		handle_event(wolf, &event);
-		draw_background(wolf->surface);
+		// draw_background(wolf->surface);
 		all_get_distance(wolf);
 		pseudo_3d(wolf, wolf->player, wolf->surface);
 		render_coin(wolf, wolf->surface);
