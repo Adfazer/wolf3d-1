@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf3d.h"
+#include "../includes/wolf3d.h"
 
 static void		handle_other_keys(t_wolf *wolf)
 {
@@ -100,6 +100,7 @@ void			wolf_loop(t_wolf *wolf)
 		all_get_distance(wolf);
 		pseudo_3d(wolf, wolf->player, wolf->surface);
 		render_coin(wolf, wolf->surface);
+		render_monster(wolf, wolf->surface);
 		render_score_coin(wolf);
 		render_fps(wolf, wolf->bon);
 		render_aim(wolf);

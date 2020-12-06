@@ -136,6 +136,16 @@ typedef struct	s_sdl
 	int			interlaced_rendering;
 }				t_sdl;
 
+typedef struct	s_monster
+{
+	SDL_Surface	*image_monster[3];
+	int			count_monster;
+	t_coin		data[3];
+	t_float2	monster_pos[3];
+	int			sort_arr[3];
+}				t_monster;
+
+
 typedef struct	s_wolf
 {
 	t_map		*map;
@@ -143,6 +153,7 @@ typedef struct	s_wolf
 	t_sdl		*sdl;
 	SDL_Surface	*surface;
 	t_bonus		*bon;
+	t_monster	*monster;
 }				t_wolf;
 
 /*
@@ -215,6 +226,11 @@ void			init_bonus(t_wolf *wolf);
 void			init_bonus_load(t_wolf *wolf);
 
 /*
+** init_monster.c
+*/
+void			init_monster(t_wolf *wolf);
+
+/*
 ** aux.c
 */
 int				draw_menu(t_wolf *wolf);
@@ -240,6 +256,12 @@ t_distance		*t_distance_new(t_wolf *wolf);
 void			t_distance_clear(t_distance *dist);
 void			all_get_distance(t_wolf *wolf);
 void			free_dist_arr(t_wolf *wolf);
+
+/*
+** render_coin.c
+*/
+
+void			render_monster(t_wolf *wolf, SDL_Surface *surface);
 
 /*
 ** render_coin.c

@@ -1,33 +1,3 @@
 {
-	"files.associations": {
-		"1.h": "c",
-		"__hash_table": "c",
-		"__mutex_base": "c",
-		"__split_buffer": "c",
-		"__threading_support": "c",
-		"__undef_macros": "c",
-		"algorithm": "c",
-		"chrono": "c",
-		"cmath": "c",
-		"functional": "c",
-		"memory_resource": "c",
-		"istream": "c",
-		"limits": "c",
-		"locale": "c",
-		"memory": "c",
-		"mutex": "c",
-		"ratio": "c",
-		"sstream": "c",
-		"string": "c",
-		"string_view": "c",
-		"vector": "c",
-		"complex": "c",
-		"array": "c",
-		"bitset": "c",
-		"initializer_list": "c",
-		"iterator": "c",
-		"unordered_map": "c",
-		"utility": "c",
-		"__bit_reference": "c"
-	}
+    "C_Cpp.errorSquiggles": "Enabled"
 }

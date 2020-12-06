@@ -38,6 +38,8 @@ static t_wolf	*t_wolf_new(void)
 		error(new, ERR_MALLOC);
 	if (!(new->bon = (t_bonus *)malloc(sizeof(t_bonus))))
 		error(new, ERR_MALLOC);
+	if (!(new->monster = (t_monster *)malloc(sizeof(t_monster))))
+		error(new, ERR_MALLOC);
 	return (new);
 }
 
@@ -62,6 +64,7 @@ int				main(int a, char **b)
 	init_map(wolf, b[1]);
 	init_player(wolf, wolf->player, wolf->map);
 	init_bonus(wolf);
+	init_monster(wolf);
 	music(wolf->bon);
 	init_tex_arr(wolf);
 	wolf_loop(wolf);
