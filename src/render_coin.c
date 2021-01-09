@@ -111,7 +111,6 @@ void	wall_check_coin(t_wolf *wolf, t_coin *coin)
 				{
 					coin->flag_i = coin->i;
 					coin->flag_1 = coin->count;
-					// printf("dsfsdf\n");
 				}
 			}
 			else if (coin->flag_2 == 0 && coin->flag_1 != 0)
@@ -148,7 +147,6 @@ void	render_coin(t_wolf *wolf, SDL_Surface *surface)
 	coin.img_location.x = coin.flag_i;
 	coin.img_location.y = (H / 2) - ((W / 32)
 		* (wolf->player->dist_to_canvas / coin.dist)) / 2 - wolf->player->dir_y;
-	// printf("%d  %d\n", coin.img_location.x, coin.img_location.y);
 	SDL_BlitScaled(wolf->bon->image_coin, &coin.cut_vertical_img,
 		surface, &coin.img_location);
 	penetration_check(wolf, coin.img_location);

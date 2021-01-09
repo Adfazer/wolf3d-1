@@ -16,5 +16,4 @@ void    init_monster(t_wolf *wolf)
     wolf->monster->monster_pos[2].x = 6.5 * CUBE;
     wolf->monster->monster_pos[2].y = 4.5 * CUBE;
     wolf->monster->count_monster = 3;
-    // все это говнище с парсера брать 
 }
